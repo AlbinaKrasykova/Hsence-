@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Daily Ritual — Hsence</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--text-dark:#1a1814;--text-mid:#6b6660;--text-light:#b0aca8;--border:rgba(26,24,20,0.07);--border-med:rgba(26,24,20,0.12);--cream:#ffffff;--green:#7ab89a;--amber:#d4a870;--red-soft:#cc8888;--blue-mid:#8899cc}
+body{font-family:'Roboto',sans-serif;background:var(--cream);color:var(--text-dark);font-size:16px;line-height:1.6;overflow-x:hidden}
+.gradient-bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:var(--cream)}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:0.6;mix-blend-mode:multiply}
+.blob-1{width:480px;height:460px;background:#f0d4c0;top:-5%;left:-5%}
+.blob-2{width:400px;height:420px;background:#ddd0f0;top:10%;right:-8%}
+.page{position:relative;z-index:3;max-width:640px;margin:0 auto;padding:0 1.5rem 4rem}
+nav{display:flex;justify-content:space-between;align-items:center;padding:1.2rem 0;border-bottom:0.5px solid rgba(255,255,255,0.65);margin-bottom:2rem;flex-wrap:wrap;gap:0.8rem;background:rgba(255,255,255,0.55);backdrop-filter:blur(22px) saturate(180%);-webkit-backdrop-filter:blur(22px) saturate(180%);position:sticky;top:0;z-index:100;box-shadow:0 8px 32px rgba(26,24,20,0.06),inset 0 1px 0 rgba(255,255,255,0.85)}
+.nav-logo{display:inline-flex;align-items:center;gap:0.65rem;text-decoration:none;line-height:1}
+.nav-logo-img{width:72px;height:72px;object-fit:contain;display:block;flex-shrink:0}
+.nav-logo-text{font-weight:300;font-size:1.35rem;letter-spacing:0.07em;color:var(--text-dark)}
+.nav-links{display:flex;gap:1.2rem;list-style:none;flex-wrap:wrap}
+.nav-links a{font-size:0.72rem;color:var(--text-mid);text-decoration:none;letter-spacing:0.12em;text-transform:lowercase}
+.nav-links a.active{color:var(--text-dark)}
+.pillars{display:flex;gap:0.5rem;margin-bottom:2rem;flex-wrap:wrap}
+.pillar{font-size:0.62rem;letter-spacing:0.1em;padding:0.4rem 0.85rem;border-radius:999px;border:0.5px solid var(--border);color:var(--text-light);text-decoration:none;text-transform:lowercase}
+.pillar.done{border-color:rgba(122,184,154,0.4);color:var(--green);background:rgba(122,184,154,0.08)}
+.pillar.current{border-color:var(--text-dark);color:var(--text-dark)}
+.page-head{margin-bottom:1.8rem}
+.page-head-row{display:flex;align-items:center;gap:1.2rem;margin-bottom:0.6rem}
+.coffee-wrap{position:relative;display:inline-flex;align-items:flex-end;justify-content:center;flex-shrink:0}
+.coffee-wrap--lg .coffee-cup-img{width:110px;height:110px;object-fit:contain;display:block}
+.coffee-steam{position:absolute;top:-2%;left:50%;transform:translateX(-50%);width:72%;height:48%;pointer-events:none;z-index:1}
+.coffee-steam i{position:absolute;bottom:0;display:block;width:7px;height:26px;background:linear-gradient(to top,rgba(107,102,96,0.45),rgba(107,102,96,0));border-radius:999px;filter:blur(2px);opacity:0;animation:steamRise 3s ease-in-out infinite}
+.coffee-steam i:nth-child(1){left:16%;animation-delay:0s}
+.coffee-steam i:nth-child(2){left:42%;height:32px;width:8px;animation-delay:1s}
+.coffee-steam i:nth-child(3){left:68%;animation-delay:2s}
+@keyframes steamRise{0%{transform:translateY(0) scaleX(1);opacity:0}18%{opacity:0.6}55%{transform:translateY(-22px) scaleX(1.25);opacity:0.35}100%{transform:translateY(-42px) scaleX(1.5);opacity:0}}
+.page-illu-protea{width:min(200px,40vw);height:auto;object-fit:contain;display:block;margin:0 auto 1.5rem}
+.page-eyebrow{font-size:0.6rem;letter-spacing:0.34em;text-transform:uppercase;color:var(--text-light);margin-bottom:0.6rem}
+.page-title{font-weight:100;font-size:clamp(1.8rem,5vw,2.6rem);line-height:1.1;letter-spacing:-0.02em}
+.page-title em{font-style:italic;color:var(--text-mid)}
+.page-sub{font-size:0.85rem;color:var(--text-mid);font-weight:300;margin-top:0.7rem;line-height:1.8}
+.mode-tabs{display:flex;gap:0.4rem;margin-bottom:1.5rem}
+.mode-tab{flex:1;font-family:inherit;font-size:0.7rem;letter-spacing:0.1em;padding:0.65rem;border:0.5px solid var(--border);border-radius:999px;background:transparent;color:var(--text-mid);cursor:pointer;text-transform:lowercase}
+.mode-tab.active{background:var(--text-dark);color:#fff;border-color:var(--text-dark)}
+.cal-wrap{background:rgba(255,255,255,0.85);border:0.5px solid var(--border-med);border-radius:20px;padding:1.2rem 1.4rem;margin-bottom:1.5rem}
+.cal-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+.cal-nav button{background:none;border:0.5px solid var(--border);width:32px;height:32px;border-radius:50%;cursor:pointer;font-family:inherit;color:var(--text-mid)}
+.cal-month{font-size:0.72rem;letter-spacing:0.14em;color:var(--text-mid);text-transform:lowercase}
+.cal-week{display:grid;grid-template-columns:repeat(7,1fr);gap:0.35rem}
+.cal-day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:12px;border:0.5px solid transparent;cursor:pointer;font-size:0.72rem;font-weight:300;color:var(--text-mid);gap:0.25rem;transition:all 0.15s}
+.cal-day:hover{border-color:var(--border)}
+.cal-day.selected{border-color:var(--text-dark);background:rgba(26,24,20,0.04);color:var(--text-dark)}
+.cal-day.today{font-weight:400}
+.cal-dot{width:4px;height:4px;border-radius:50%;background:var(--green);opacity:0}
+.cal-day.has-log .cal-dot{opacity:1}
+.filter-bar{display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:1rem}
+.filter-chip{font-size:0.64rem;letter-spacing:0.08em;padding:0.4rem 0.85rem;border:0.5px solid var(--border);border-radius:999px;background:transparent;cursor:pointer;font-family:inherit;color:var(--text-mid)}
+.filter-chip.active{background:rgba(26,24,20,0.06);border-color:rgba(26,24,20,0.15);color:var(--text-dark)}
+.card{background:rgba(255,255,255,0.9);border:0.5px solid var(--border-med);border-radius:22px;padding:2rem 1.8rem;min-height:320px;display:flex;flex-direction:column}
+.step-progress{display:flex;gap:6px;margin-bottom:1.5rem}
+.step-dot{width:100%;height:2px;border-radius:2px;background:var(--border);transition:background 0.3s}
+.step-dot.done{background:var(--text-mid)}
+.step-dot.active{background:var(--text-dark)}
+.step-label{font-size:0.6rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--text-light);margin-bottom:0.5rem}
+.step-q{font-weight:100;font-size:1.55rem;line-height:1.2;margin-bottom:0.5rem;letter-spacing:-0.01em}
+.step-q em{font-style:italic;color:var(--text-mid)}
+.step-hint{font-size:0.78rem;color:var(--text-mid);font-weight:300;margin-bottom:1.5rem;line-height:1.75}
+.step-body{flex:1}
+.step-nav{display:flex;justify-content:space-between;align-items:center;margin-top:1.5rem;padding-top:1.2rem;border-top:0.5px solid var(--border)}
+.step-skip{font-size:0.68rem;color:var(--text-light);background:none;border:none;cursor:pointer;font-family:inherit;letter-spacing:0.08em}
+.step-skip:hover{color:var(--text-mid)}
+.step-next{background:var(--text-dark);color:#fff;border:none;font-family:inherit;font-size:0.72rem;letter-spacing:0.14em;padding:0.75rem 1.8rem;border-radius:999px;cursor:pointer}
+.step-back{background:none;border:0.5px solid var(--border);color:var(--text-mid);font-family:inherit;font-size:0.72rem;padding:0.75rem 1.4rem;border-radius:999px;cursor:pointer}
+.mood-row{display:flex;justify-content:space-between;gap:0.4rem}
+.mood-btn{flex:1;padding:1rem 0.3rem;border:0.5px solid var(--border);border-radius:14px;background:rgba(255,255,255,0.6);cursor:pointer;font-size:1.4rem;transition:all 0.15s}
+.mood-btn:hover{border-color:rgba(26,24,20,0.2)}
+.mood-btn.selected{border-color:var(--text-dark);background:rgba(26,24,20,0.05);transform:translateY(-2px)}
+.mood-labels{display:flex;justify-content:space-between;font-size:0.58rem;color:var(--text-light);margin-top:0.5rem;letter-spacing:0.06em}
+textarea,input[type=text]{width:100%;border:0.5px solid var(--border);border-radius:14px;padding:1rem;font-family:inherit;font-size:0.85rem;font-weight:300;background:rgba(255,255,255,0.7);resize:vertical;min-height:88px}
+input[type=text]{min-height:auto}
+.chip-grid{display:flex;flex-wrap:wrap;gap:0.45rem}
+.chip{font-size:0.74rem;padding:0.55rem 1rem;border:0.5px solid var(--border);border-radius:999px;cursor:pointer;background:rgba(255,255,255,0.6);color:var(--text-mid);transition:all 0.15s}
+.chip.on{border-color:var(--green);background:rgba(122,184,154,0.12);color:var(--green)}
+.chip.warn{border-color:rgba(204,136,136,0.35)}
+.chip.warn.on{background:rgba(204,136,136,0.1);color:var(--red-soft)}
+.meal-card{border:0.5px solid var(--border);border-radius:14px;padding:1rem;margin-bottom:0.6rem;cursor:pointer;transition:background 0.15s}
+.meal-card:hover{background:rgba(255,255,255,0.95)}
+.meal-card.picked{border-color:var(--green);background:rgba(122,184,154,0.08)}
+.meal-name{font-size:0.88rem;font-weight:300;margin-bottom:0.25rem}
+.meal-meta{font-size:0.68rem;color:var(--text-light)}
+.food-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.55rem;margin-bottom:0.8rem}
+@media(max-width:560px){.food-grid{grid-template-columns:1fr}}
+.food-box{border:0.5px solid var(--border);border-radius:12px;padding:0.75rem 0.85rem}
+.food-box label{display:block;font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-light);margin-bottom:0.35rem}
+.food-box select{width:100%;border:0.5px solid var(--border);background:rgba(255,255,255,0.7);border-radius:10px;padding:0.5rem 0.6rem;font-family:inherit;font-size:0.75rem;color:var(--text-mid)}
+.food-cat-title{font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-light);margin:0.9rem 0 0.45rem}
+.food-cats{display:flex;flex-wrap:wrap;gap:0.45rem;margin-bottom:0.9rem}
+.rec-card{margin-top:0.7rem;border:0.5px solid rgba(122,184,154,0.25);border-radius:12px;background:rgba(122,184,154,0.08);padding:0.9rem 1rem}
+.rec-head{font-size:0.62rem;letter-spacing:0.12em;color:var(--green);text-transform:uppercase;margin-bottom:0.35rem}
+.rec-text{font-size:0.76rem;color:var(--text-mid);line-height:1.7}
+.infl-row{display:flex;gap:0.5rem;margin-top:1rem}
+.infl-btn{flex:1;padding:0.7rem;border:0.5px solid var(--border);border-radius:12px;background:transparent;font-family:inherit;font-size:0.72rem;color:var(--text-mid);cursor:pointer}
+.infl-btn.on{border-color:var(--text-dark);color:var(--text-dark)}
+.voice-btn{display:flex;align-items:center;justify-content:center;gap:0.6rem;width:100%;padding:1.2rem;border:0.5px dashed var(--border);border-radius:14px;background:transparent;cursor:pointer;font-family:inherit;font-size:0.78rem;color:var(--text-mid)}
+.voice-btn.recording{border-color:var(--red-soft);color:var(--red-soft)}
+.wearable-pill{display:flex;align-items:center;gap:0.6rem;font-size:0.76rem;color:var(--text-mid);padding:0.8rem 1rem;border:0.5px solid var(--border);border-radius:12px;margin-bottom:0.8rem}
+.wearable-dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
+.timeline{display:flex;flex-direction:column;gap:0.6rem}
+.tl-item{border:0.5px solid var(--border);border-radius:12px;padding:1rem 1.1rem;font-size:0.8rem}
+.tl-type{font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-light);margin-bottom:0.3rem}
+.tl-text{color:var(--text-mid);font-weight:300;line-height:1.65}
+.done-card{text-align:center;padding:2rem 0}
+.done-card h3{font-weight:100;font-size:1.6rem;margin-bottom:0.6rem}
+.insight-snippet{font-size:0.82rem;color:var(--text-mid);line-height:1.85;margin-top:1rem;padding:1rem;border-radius:12px;background:rgba(122,184,154,0.08);border:0.5px solid rgba(122,184,154,0.2);text-align:left}
+.hidden{display:none!important}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.fade{animation:fadeUp 0.4s ease both}
+</style>
+</head>
+<body>
+<div class="gradient-bg"><div class="blob blob-1"></div><div class="blob blob-2"></div></div>
+<div class="page">
+  <nav>
+    <a href="index.html" class="nav-logo"><img src="assets/protea-flower.png" alt="" class="nav-logo-img" width="72" height="72"/><span class="nav-logo-text">Hsence</span></a>
+    <ul class="nav-links">
+      <li><a href="agent.html">precision agent</a></li>
+      <li><a href="labs.html">labs</a></li>
+      <li><a href="daily.html" class="active">daily</a></li>
+      <li><a href="index.html">home</a></li>
+    </ul>
+  </nav>
+
+  <div class="pillars">
+    <a href="labs.html" class="pillar done">1 · blood work</a>
+    <a href="index.html#setup" class="pillar">2 · wearable</a>
+    <span class="pillar current">3 · daily cognition</span>
+  </div>
+
+  <header class="page-head">
+    <div class="page-head-row">
+      <div class="coffee-wrap coffee-wrap--lg">
+        <div class="coffee-steam" aria-hidden="true"><i></i><i></i><i></i></div>
+        <img src="assets/coffee-cup.png" alt="" class="coffee-cup-img" width="110" height="110"/>
+      </div>
+      <div>
+        <p class="page-eyebrow">you are in charge · one thing at a time</p>
+        <h1 class="page-title">today's <em>ritual</em></h1>
+      </div>
+    </div>
+    <p class="page-sub">Log only what you want. Hsence connects feelings, food, and supplements to your labs and wearable — gently, without overwhelm.</p>
+  </header>
+
+  <div class="mode-tabs">
+    <button type="button" class="mode-tab active" data-mode="log" onclick="setMode('log')">log today</button>
+    <button type="button" class="mode-tab" data-mode="review" onclick="setMode('review')">review & filter</button>
+  </div>
+
+  <div class="cal-wrap">
+    <div class="cal-nav">
+      <button type="button" onclick="shiftWeek(-1)" aria-label="Previous week">←</button>
+      <span class="cal-month" id="cal-month"></span>
+      <button type="button" onclick="shiftWeek(1)" aria-label="Next week">→</button>
+    </div>
+    <div class="cal-week" id="cal-week"></div>
+  </div>
+
+  <div id="view-log">
+    <div class="card" id="wizard-card">
+      <div class="step-progress" id="step-progress"></div>
+      <div id="step-container" class="fade"></div>
+      <div class="step-nav" id="step-nav">
+        <button type="button" class="step-back hidden" id="btn-back" onclick="prevStep()">← back</button>
+        <button type="button" class="step-skip" id="btn-skip" onclick="skipStep()">skip</button>
+        <button type="button" class="step-next" id="btn-next" onclick="nextStep()">continue →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="view-review" class="hidden">
+    <div class="filter-bar" id="filter-bar">
+      <button type="button" class="filter-chip active" data-f="all" onclick="setFilter('all')">all</button>
+      <button type="button" class="filter-chip" data-f="mood" onclick="setFilter('mood')">feelings</button>
+      <button type="button" class="filter-chip" data-f="supp" onclick="setFilter('supp')">supplements</button>
+      <button type="button" class="filter-chip" data-f="food" onclick="setFilter('food')">food</button>
+      <button type="button" class="filter-chip" data-f="voice" onclick="setFilter('voice')">voice</button>
+      <button type="button" class="filter-chip" data-f="wearable" onclick="setFilter('wearable')">wearable</button>
+    </div>
+    <div class="timeline" id="timeline"></div>
+    <p id="timeline-empty" style="text-align:center;color:var(--text-light);font-size:0.8rem;padding:2rem">nothing logged for this day yet.</p>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY='hsence_daily_logs';
+const STEPS=['mood','supp','food','infl','voice','done'];
+const REC_SUPPS=[
+  {id:'inositol',label:'myo-inositol AM'},
+  {id:'inositol-pm',label:'myo-inositol PM'},
+  {id:'mag',label:'magnesium'},
+  {id:'d3',label:'vitamin D3+K2'},
+  {id:'nac',label:'NAC'},
+  {id:'spearmint',label:'spearmint tea'}
+];
+const MEAL_IDEAS=[
+  {id:'oats',name:'oats + flax + cinnamon',meta:'low inflammation · insulin-friendly',tags:['pantry','pcos-mid','peri-fog']},
+  {id:'eggs',name:'eggs + greens + olive oil',meta:'protein breakfast · anti-inflammatory',tags:['pantry','protein','pcos-mid','thyroid-low']},
+  {id:'salmon',name:'salmon + roasted veg',meta:'omega-3 · recommended 3×/week',tags:['fish','peri-fog','inflammation-high']},
+  {id:'lentil',name:'lentil soup + turmeric',meta:'fibre · low GI',tags:['pantry','pcos-mid','inflammation-high']},
+  {id:'smoothie',name:'berry smoothie (no dairy)',meta:'lower androgen load',tags:['quick','pcos-mid']},
+  {id:'tofu-bowl',name:'tofu + quinoa + broccoli bowl',meta:'plant protein · estrogen-supportive fibre',tags:['peri-fog','inflammation-high']},
+  {id:'chicken-avocado',name:'chicken + avocado salad',meta:'steady glucose · satiety',tags:['pcos-mid','thyroid-low']}
+];
+const FOOD_CATEGORIES=[
+  {id:'high-gi',label:'high-GI carbs',warn:true},
+  {id:'dairy',label:'dairy',warn:true},
+  {id:'processed',label:'ultra-processed',warn:true},
+  {id:'alcohol',label:'alcohol',warn:true},
+  {id:'omega3',label:'omega-3 foods'},
+  {id:'fibre',label:'high fibre foods'},
+  {id:'protein',label:'protein with meals'},
+  {id:'greens',label:'leafy greens'}
+];
+const HORMONE_STATES=[
+  {id:'pcos-mid',label:'PCOS · insulin sensitive focus'},
+  {id:'peri-fog',label:'Perimenopause · brain fog day'},
+  {id:'thyroid-low',label:'Thyroid low-energy day'},
+  {id:'inflammation-high',label:'High inflammation day'}
+];
+
+let weekStart=new Date();weekStart.setHours(0,0,0,0);
+weekStart.setDate(weekStart.getDate()-weekStart.getDay());
+let selectedDate=dateKey(new Date());
+let stepIndex=0;
+let draft={mood:null,moodText:'',supps:[],meals:[],foodCats:[],hormoneState:'pcos-mid',infl:null,voice:null,wearableSynced:true};
+let currentFilter='all';
+
+function dateKey(d){return d.toISOString().slice(0,10)}
+function loadLogs(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}')}catch(e){return {}}}
+function saveLogs(logs){localStorage.setItem(STORAGE_KEY,JSON.stringify(logs))}
+function getLog(key){return loadLogs()[key]||null}
+
+function shiftWeek(n){weekStart.setDate(weekStart.getDate()+n*7);renderCalendar()}
+function renderCalendar(){
+  const days=['sun','mon','tue','wed','thu','fri','sat'];
+  const logs=loadLogs();
+  const el=document.getElementById('cal-week');
+  el.innerHTML='';
+  const today=dateKey(new Date());
+  for(let i=0;i<7;i++){
+    const d=new Date(weekStart);d.setDate(d.getDate()+i);
+    const k=dateKey(d);
+    const btn=document.createElement('button');
+    btn.type='button';
+    btn.className='cal-day'+(k===selectedDate?' selected':'')+(k===today?' today':'')+(logs[k]?' has-log':'');
+    btn.innerHTML='<span>'+d.getDate()+'</span><span class="cal-dot"></span><span style="font-size:0.55rem;opacity:0.6">'+days[d.getDay()]+'</span>';
+    btn.onclick=()=>{selectedDate=k;loadDraftFromDay();renderCalendar();setMode('log');renderStep()};
+    el.appendChild(btn);
+  }
+  document.getElementById('cal-month').textContent=weekStart.toLocaleDateString('en-GB',{month:'long',year:'numeric'});
+}
+
+function loadDraftFromDay(){
+  const L=getLog(selectedDate);
+  draft={mood:L?.mood??null,moodText:L?.moodText||'',supps:L?.supps?[...L.supps]:[],meals:L?.meals?[...L.meals]:[],foodCats:L?.foodCats?[...L.foodCats]:[],hormoneState:L?.hormoneState||'pcos-mid',infl:L?.infl??null,voice:L?.voice??null,wearableSynced:L?.wearableSynced!==false};
+  stepIndex=0;
+}
+
+function renderProgress(){
+  const el=document.getElementById('step-progress');
+  el.innerHTML=STEPS.slice(0,-1).map((_,i)=>{
+    let c='step-dot';
+    if(i<stepIndex)c+=' done';
+    if(i===stepIndex)c+=' active';
+    return '<div class="'+c+'"></div>';
+  }).join('');
+}
+
+function renderStep(){
+  renderProgress();
+  const step=STEPS[stepIndex];
+  const c=document.getElementById('step-container');
+  document.getElementById('btn-back').classList.toggle('hidden',stepIndex===0);
+  document.getElementById('btn-skip').style.visibility=step==='done'?'hidden':'visible';
+  document.getElementById('btn-next').textContent=step==='done'?'close':'continue →';
+
+  if(step==='mood'){
+    c.innerHTML=`
+      <p class="step-label">step 1 of 5 · feelings</p>
+      <h2 class="step-q">how does your <em>body feel</em> today?</h2>
+      <p class="step-hint">Tap one face — or skip. Add a few words only if you want.</p>
+      <div class="step-body">
+        <div class="wearable-pill"><span class="wearable-dot"></span> wearable synced passively · HRV + sleep last night</div>
+        <div class="mood-row" id="mood-row">
+          ${['😔','😕','😐','🙂','😊'].map((e,i)=>'<button type="button" class="mood-btn'+(draft.mood===i+1?' selected':'')+'" data-m="'+ (i+1) +'">'+e+'</button>').join('')}
+        </div>
+        <div class="mood-labels"><span>low</span><span>okay</span><span>good</span></div>
+        <textarea id="mood-text" placeholder="optional · foggy, cramping, energetic…" style="margin-top:1rem">${draft.moodText}</textarea>
+      </div>`;
+    c.querySelectorAll('.mood-btn').forEach(b=>b.onclick=()=>{
+      draft.mood=+b.dataset.m; c.querySelectorAll('.mood-btn').forEach(x=>x.classList.remove('selected')); b.classList.add('selected');
+    });
+    return;
+  }
+  if(step==='supp'){
+    c.innerHTML=`
+      <p class="step-label">step 2 of 5 · supplements</p>
+      <h2 class="step-q">what did you <em>take</em>?</h2>
+      <p class="step-hint">From your personal plan — tap what you took. No streaks, no guilt.</p>
+      <div class="step-body chip-grid" id="supp-chips">
+        ${REC_SUPPS.map(s=>'<button type="button" class="chip'+(draft.supps.includes(s.id)?' on':'')+'" data-id="'+s.id+'">'+s.label+'</button>').join('')}
+      </div>`;
+    c.querySelectorAll('.chip').forEach(ch=>ch.onclick=()=>{
+      const id=ch.dataset.id;
+      if(draft.supps.includes(id))draft.supps=draft.supps.filter(x=>x!==id); else draft.supps.push(id);
+      ch.classList.toggle('on');
+    });
+    return;
+  }
+  if(step==='food'){
+    const pantry=document.getElementById('pantry-input')?.value||'';
+    c.innerHTML=`
+      <p class="step-label">step 3 of 5 · food</p>
+      <h2 class="step-q">what did you <em>eat</em>?</h2>
+      <p class="step-hint">Track food categories and get recommendations by hormonal state.</p>
+      <div class="step-body">
+        <div class="food-grid">
+          <div class="food-box">
+            <label>hormonal state today</label>
+            <select id="state-select">
+              ${HORMONE_STATES.map(s=>'<option value="'+s.id+'" '+(draft.hormoneState===s.id?'selected':'')+'>'+s.label+'</option>').join('')}
+            </select>
+          </div>
+          <div class="food-box">
+            <label>meal context</label>
+            <select id="meal-context">
+              <option>breakfast</option>
+              <option>lunch</option>
+              <option>dinner</option>
+              <option>snack</option>
+            </select>
+          </div>
+        </div>
+        <p class="food-cat-title">food categories noticed today</p>
+        <div class="food-cats">
+          ${FOOD_CATEGORIES.map(cat=>'<button type="button" class="chip'+(cat.warn?' warn':'')+(draft.foodCats.includes(cat.id)?' on':'')+'" data-foodcat="'+cat.id+'">'+cat.label+'</button>').join('')}
+        </div>
+        <input type="text" id="pantry-input" placeholder="e.g. eggs, oats, salmon, spinach…" value="${pantry}"/>
+        <p style="font-size:0.62rem;color:var(--text-light);margin:0.8rem 0 0.5rem;letter-spacing:0.1em">SUGGESTED FOR YOU</p>
+        <div id="meal-list">${renderMeals(pantry)}</div>
+        <div class="rec-card">
+          <div class="rec-head">food recommendation</div>
+          <div class="rec-text" id="food-rec">${buildFoodRecommendation()}</div>
+        </div>
+      </div>`;
+    c.querySelector('#state-select').onchange=e=>{draft.hormoneState=e.target.value;document.getElementById('meal-list').innerHTML=renderMeals(document.getElementById('pantry-input').value);document.getElementById('food-rec').textContent=buildFoodRecommendation()};
+    c.querySelectorAll('[data-foodcat]').forEach(ch=>ch.onclick=()=>{
+      const id=ch.dataset.foodcat;
+      if(draft.foodCats.includes(id))draft.foodCats=draft.foodCats.filter(x=>x!==id); else draft.foodCats.push(id);
+      ch.classList.toggle('on');
+      document.getElementById('food-rec').textContent=buildFoodRecommendation();
+    });
+    c.querySelector('#pantry-input').oninput=e=>{document.getElementById('meal-list').innerHTML=renderMeals(e.target.value)};
+    c.querySelectorAll('.meal-card').forEach(card=>card.onclick=()=>{
+      const id=card.dataset.id;
+      if(draft.meals.includes(id))draft.meals=draft.meals.filter(x=>x!==id); else draft.meals.push(id);
+      card.classList.toggle('picked');
+      document.getElementById('food-rec').textContent=buildFoodRecommendation();
+    });
+    return;
+  }
+  if(step==='infl'){
+    c.innerHTML=`
+      <p class="step-label">step 4 of 5 · inflammation</p>
+      <h2 class="step-q">any <em>inflammation</em> signals?</h2>
+      <p class="step-hint">Bloating, joint ache, skin flare — helps Hsence correlate with food and cycle.</p>
+      <div class="step-body infl-row">
+        ${['none','mild','noticeable'].map(v=>'<button type="button" class="infl-btn'+(draft.infl===v?' on':'')+'" data-v="'+v+'">'+v+'</button>').join('')}
+      </div>`;
+    c.querySelectorAll('.infl-btn').forEach(b=>b.onclick=()=>{
+      draft.infl=b.dataset.v; c.querySelectorAll('.infl-btn').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+    });
+    return;
+  }
+  if(step==='voice'){
+    c.innerHTML=`
+      <p class="step-label">step 5 of 5 · optional voice</p>
+      <h2 class="step-q">rather <em>speak</em> than type?</h2>
+      <p class="step-hint">30-second memo — optional. Stored on your device in this demo.</p>
+      <div class="step-body">
+        <button type="button" class="voice-btn" id="voice-btn" onclick="toggleVoice()">
+          <span id="voice-icon">🎙</span> <span id="voice-label">${draft.voice?'memo saved · tap to re-record':'hold to record (demo)'}</span>
+        </button>
+      </div>`;
+    return;
+  }
+  if(step==='done'){
+    persistDay();
+    const insight=buildInsight();
+    c.innerHTML=`
+      <div class="done-card">
+        <p class="step-label">saved · ${selectedDate}</p>
+        <h3>thank you — that's enough.</h3>
+        <p style="font-size:0.85rem;color:var(--text-mid);font-weight:300">You logged what mattered. Edit anytime from review mode.</p>
+        <div class="insight-snippet"><strong style="font-weight:400;color:var(--text-dark)">Hsence read ·</strong> ${insight}</div>
+        <button type="button" class="step-next" style="margin-top:1.5rem" onclick="setMode('review')">view timeline →</button>
+      </div>`;
+    document.getElementById('step-nav').classList.add('hidden');
+    return;
+  }
+  document.getElementById('step-nav').classList.remove('hidden');
+}
+
+function renderMeals(pantry){
+  const p=pantry.toLowerCase();
+  return MEAL_IDEAS
+    .filter(m=>m.tags.includes(draft.hormoneState) || m.tags.includes('pantry'))
+    .filter(m=>!p||m.tags.some(t=>p.includes(t))||m.name.toLowerCase().split(' ').some(w=>p.includes(w.slice(0,4))))
+    .slice(0,4)
+    .map(m=>
+    `<div class="meal-card${draft.meals.includes(m.id)?' picked':''}" data-id="${m.id}">
+      <div class="meal-name">${m.name}</div>
+      <div class="meal-meta">${m.meta}</div>
+    </div>`).join('')||'<p style="font-size:0.78rem;color:var(--text-light)">add pantry items above for ideas</p>';
+}
+
+function buildFoodRecommendation(){
+  const map={
+    'pcos-mid':'Focus protein + fibre each meal. Prefer low-GI carbs, omega-3 fish, and spearmint tea. Reduce high-GI carbs + dairy if symptoms spike.',
+    'peri-fog':'Prioritise omega-3, magnesium-rich greens, hydration, and steady glucose meals. Avoid large sugar swings that worsen fog.',
+    'thyroid-low':'Use warm protein meals, selenium sources (eggs/fish), and regular meal timing. Avoid skipping meals on low-energy days.',
+    'inflammation-high':'Use anti-inflammatory plates: oily fish, turmeric, berries, olive oil, leafy greens. Minimise alcohol and ultra-processed foods.'
+  };
+  const warns=draft.foodCats.filter(id=>['high-gi','dairy','processed','alcohol'].includes(id));
+  const warnText=warns.length?` Logged trigger categories: ${warns.map(id=>FOOD_CATEGORIES.find(c=>c.id===id)?.label).join(', ')}. Keep portions smaller today.`:'';
+  const mealText=draft.meals.length?` Selected meals: ${draft.meals.map(id=>MEAL_IDEAS.find(m=>m.id===id)?.name).filter(Boolean).join(' · ')}.`:'';
+  return (map[draft.hormoneState]||map['pcos-mid']) + warnText + mealText;
+}
+
+function toggleVoice(){
+  draft.voice=draft.voice?null:{at:new Date().toISOString(),note:'voice memo (demo)'};
+  renderStep();
+}
+
+function buildInsight(){
+  const parts=[];
+  if(draft.mood&&draft.mood<=2)parts.push('Lower mood today may align with fragmented sleep from your wearable.');
+  if(draft.supps.includes('inositol'))parts.push('Inositol logged — correlating with afternoon glucose stability over time.');
+  if(draft.infl==='noticeable')parts.push('Inflammation noted — Hsence will weigh this against dairy and high-GI foods in your plan.');
+  if(draft.meals.includes('oats'))parts.push('Fibre-forward breakfast supports your insulin sensitivity goal.');
+  if(draft.foodCats.includes('processed')||draft.foodCats.includes('alcohol'))parts.push('Higher-trigger food categories logged, so tomorrow plan should be extra anti-inflammatory.');
+  if(draft.hormoneState)parts.push('Recommendations were tuned to your '+HORMONE_STATES.find(s=>s.id===draft.hormoneState)?.label.toLowerCase()+'.');
+  return parts.length?parts.join(' '):'Patterns will sharpen as you log — no pressure to fill every field.';
+}
+
+function persistDay(){
+  const logs=loadLogs();
+  logs[selectedDate]={
+    mood:draft.mood,moodText:document.getElementById('mood-text')?.value||draft.moodText,
+    supps:[...draft.supps],meals:[...draft.meals],foodCats:[...draft.foodCats],hormoneState:draft.hormoneState,infl:draft.infl,voice:draft.voice,
+    wearableSynced:draft.wearableSynced,updatedAt:new Date().toISOString()
+  };
+  if(logs[selectedDate].moodText!==undefined)draft.moodText=logs[selectedDate].moodText;
+  saveLogs(logs);
+  renderCalendar();
+  syncDailyToAgent(logs[selectedDate]);
+}
+
+function syncDailyToAgent(log){
+  fetch(`${window.location.origin}/agent/run`,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      event_type:'daily_log',
+      payload:{
+        daily_log:{
+          mood:log.mood||3,
+          inflammation:log.infl||'none',
+          food_triggers:(log.foodCats||[]).filter(id=>['high-gi','dairy','processed','alcohol'].includes(id))
+        }
+      }
+    })
+  }).catch(()=>{});
+}
+
+function nextStep(){
+  if(STEPS[stepIndex]==='mood')draft.moodText=document.getElementById('mood-text')?.value||draft.moodText;
+  if(stepIndex<STEPS.length-1){stepIndex++;renderStep()}
+  else setMode('review');
+}
+function prevStep(){if(stepIndex>0){stepIndex--;renderStep()}}
+function skipStep(){nextStep()}
+
+function setMode(m){
+  document.querySelectorAll('.mode-tab').forEach(t=>t.classList.toggle('active',t.dataset.mode===m));
+  document.getElementById('view-log').classList.toggle('hidden',m!=='log');
+  document.getElementById('view-review').classList.toggle('hidden',m!=='review');
+  if(m==='review')renderTimeline();
+  if(m==='log'){stepIndex=0;document.getElementById('step-nav').classList.remove('hidden');renderStep()}
+}
+
+function setFilter(f){
+  currentFilter=f;
+  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.toggle('active',c.dataset.f===f));
+  renderTimeline();
+}
+
+function renderTimeline(){
+  const L=getLog(selectedDate);
+  const el=document.getElementById('timeline');
+  const empty=document.getElementById('timeline-empty');
+  if(!L){el.innerHTML='';empty.style.display='block';return}
+  empty.style.display='none';
+  const items=[];
+  if((currentFilter==='all'||currentFilter==='wearable')&&L.wearableSynced)
+    items.push({type:'wearable',text:'Passive sync · sleep 5h 42m · HRV +8% vs baseline'});
+  if((currentFilter==='all'||currentFilter==='mood')&&(L.mood||L.moodText)){
+    const faces=['','😔','😕','😐','🙂','😊'];
+    items.push({type:'feelings',text:(faces[L.mood]||'')+' '+(L.moodText||'(no note)')});
+  }
+  if(currentFilter==='all'||currentFilter==='supp')
+    (L.supps||[]).forEach(s=>items.push({type:'supplements',text:REC_SUPPS.find(x=>x.id===s)?.label||s}));
+  if(currentFilter==='all'||currentFilter==='food')
+    (L.meals||[]).forEach(m=>items.push({type:'food',text:MEAL_IDEAS.find(x=>x.id===m)?.name||m}));
+  if((currentFilter==='all'||currentFilter==='food')&&(L.foodCats||[]).length)
+    items.push({type:'food',text:'categories: '+L.foodCats.map(id=>FOOD_CATEGORIES.find(c=>c.id===id)?.label||id).join(', ')});
+  if((currentFilter==='all'||currentFilter==='food')&&L.hormoneState)
+    items.push({type:'food',text:'state: '+(HORMONE_STATES.find(s=>s.id===L.hormoneState)?.label||L.hormoneState)});
+  if((currentFilter==='all'||currentFilter==='food')&&L.infl)
+    items.push({type:'food',text:'inflammation: '+L.infl});
+  if((currentFilter==='all'||currentFilter==='voice')&&L.voice)
+    items.push({type:'voice',text:'Voice memo recorded'});
+  el.innerHTML=items.length?items.map(i=>'<div class="tl-item"><div class="tl-type">'+i.type+'</div><div class="tl-text">'+i.text+'</div></div>').join(''):'';
+  if(!items.length){empty.style.display='block';empty.textContent='no entries for this filter.'}
+}
+
+loadDraftFromDay();
+renderCalendar();
+renderStep();
+</script>
+</body>
+</html>

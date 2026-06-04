@@ -1,0 +1,1882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Hsence — Hormonal Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;1,100;1,300;1,400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --text-dark:#1a1814;
+  --text-mid:#6b6660;
+  --text-light:#b0aca8;
+  --border:rgba(26,24,20,0.07);
+  --border-med:rgba(26,24,20,0.12);
+  --cream:#ffffff;
+  --warm:#f0d4c0;
+  --lavender:#ddd0f0;
+  --blue-soft:#c0cce8;
+  --green:#7ab89a;
+  --amber:#d4a870;
+  --red-soft:#cc8888;
+  --blue-mid:#8899cc;
+  --content-max:1080px;
+  --content-wide:1160px;
+  --section-x:clamp(1.25rem,6vw,5rem);
+  --section-y:clamp(5rem,11vh,8.5rem);
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Roboto',sans-serif;
+  background:#ffffff;
+  color:var(--text-dark);
+  overflow-x:hidden;
+  font-size:16px;
+  line-height:1.6;
+}
+
+/* ── GRADIENT BG (hidden on main page — pure white) ── */
+.gradient-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:#ffffff;overflow:hidden}
+.gradient-bg .blob{display:none}
+.blob-1{width:600px;height:560px;background:radial-gradient(circle,#f0d4c0 0%,#e8b89a 50%,transparent 100%);top:-10%;left:-8%;animation:lava1 28s ease-in-out infinite}
+.blob-2{width:520px;height:560px;background:radial-gradient(circle,#ddd0f0 0%,#c8b8e4 55%,transparent 100%);top:-5%;right:-10%;animation:lava2 34s ease-in-out infinite}
+.blob-3{width:480px;height:460px;background:radial-gradient(circle,#c0cce8 0%,#a0b0d8 55%,transparent 100%);bottom:-8%;left:10%;animation:lava3 30s ease-in-out infinite}
+.blob-4{width:400px;height:420px;background:radial-gradient(circle,#edd8c8 0%,#dfc0a8 55%,transparent 100%);top:35%;left:35%;animation:lava4 38s ease-in-out infinite}
+.blob-5{width:360px;height:380px;background:radial-gradient(circle,#ccd4ec 0%,#aab8dc 55%,transparent 100%);bottom:5%;right:-5%;animation:lava5 26s ease-in-out infinite}
+@keyframes lava1{0%{transform:translate(0,0) scale(1)}25%{transform:translate(70px,80px) scale(1.07)}60%{transform:translate(-30px,100px) scale(0.96)}100%{transform:translate(0,0) scale(1)}}
+@keyframes lava2{0%{transform:translate(0,0) scale(1)}30%{transform:translate(-80px,70px) scale(1.05)}65%{transform:translate(-40px,140px) scale(0.93)}100%{transform:translate(0,0) scale(1)}}
+@keyframes lava3{0%{transform:translate(0,0) scale(1)}35%{transform:translate(60px,-70px) scale(1.06)}70%{transform:translate(-40px,-50px) scale(0.97)}100%{transform:translate(0,0) scale(1)}}
+@keyframes lava4{0%{transform:translate(0,0) scale(1) rotate(0deg)}40%{transform:translate(-70px,-50px) scale(1.09) rotate(4deg)}75%{transform:translate(50px,70px) scale(0.94) rotate(-2deg)}100%{transform:translate(0,0) scale(1) rotate(0deg)}}
+@keyframes lava5{0%{transform:translate(0,0) scale(1)}45%{transform:translate(-50px,-80px) scale(1.05)}85%{transform:translate(30px,-40px) scale(0.98)}100%{transform:translate(0,0) scale(1)}}
+
+#grain-canvas{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:0.035;mix-blend-mode:multiply}
+.page{position:relative;z-index:3}
+.site-wrap{width:100%;max-width:var(--content-wide);margin-left:auto;margin-right:auto;padding-left:var(--section-x);padding-right:var(--section-x)}
+.site-wrap--narrow{max-width:var(--content-max)}
+
+/* ── NAV ── */
+nav{
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  gap:1rem 2rem;
+  padding:1rem var(--section-x);
+  position:sticky;top:0;z-index:100;
+  background:#ffffff;
+  backdrop-filter:blur(22px) saturate(180%);
+  -webkit-backdrop-filter:blur(22px) saturate(180%);
+  border-bottom:0.5px solid rgba(255,255,255,0.65);
+  box-shadow:0 8px 32px rgba(26,24,20,0.06),inset 0 1px 0 rgba(255,255,255,0.85);
+}
+.nav-logo{justify-self:start}
+.nav-links{justify-self:center;display:flex;gap:1.8rem;list-style:none;flex-wrap:wrap;justify-content:center}
+.nav-cta{justify-self:end}
+@media(max-width:960px){
+  nav{grid-template-columns:1fr auto;grid-template-rows:auto auto}
+  .nav-links{grid-column:1/-1;justify-self:center;gap:1rem 1.4rem}
+}
+.nav-logo{display:inline-flex;align-items:center;gap:0.65rem;text-decoration:none;line-height:1}
+.nav-logo-img{width:72px;height:72px;object-fit:contain;display:block;flex-shrink:0}
+.nav-logo-text{font-weight:300;font-size:1.5rem;letter-spacing:0.07em;color:var(--text-dark)}
+.nav-links a{font-size:0.76rem;font-weight:300;color:var(--text-mid);text-decoration:none;letter-spacing:0.14em;text-transform:lowercase;transition:color 0.2s}
+.nav-links a:hover{color:var(--text-dark)}
+.nav-cta{font-size:0.73rem;font-weight:300;letter-spacing:0.14em;color:#fff;background:var(--text-dark);padding:0.6rem 1.8rem;border-radius:999px;text-decoration:none;text-transform:lowercase;transition:opacity 0.2s}
+.nav-cta:hover{opacity:0.75}
+
+/* ── HERO ── */
+.hero{
+  min-height:calc(100vh - 88px);display:flex;align-items:center;justify-content:center;
+  padding:var(--section-y) var(--section-x);
+  text-align:center;
+  animation:fadeUp 1s ease 0.15s both;
+}
+.hero-inner{
+  max-width:880px;width:100%;margin:0 auto;
+  display:flex;flex-direction:column;align-items:center;
+}
+.hero-eyebrow{font-size:0.67rem;font-weight:300;letter-spacing:0.38em;color:var(--text-light);text-transform:uppercase;margin-bottom:2rem}
+.hero-title{
+  font-weight:100;font-size:clamp(3.2rem,8.5vw,7rem);line-height:1.02;
+  letter-spacing:-0.02em;text-align:center;width:100%;
+}
+.hero-title em{font-style:italic;font-weight:100;color:var(--text-mid)}
+.hero-finally-row{
+  display:inline-flex;align-items:center;justify-content:center;
+  gap:0.25rem;vertical-align:middle;
+}
+.hero-flower-near{
+  width:min(200px,26vw);height:auto;object-fit:contain;display:block;
+  margin:0 0 -0.2rem 0.15rem;
+  filter:drop-shadow(0 16px 32px rgba(26,24,20,0.08));
+  animation:flowerFloat 8s ease-in-out infinite;
+  flex-shrink:0;
+}
+@keyframes flowerFloat{
+  0%,100%{transform:translateY(0) scale(1)}
+  50%{transform:translateY(-10px) scale(1.02)}
+}
+.hero-sub{
+  font-size:0.98rem;font-weight:300;color:var(--text-mid);line-height:1.9;
+  max-width:520px;margin:2rem auto 2.5rem;letter-spacing:0.01em;text-align:center;
+}
+.hero-actions{
+  display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;
+  justify-content:center;gap:0.85rem 1rem;width:100%;
+}
+.hero-note{
+  flex-basis:100%;font-size:0.66rem;color:var(--text-light);
+  font-weight:300;letter-spacing:0.12em;text-align:center;margin-top:0.25rem;
+}
+.scroll-hint{
+  margin-top:4vh;font-size:0.6rem;letter-spacing:0.28em;color:var(--text-light);
+  text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:0.8rem;
+}
+@media(max-width:640px){
+  .hero-actions{flex-direction:column}
+  .hero-flower-near{width:min(160px,38vw)}
+}
+.btn-primary{background:var(--text-dark);color:#fff;font-family:'Roboto',sans-serif;font-size:0.76rem;font-weight:300;letter-spacing:0.2em;text-transform:lowercase;border:none;border-radius:999px;padding:1.1rem 3rem;cursor:pointer;transition:opacity 0.2s,transform 0.2s}
+.btn-primary:hover{opacity:0.78;transform:translateY(-2px)}
+.btn-outline{background:transparent;color:var(--text-dark);font-family:'Roboto',sans-serif;font-size:0.76rem;font-weight:300;letter-spacing:0.2em;text-transform:lowercase;border:0.5px solid rgba(26,24,20,0.2);border-radius:999px;padding:1.1rem 3rem;cursor:pointer;transition:background 0.2s,transform 0.2s}
+.btn-outline:hover{background:rgba(26,24,20,0.04);transform:translateY(-2px)}
+.scroll-line{width:0.5px;height:40px;background:var(--text-light);opacity:0.3;animation:scrollPulse 2.5s ease-in-out infinite}
+@keyframes scrollPulse{0%,100%{transform:scaleY(1);opacity:0.3}50%{transform:scaleY(0.4);opacity:0.1}}
+
+/* ── SECTION COMMON ── */
+section{padding:var(--section-y) var(--section-x)}
+.section-label{
+  font-size:0.63rem;letter-spacing:0.36em;color:var(--text-light);
+  text-transform:uppercase;text-align:center;
+  margin-bottom:clamp(2.5rem,5vw,4rem);font-weight:300;
+}
+.section-head{text-align:center;max-width:640px;margin:0 auto clamp(3rem,6vw,5rem)}
+.section-head .section-label{margin-bottom:1.2rem}
+
+/* ── TRI-AXIS PROTEA ── */
+.tri-axis-section{
+  border-top:0.5px solid var(--border);
+  border-bottom:0.5px solid var(--border);
+  background:#ffffff;
+}
+.tri-axis-wrap{
+  max-width:var(--content-wide);margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:clamp(2rem,4vw,3.5rem);align-items:center;
+}
+.tri-stage{
+  position:relative;
+  width:min(460px,92vw);
+  aspect-ratio:1/1;
+  margin:0 auto;
+}
+.orbit-ring{
+  position:absolute;inset:12%;
+  border:0.5px solid var(--border-med);
+  border-radius:50%;
+}
+.orbit-ring.ring-2{inset:21%;opacity:0.5}
+.orbit-ring.ring-3{inset:30%;opacity:0.32}
+.tri-center{
+  position:absolute;left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  width:18px;height:18px;border-radius:50%;
+  border:0.5px solid var(--border-med);
+  background:rgba(255,255,255,0.9);
+}
+.tri-center::after{
+  content:'';
+  position:absolute;left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  width:6px;height:6px;border-radius:50%;
+  background:rgba(26,24,20,0.22);
+}
+.axis-orbit{
+  position:absolute;inset:0;animation:spinSlow 24s linear infinite;
+}
+.orbit-protea{
+  position:absolute;left:50%;top:50%;
+  transform:translate(-50%,-50%) rotate(var(--angle)) translateY(calc(-1 * var(--radius))) rotate(calc(-1 * var(--angle)));
+  width:26px;height:26px;border-radius:9px;
+  border:0.5px solid var(--border-med);
+  background:rgba(255,255,255,0.92);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 18px 40px rgba(26,24,20,0.06);
+  pointer-events:none;
+}
+.orbit-protea svg{width:16px;height:16px;display:block}
+.orbit-protea path{stroke:var(--text-dark)}
+.axis-btn{
+  position:absolute;left:50%;top:50%;
+  transform:translate(-50%,-50%) rotate(var(--angle)) translateY(calc(-1 * var(--radius))) rotate(calc(-1 * var(--angle)));
+  width:110px;min-height:110px;border-radius:50%;
+  border:0.5px solid var(--border-med);
+  background:rgba(255,255,255,0.92);
+  color:var(--text-mid);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:0.25rem;padding:0.8rem;
+  font-family:'Roboto',sans-serif;cursor:pointer;
+  transition:transform 0.2s,border-color 0.2s,background 0.2s,color 0.2s;
+}
+.axis-btn:hover{border-color:rgba(26,24,20,0.2);color:var(--text-dark)}
+.axis-btn.active{
+  border-color:var(--text-dark);
+  color:var(--text-dark);
+  background:rgba(26,24,20,0.05);
+}
+.axis-name{font-size:0.67rem;letter-spacing:0.11em;text-transform:uppercase;font-weight:300}
+.axis-sub{font-size:0.62rem;opacity:0.8;font-weight:300}
+.tri-copy{
+  background:rgba(255,255,255,0.86);
+  border:0.5px solid var(--border-med);
+  border-radius:22px;padding:2rem 2.2rem;text-align:center;
+}
+.tri-copy .section-label{text-align:center;margin-bottom:1rem}
+.tri-explain{
+  text-align:left;
+  border-top:0.5px solid var(--border);
+  margin-top:0.7rem;padding-top:1rem;
+}
+.tri-title{font-weight:100;font-size:clamp(2rem,4vw,3rem);line-height:1.05;margin-bottom:0.8rem;text-align:center}
+.tri-title em{font-style:italic;color:var(--text-mid)}
+.tri-sub{font-size:0.84rem;color:var(--text-mid);font-weight:300;line-height:1.8;margin-bottom:1.3rem;text-align:center}
+.tri-tags{display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:1rem;justify-content:center}
+.tri-tag{
+  font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;
+  padding:0.22rem 0.56rem;border:0.5px solid var(--border);
+  border-radius:999px;color:var(--text-light);font-weight:300;
+}
+.tri-explain-title{font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-light);font-weight:300;margin-bottom:0.55rem}
+.tri-explain-body{font-size:0.82rem;color:var(--text-mid);line-height:1.85;font-weight:300;min-height:100px}
+@keyframes spinSlow{to{transform:rotate(360deg)}}
+@media (max-width:980px){
+  .tri-axis-wrap{grid-template-columns:1fr;gap:1.6rem}
+}
+
+/* ── ONBOARDING FLOW SECTION ── */
+.onboarding-section{
+  background:#ffffff;
+  border-top:0.5px solid var(--border);
+  border-bottom:0.5px solid var(--border);
+  padding:var(--section-y) var(--section-x);
+}
+.onboarding-intro{text-align:center;margin-bottom:clamp(3rem,6vw,5rem);max-width:640px;margin-left:auto;margin-right:auto}
+.onboarding-title{font-weight:100;font-size:clamp(2.4rem,5vw,4.2rem);line-height:1.05;letter-spacing:-0.02em;margin-bottom:1.4rem}
+.onboarding-title em{font-style:italic;color:var(--text-mid)}
+.onboarding-sub{font-size:0.9rem;font-weight:300;color:var(--text-mid);line-height:1.9;max-width:460px;margin:0 auto}
+
+/* The big interactive prototype frame */
+.setup-frame{
+  max-width:860px;margin:0 auto;
+  background:rgba(255,255,255,0.88);
+  backdrop-filter:blur(24px);
+  border:0.5px solid var(--border-med);
+  border-radius:28px;
+  overflow:hidden;
+  box-shadow:0 40px 100px rgba(26,24,20,0.07);
+}
+.setup-topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.2rem 2.2rem;
+  border-bottom:0.5px solid var(--border);
+  background:rgba(255,255,255,0.5);
+}
+.setup-dots{display:flex;gap:6px}
+.setup-dot{width:10px;height:10px;border-radius:50%;background:var(--border)}
+.setup-step-label{font-size:0.7rem;font-weight:300;letter-spacing:0.16em;color:var(--text-light);text-transform:lowercase}
+.setup-progress-bar{display:flex;gap:4px;align-items:center}
+.progress-pip{width:24px;height:2px;border-radius:2px;background:var(--border);transition:background 0.4s}
+.progress-pip.done{background:var(--text-dark)}
+.progress-pip.active{background:var(--text-mid)}
+
+/* Steps */
+.setup-body{padding:3.5rem 4rem;min-height:480px}
+.setup-step{display:none;animation:fadeUp 0.45s ease both}
+.setup-step.active{display:block}
+
+/* Step headings */
+.step-eyebrow{font-size:0.63rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--text-light);font-weight:300;margin-bottom:1rem}
+.step-title{font-weight:100;font-size:clamp(1.8rem,3.5vw,2.8rem);line-height:1.1;margin-bottom:0.9rem;letter-spacing:-0.01em}
+.step-title em{font-style:italic;color:var(--text-mid)}
+.step-desc{font-size:0.85rem;font-weight:300;color:var(--text-mid);line-height:1.9;max-width:480px;margin-bottom:2.8rem}
+
+/* Wearable connect cards */
+.connect-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2.5rem}
+.connect-card{
+  border:0.5px solid var(--border);border-radius:16px;
+  padding:1.8rem 2rem;cursor:pointer;
+  background:rgba(255,255,255,0.6);
+  transition:all 0.2s;
+  position:relative;
+}
+.connect-card:hover{border-color:rgba(26,24,20,0.2);background:rgba(255,255,255,0.95)}
+.connect-card.selected{border-color:var(--text-dark);background:rgba(26,24,20,0.04)}
+.connect-card.connected{border-color:var(--green)}
+.connect-card-icon{font-size:1.6rem;margin-bottom:0.9rem}
+.connect-card-name{font-weight:300;font-size:1rem;color:var(--text-dark);margin-bottom:0.3rem}
+.connect-card-sub{font-size:0.74rem;font-weight:300;color:var(--text-light);line-height:1.6}
+.connect-status{
+  position:absolute;top:1rem;right:1rem;
+  font-size:0.64rem;font-weight:300;letter-spacing:0.1em;
+  padding:0.25rem 0.7rem;border-radius:999px;
+}
+.connect-status.idle{background:rgba(26,24,20,0.06);color:var(--text-light)}
+.connect-status.syncing{background:rgba(180,160,100,0.12);color:var(--amber)}
+.connect-status.done{background:rgba(122,184,154,0.15);color:var(--green)}
+
+/* Manual log */
+.manual-or{text-align:center;font-size:0.72rem;font-weight:300;color:var(--text-light);letter-spacing:0.12em;margin:1.5rem 0}
+
+/* Lab upload */
+.lab-upload-zone{
+  border:0.5px dashed rgba(26,24,20,0.18);border-radius:16px;
+  padding:3rem 2.5rem;text-align:center;cursor:pointer;
+  transition:all 0.2s;margin-bottom:1.5rem;
+  background:rgba(255,255,255,0.4);
+}
+.lab-upload-zone:hover{border-color:rgba(26,24,20,0.32);background:rgba(255,255,255,0.8)}
+.lab-upload-zone.uploading{border-color:var(--amber)}
+.lab-upload-zone.done{border-color:var(--green);background:rgba(122,184,154,0.07)}
+.upload-icon{font-size:2rem;margin-bottom:0.8rem;opacity:0.4}
+.upload-text{font-size:0.82rem;font-weight:300;color:var(--text-mid);line-height:1.7}
+.upload-fine{font-size:0.68rem;color:var(--text-light);font-weight:300;margin-top:0.4rem;letter-spacing:0.06em}
+
+/* Lab markers grid */
+.lab-markers{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.7rem;margin-top:1.8rem}
+.lab-marker{
+  border:0.5px solid var(--border);border-radius:12px;
+  padding:1rem 1.2rem;
+  background:rgba(255,255,255,0.7);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.lab-marker-name{font-size:0.76rem;font-weight:300;color:var(--text-mid)}
+.lab-marker-val{font-size:0.86rem;font-weight:300;color:var(--text-dark)}
+.lab-marker-flag{
+  font-size:0.6rem;font-weight:300;letter-spacing:0.08em;
+  padding:0.18rem 0.55rem;border-radius:999px;margin-left:0.5rem;
+}
+.flag-high{background:rgba(204,136,136,0.15);color:var(--red-soft)}
+.flag-low{background:rgba(136,153,204,0.15);color:var(--blue-mid)}
+.flag-ok{background:rgba(122,184,154,0.15);color:var(--green)}
+
+/* State reveal — the big visual */
+.state-reveal{
+  display:flex;flex-direction:column;gap:1.5rem;
+  margin-bottom:2.5rem;
+}
+.state-primary-card{
+  border:0.5px solid var(--border-med);border-radius:18px;
+  padding:2.2rem 2.5rem;
+  background:rgba(255,255,255,0.7);
+  position:relative;overflow:hidden;
+}
+.state-phase-badge{
+  display:inline-flex;align-items:center;gap:0.6rem;
+  font-size:0.68rem;font-weight:300;letter-spacing:0.14em;text-transform:uppercase;
+  padding:0.35rem 1rem;border-radius:999px;
+  background:rgba(122,184,154,0.15);color:var(--green);
+  border:0.5px solid rgba(122,184,154,0.3);
+  margin-bottom:1.2rem;
+}
+.state-phase-dot{width:5px;height:5px;border-radius:50%;background:var(--green)}
+.state-phase-title{font-weight:100;font-size:1.9rem;color:var(--text-dark);margin-bottom:0.6rem;letter-spacing:-0.01em}
+.state-phase-title em{font-style:italic;color:var(--text-mid)}
+.state-phase-desc{font-size:0.84rem;font-weight:300;color:var(--text-mid);line-height:1.85;max-width:480px}
+.state-signal-row{display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1.4rem}
+.state-sig-pill{
+  display:flex;align-items:center;gap:0.5rem;
+  padding:0.4rem 0.9rem;
+  border:0.5px solid var(--border);border-radius:999px;
+  font-size:0.7rem;font-weight:300;color:var(--text-mid);
+  background:rgba(255,255,255,0.8);
+}
+.state-sig-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+
+/* Risk cards */
+.risk-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.8rem;margin-bottom:2rem}
+.risk-card{
+  border-radius:14px;padding:1.4rem 1.5rem;
+  border:0.5px solid var(--border);
+  background:rgba(255,255,255,0.6);
+}
+.risk-label{font-size:0.64rem;font-weight:300;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:0.6rem}
+.risk-name{font-size:0.88rem;font-weight:300;color:var(--text-dark);margin-bottom:0.4rem;line-height:1.3}
+.risk-bar-wrap{height:3px;background:var(--border);border-radius:2px;margin-top:0.7rem}
+.risk-bar-fill{height:100%;border-radius:2px;transition:width 1.4s ease}
+.risk-note{font-size:0.68rem;font-weight:300;color:var(--text-light);margin-top:0.5rem;line-height:1.5}
+.risk-low .risk-label{color:var(--green)}
+.risk-low .risk-bar-fill{background:var(--green)}
+.risk-med .risk-label{color:var(--amber)}
+.risk-med .risk-bar-fill{background:var(--amber)}
+.risk-high .risk-label{color:var(--red-soft)}
+.risk-high .risk-bar-fill{background:var(--red-soft)}
+
+/* Supplement plan */
+.supps-grid{display:flex;flex-direction:column;gap:0.7rem;margin-bottom:2rem}
+.supp-row{
+  display:flex;align-items:flex-start;gap:1.2rem;
+  padding:1.2rem 1.5rem;
+  border:0.5px solid var(--border);border-radius:14px;
+  background:rgba(255,255,255,0.6);
+  transition:background 0.2s;cursor:pointer;
+  position:relative;
+}
+.supp-row:hover{background:rgba(255,255,255,0.95)}
+.supp-row.tracked{border-color:var(--green)}
+.supp-icon-wrap{
+  width:40px;height:40px;border-radius:12px;
+  background:rgba(26,24,20,0.05);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;flex-shrink:0;
+}
+.supp-info{flex:1}
+.supp-name{font-weight:300;font-size:0.92rem;color:var(--text-dark);margin-bottom:0.2rem}
+.supp-why{font-size:0.74rem;font-weight:300;color:var(--text-mid);line-height:1.65}
+.supp-tags{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.6rem}
+.supp-tag{font-size:0.62rem;padding:0.2rem 0.6rem;border:0.5px solid var(--border);border-radius:999px;color:var(--text-light);font-weight:300;letter-spacing:0.06em}
+.supp-right{display:flex;flex-direction:column;align-items:flex-end;gap:0.5rem;flex-shrink:0}
+.supp-dose{font-size:0.72rem;font-weight:300;color:var(--text-mid);letter-spacing:0.04em}
+.supp-price{font-size:0.8rem;font-weight:300;color:var(--text-dark)}
+.supp-track-btn{
+  font-size:0.64rem;font-weight:300;letter-spacing:0.12em;
+  padding:0.3rem 0.9rem;border-radius:999px;
+  border:0.5px solid var(--border);
+  background:rgba(255,255,255,0.8);cursor:pointer;
+  font-family:'Roboto',sans-serif;color:var(--text-mid);
+  transition:all 0.2s;
+}
+.supp-track-btn:hover{background:var(--text-dark);color:#fff;border-color:var(--text-dark)}
+.supp-track-btn.tracking{background:rgba(122,184,154,0.15);color:var(--green);border-color:rgba(122,184,154,0.3)}
+.supp-evidence{
+  display:inline-flex;align-items:center;gap:0.3rem;
+  font-size:0.62rem;font-weight:300;letter-spacing:0.08em;
+  padding:0.2rem 0.6rem;border-radius:999px;
+  margin-top:0.5rem;
+}
+.evidence-strong{background:rgba(122,184,154,0.12);color:var(--green)}
+.evidence-moderate{background:rgba(212,168,112,0.12);color:var(--amber)}
+
+/* Diet recs */
+.diet-cards{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem}
+.diet-card{
+  border:0.5px solid var(--border);border-radius:16px;padding:1.8rem 2rem;
+  background:rgba(255,255,255,0.55);
+}
+.diet-card-title{font-weight:300;font-size:1rem;color:var(--text-dark);margin-bottom:0.5rem}
+.diet-card-desc{font-size:0.78rem;font-weight:300;color:var(--text-mid);line-height:1.8;margin-bottom:1rem}
+.diet-items{display:flex;flex-direction:column;gap:0.4rem}
+.diet-item{display:flex;align-items:center;gap:0.6rem;font-size:0.76rem;font-weight:300;color:var(--text-mid)}
+.diet-dot{width:4px;height:4px;border-radius:50%;background:var(--text-light);flex-shrink:0}
+.diet-avoid{border-color:rgba(204,136,136,0.2)}
+.diet-avoid .diet-dot{background:var(--red-soft)}
+
+/* Adherence tracker */
+.adherence-section{
+  display:flex;flex-direction:column;gap:1rem;
+  margin-bottom:2rem;
+}
+.adherence-row{display:flex;align-items:center;gap:1rem}
+.adherence-name{font-size:0.8rem;font-weight:300;color:var(--text-mid);min-width:160px;flex-shrink:0}
+.adherence-track{display:flex;gap:5px;flex:1}
+.adherence-pip{
+  width:22px;height:22px;border-radius:6px;
+  border:0.5px solid var(--border);
+  background:rgba(255,255,255,0.5);cursor:pointer;
+  transition:all 0.15s;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.7rem;
+}
+.adherence-pip:hover{border-color:rgba(26,24,20,0.2)}
+.adherence-pip.done{background:rgba(122,184,154,0.2);border-color:rgba(122,184,154,0.4);color:var(--green)}
+.adherence-pip.skipped{background:rgba(204,136,136,0.12);border-color:rgba(204,136,136,0.25);color:var(--red-soft)}
+.adherence-pct{font-size:0.72rem;font-weight:300;color:var(--text-light);min-width:36px;text-align:right;letter-spacing:0.04em}
+
+/* Morning brew (same as before but adapted) */
+.brew-frame{
+  max-width:860px;margin:0 auto;
+  background:rgba(255,255,255,0.85);
+  backdrop-filter:blur(20px);
+  border:0.5px solid var(--border);
+  border-radius:24px;
+  overflow:hidden;
+  box-shadow:0 32px 80px rgba(26,24,20,0.06);
+}
+.brew-topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.2rem 2rem;
+  border-bottom:0.5px solid var(--border);
+  background:rgba(255,255,255,0.6);
+}
+.brew-dot-row{display:flex;gap:6px}
+.brew-dot{width:10px;height:10px;border-radius:50%;background:var(--border)}
+.brew-title-bar{font-size:0.72rem;font-weight:300;letter-spacing:0.14em;color:var(--text-light);text-transform:lowercase;display:inline-flex;align-items:center;gap:0.55rem}
+.brew-coffee-icon{width:52px;height:52px;object-fit:contain;display:block}
+.proto-title-row{display:flex;align-items:center;justify-content:center;gap:1.1rem;margin-bottom:1rem;flex-wrap:wrap}
+.brew-header-icon{width:110px;height:110px;object-fit:contain;display:block;flex-shrink:0}
+.coffee-wrap{position:relative;display:inline-flex;align-items:flex-end;justify-content:center;flex-shrink:0}
+.coffee-wrap--lg .coffee-cup-img{width:110px;height:110px;object-fit:contain;display:block}
+.coffee-wrap--sm .coffee-cup-img{width:52px;height:52px;object-fit:contain;display:block}
+.coffee-steam{position:absolute;top:-2%;left:50%;transform:translateX(-50%);width:72%;height:48%;pointer-events:none;z-index:1}
+.coffee-steam i{position:absolute;bottom:0;display:block;width:7px;height:26px;background:linear-gradient(to top,rgba(107,102,96,0.45),rgba(107,102,96,0));border-radius:999px;filter:blur(2px);opacity:0;animation:steamRise 3s ease-in-out infinite}
+.coffee-steam i:nth-child(1){left:16%;animation-delay:0s}
+.coffee-steam i:nth-child(2){left:42%;height:32px;width:8px;animation-delay:1s}
+.coffee-steam i:nth-child(3){left:68%;animation-delay:2s}
+.coffee-wrap--sm .coffee-steam i{width:5px;height:18px}
+.coffee-wrap--sm .coffee-steam i:nth-child(2){height:22px}
+@keyframes steamRise{
+  0%{transform:translateY(0) scaleX(1);opacity:0}
+  18%{opacity:0.6}
+  55%{transform:translateY(-22px) scaleX(1.25);opacity:0.35}
+  100%{transform:translateY(-42px) scaleX(1.5);opacity:0}
+}
+.brew-date{font-size:0.68rem;font-weight:300;color:var(--text-light);letter-spacing:0.06em}
+.brew-body{padding:3rem 3.5rem}
+.brew-signal-row{display:flex;gap:1rem;margin-bottom:2.5rem;flex-wrap:wrap}
+.signal-pill{display:flex;align-items:center;gap:0.55rem;padding:0.5rem 1rem;border:0.5px solid var(--border);border-radius:999px;background:rgba(255,255,255,0.8);font-size:0.7rem;font-weight:300;color:var(--text-mid);letter-spacing:0.06em}
+.signal-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.signal-dot.green{background:#7ab89a}
+.signal-dot.amber{background:#d4a870}
+.signal-dot.blue{background:#8899cc}
+.signal-dot.red{background:#cc8888}
+.brew-narrative{font-weight:100;font-size:1.35rem;line-height:1.8;color:var(--text-dark);letter-spacing:0.01em;min-height:180px;margin-bottom:2.5rem}
+.brew-narrative em{font-style:italic;color:var(--text-mid)}
+.brew-actions{display:flex;gap:1rem;margin-bottom:2.5rem;flex-wrap:wrap}
+.brew-action-chip{padding:0.65rem 1.4rem;border:0.5px solid var(--border);border-radius:999px;font-size:0.74rem;font-weight:300;color:var(--text-mid);cursor:pointer;transition:background 0.2s,border-color 0.2s;background:rgba(255,255,255,0.5)}
+.brew-action-chip:hover{background:rgba(26,24,20,0.05);border-color:rgba(26,24,20,0.15)}
+.brew-divider{height:0.5px;background:var(--border);margin:2rem 0}
+.brew-experiment{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.experiment-label{font-size:0.75rem;font-weight:300;color:var(--text-mid);letter-spacing:0.06em}
+.experiment-result{display:flex;align-items:center;gap:0.7rem;font-size:0.78rem;font-weight:300;color:var(--text-dark)}
+.experiment-bar{width:120px;height:3px;background:var(--border);border-radius:2px;position:relative}
+.experiment-fill{height:100%;border-radius:2px;background:var(--text-mid);transition:width 1.2s ease}
+.brew-controls{border-top:0.5px solid var(--border);padding:1.8rem 3.5rem;background:rgba(255,255,255,0.4)}
+.controls-label{font-size:0.63rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--text-light);margin-bottom:1.4rem;font-weight:300}
+.controls-row{display:flex;gap:0.8rem;flex-wrap:wrap}
+.control-btn{padding:0.55rem 1.2rem;border:0.5px solid var(--border);border-radius:999px;font-size:0.72rem;font-weight:300;color:var(--text-mid);cursor:pointer;background:rgba(255,255,255,0.6);transition:all 0.2s;font-family:'Roboto',sans-serif}
+.control-btn:hover,.control-btn.active{background:var(--text-dark);color:#fff;border-color:var(--text-dark)}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.cursor{display:inline-block;width:1px;height:1.1em;background:var(--text-mid);vertical-align:text-bottom;margin-left:1px;animation:blink 1s step-end infinite}
+
+/* ── NAV STEP BUTTONS ── */
+.step-nav{display:flex;align-items:center;justify-content:space-between;padding-top:2rem;border-top:0.5px solid var(--border);margin-top:2.5rem}
+.step-back{background:none;border:0.5px solid var(--border);color:var(--text-mid);font-family:'Roboto',sans-serif;font-size:0.74rem;font-weight:300;letter-spacing:0.14em;padding:0.7rem 1.8rem;border-radius:999px;cursor:pointer;transition:all 0.2s}
+.step-back:hover{border-color:rgba(26,24,20,0.2);color:var(--text-dark)}
+.step-next{background:var(--text-dark);color:#fff;font-family:'Roboto',sans-serif;font-size:0.74rem;font-weight:300;letter-spacing:0.14em;padding:0.7rem 2.2rem;border-radius:999px;cursor:pointer;border:none;transition:opacity 0.2s,transform 0.2s}
+.step-next:hover{opacity:0.78;transform:translateY(-1px)}
+.step-skip{font-size:0.68rem;font-weight:300;color:var(--text-light);letter-spacing:0.1em;background:none;border:none;cursor:pointer;font-family:'Roboto',sans-serif}
+.step-skip:hover{color:var(--text-mid)}
+
+/* ── HOW IT WORKS ── */
+.how-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:0;
+  border:0.5px solid var(--border);
+  max-width:var(--content-wide);margin:0 auto;
+}
+@media(max-width:900px){.how-grid{grid-template-columns:1fr}}
+.how-card{padding:3.5rem 2.8rem;border-right:0.5px solid var(--border);background:#ffffff;text-align:center}
+.how-card:last-child{border-right:none}
+@media(max-width:900px){.how-card{border-right:none;border-bottom:0.5px solid var(--border)}.how-card:last-child{border-bottom:none}}
+.how-num{font-style:italic;font-size:0.8rem;font-weight:100;color:var(--text-light);letter-spacing:0.08em;margin-bottom:1.8rem}
+.how-title{font-weight:300;font-size:1.5rem;color:var(--text-dark);margin-bottom:1rem;line-height:1.2}
+.how-desc{font-size:0.82rem;font-weight:300;color:var(--text-mid);line-height:1.85}
+
+/* ── PROTOTYPE SECTION ── */
+.prototype-section{
+  background:#ffffff;border-top:0.5px solid var(--border);
+  border-bottom:0.5px solid var(--border);padding:var(--section-y) var(--section-x);
+}
+.proto-intro{text-align:center;margin-bottom:clamp(3rem,6vw,5rem);max-width:640px;margin-left:auto;margin-right:auto}
+.proto-title{font-weight:100;font-size:clamp(2.2rem,4.5vw,3.8rem);line-height:1.1;letter-spacing:-0.01em;margin-bottom:1.2rem}
+.proto-title em{font-style:italic;color:var(--text-mid)}
+.proto-sub{font-size:0.88rem;font-weight:300;color:var(--text-mid);line-height:1.85;max-width:480px;margin:0 auto}
+
+/* ── FEATURES ── */
+.features-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:0;
+  border:0.5px solid var(--border);
+  max-width:var(--content-wide);margin:0 auto;
+}
+@media(max-width:900px){.features-grid{grid-template-columns:1fr}}
+.feature-card{padding:3.2rem 2.8rem;border-right:0.5px solid var(--border);border-bottom:0.5px solid var(--border);transition:background 0.3s;background:#ffffff;text-align:center}
+@media(max-width:900px){.feature-card{border-right:none}}
+.feature-card:hover{background:#ffffff}
+.feature-num{font-style:italic;font-size:0.8rem;font-weight:100;color:var(--text-light);letter-spacing:0.08em;margin-bottom:1.8rem}
+.feature-title{font-weight:300;font-size:1.5rem;color:var(--text-dark);margin-bottom:0.9rem;line-height:1.2}
+.feature-desc{font-size:0.8rem;font-weight:300;color:var(--text-mid);line-height:1.85}
+
+/* ── ARCHITECTURE ── */
+.arch-section{border-top:0.5px solid var(--border)}
+.arch-inner{max-width:900px;margin:0 auto}
+.arch-title{font-weight:100;font-size:clamp(2rem,4vw,3.4rem);line-height:1.1;letter-spacing:-0.01em;margin-bottom:1rem;text-align:center}
+.arch-title em{font-style:italic;color:var(--text-mid)}
+.arch-sub{font-size:0.88rem;font-weight:300;color:var(--text-mid);text-align:center;margin-bottom:5rem;line-height:1.85}
+.stack{display:flex;flex-direction:column;gap:2px}
+.stack-layer{display:flex;align-items:stretch;border:0.5px solid var(--border);border-radius:12px;overflow:hidden;background:rgba(255,255,255,0.55);backdrop-filter:blur(6px);transition:background 0.2s;cursor:pointer}
+.stack-layer:hover{background:rgba(255,255,255,0.92)}
+.stack-accent{width:4px;flex-shrink:0}
+.stack-content{flex:1;padding:1.4rem 1.8rem;display:flex;align-items:center;gap:2rem}
+.stack-name{font-weight:300;font-size:1rem;color:var(--text-dark);min-width:200px;flex-shrink:0}
+.stack-chips{display:flex;flex-wrap:wrap;gap:0.5rem;flex:1}
+.stack-chip{font-size:0.68rem;font-weight:300;color:var(--text-mid);padding:0.3rem 0.8rem;border:0.5px solid var(--border);border-radius:999px;background:rgba(255,255,255,0.7);letter-spacing:0.04em}
+.conditions-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;max-width:800px;margin:0 auto;margin-top:4rem}
+.condition-card{border:0.5px solid var(--border);border-radius:16px;padding:2.5rem 2.5rem;background:rgba(255,255,255,0.55);backdrop-filter:blur(6px);transition:background 0.2s}
+.condition-card:hover{background:rgba(255,255,255,0.92)}
+.condition-name{font-weight:300;font-size:1.3rem;color:var(--text-dark);margin-bottom:0.6rem}
+.condition-desc{font-size:0.8rem;font-weight:300;color:var(--text-mid);line-height:1.85;margin-bottom:1.2rem}
+.condition-signals{display:flex;flex-wrap:wrap;gap:0.4rem}
+.condition-signal{font-size:0.65rem;padding:0.25rem 0.7rem;border:0.5px solid var(--border);border-radius:999px;color:var(--text-light);font-weight:300;letter-spacing:0.06em}
+
+/* ── PHILOSOPHY ── */
+.philosophy{display:grid;grid-template-columns:1fr 1fr;gap:9vw;align-items:center;max-width:1000px;margin:0 auto}
+.phil-label{font-size:0.63rem;letter-spacing:0.36em;color:var(--text-light);text-transform:uppercase;font-weight:300;margin-bottom:2.2rem}
+.phil-title{font-weight:100;font-size:clamp(2.2rem,4vw,3.4rem);line-height:1.1;color:var(--text-dark);margin-bottom:2.2rem;letter-spacing:-0.01em}
+.phil-title em{font-style:italic;color:var(--text-mid)}
+.phil-body{font-size:0.86rem;font-weight:300;color:var(--text-mid);line-height:1.95;max-width:360px}
+.phil-body p+p{margin-top:1.1rem}
+.phil-right{display:flex;flex-direction:column;gap:2.2rem}
+.phil-stat{border-top:0.5px solid var(--border);padding-top:1.6rem}
+.phil-stat-num{font-size:3.2rem;font-weight:100;color:var(--text-dark);line-height:1;margin-bottom:0.4rem;letter-spacing:-0.02em}
+.phil-stat-label{font-size:0.74rem;font-weight:300;color:var(--text-light);letter-spacing:0.06em;line-height:1.6}
+
+/* ── QUOTES ── */
+.quotes-section{text-align:center}
+.quotes-title{font-weight:100;font-size:clamp(2rem,4vw,3.4rem);line-height:1.1;letter-spacing:-0.01em;margin-bottom:1rem}
+.quotes-title em{font-style:italic;color:var(--text-mid)}
+.quotes-sub{font-size:0.88rem;font-weight:300;color:var(--text-mid);line-height:1.85;margin-bottom:4rem}
+.quotes-row{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;max-width:var(--content-wide);margin:0 auto}
+@media(max-width:760px){.quotes-row{grid-template-columns:1fr}}
+.quote-card{background:rgba(255,255,255,0.65);backdrop-filter:blur(10px);border:0.5px solid var(--border);border-radius:16px;padding:2.2rem;text-align:left}
+.quote-text{font-style:italic;font-weight:300;font-size:1.06rem;color:var(--text-dark);line-height:1.75;margin-bottom:1.2rem}
+.quote-name{font-size:0.66rem;font-weight:300;color:var(--text-light);letter-spacing:0.12em}
+
+/* ── CTA ── */
+.cta-section{text-align:center;border-top:0.5px solid var(--border)}
+.cta-title{font-weight:100;font-size:clamp(2.6rem,5.5vw,5rem);line-height:1.1;letter-spacing:-0.02em;margin-bottom:1.6rem}
+.cta-title em{font-style:italic;color:var(--text-mid)}
+.cta-sub{font-size:0.88rem;font-weight:300;color:var(--text-mid);margin-bottom:3.2rem;letter-spacing:0.02em}
+.cta-group{display:flex;flex-direction:column;align-items:center;gap:1.1rem}
+.cta-fine{font-size:0.64rem;color:var(--text-light);font-weight:300;letter-spacing:0.12em}
+
+footer{
+  padding:2.2rem var(--section-x);border-top:0.5px solid var(--border);
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:1rem;
+  background:#ffffff;
+}
+.footer-logo{justify-self:start}
+.footer-note{justify-self:center;text-align:center;font-size:0.62rem;font-weight:300;color:var(--text-light);letter-spacing:0.1em}
+.footer-links{justify-self:end;display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:flex-end}
+@media(max-width:760px){
+  footer{grid-template-columns:1fr;text-align:center;justify-items:center}
+  .footer-logo,.footer-note,.footer-links{justify-self:center}
+  .footer-links{justify-content:center}
+}
+.footer-logo{font-weight:300;font-size:1.1rem;letter-spacing:0.07em;color:var(--text-dark);display:inline-flex;align-items:center;gap:0.55rem}
+.footer-logo-img{width:26px;height:26px;object-fit:contain;display:block}
+.footer-links a{font-size:0.62rem;font-weight:300;color:var(--text-light);text-decoration:none;letter-spacing:0.1em;text-transform:lowercase;transition:color 0.2s}
+.footer-links a:hover{color:var(--text-dark)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+
+/* spinner */
+.brew-spinner{width:14px;height:14px;border:0.5px solid var(--border);border-top-color:var(--text-mid);border-radius:50%;animation:spin 0.9s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Highlight callout */
+.insight-callout{
+  border:0.5px solid rgba(122,184,154,0.3);border-radius:14px;
+  padding:1.2rem 1.6rem;
+  background:rgba(122,184,154,0.07);
+  font-size:0.82rem;font-weight:300;color:var(--text-mid);line-height:1.8;
+  margin-top:1.5rem;
+}
+.insight-callout strong{font-weight:400;color:var(--text-dark)}
+
+/* Spinner overlay for connecting */
+.syncing-overlay{
+  display:flex;align-items:center;gap:0.7rem;
+  font-size:0.76rem;font-weight:300;color:var(--text-mid);letter-spacing:0.1em;
+  margin-top:1rem;
+}
+</style>
+</head>
+<body>
+<div class="gradient-bg">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
+  <div class="blob blob-5"></div>
+</div>
+<canvas id="grain-canvas"></canvas>
+
+<div class="page">
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo"><img src="assets/protea-flower.png" alt="" class="nav-logo-img" width="72" height="72"/><span class="nav-logo-text">Hsence</span></a>
+    <ul class="nav-links">
+      <li><a href="agent.html">precision agent</a></li>
+      <li><a href="labs.html">labs</a></li>
+      <li><a href="daily.html">daily ritual</a></li>
+      <li><a href="#setup">setup</a></li>
+      <li><a href="#prototype">morning brew</a></li>
+      <li><a href="#features">features</a></li>
+    </ul>
+    <a href="daily.html" class="nav-cta">log today</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">hormonal intelligence platform</p>
+      <h1 class="hero-title">your body,<br><span class="hero-finally-row"><em>finally</em><img src="assets/protea-flower.png" alt="" class="hero-flower-near" width="200" height="200"/></span><br>understood</h1>
+      <p class="hero-sub">
+        sync your labs and wearable once — and Hsence explains your hormonal state, surfaces your personal risks, and builds a supplement plan matched to your biology.
+      </p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="location.href='labs.html'">open lab intelligence →</button>
+        <button class="btn-outline" onclick="document.getElementById('setup').scrollIntoView({behavior:'smooth'})">try the setup flow</button>
+        <span class="hero-note">free · no streaks · no pressure</span>
+      </div>
+      <div class="scroll-hint">
+        <div class="scroll-line"></div>
+        scroll
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <p class="section-label">how it works</p>
+    <div class="how-grid">
+      <div class="how-card">
+        <div class="how-num">01</div>
+        <div class="how-title">sync your data once</div>
+        <div class="how-desc">Connect Oura or Apple Watch, upload a blood panel PDF, or enter a few lab values. Hsence handles the rest — normalising, aligning, and reading what the numbers mean together.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-num">02</div>
+        <div class="how-title">see your hormonal state</div>
+        <div class="how-desc">Your phase, your risks, your pattern — explained in plain language, not a reference range table. PCOS-aware. Perimenopause-aware. Not a generic 28-day model.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-num">03</div>
+        <div class="how-title">act on a personal plan</div>
+        <div class="how-desc">Supplements matched to your hormonal imbalance, diet guidance that avoids cholesterol risk, and a daily adherence tracker — with affordable trusted product links.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRI-AXIS PROTEA -->
+  <section id="tri-axis" class="tri-axis-section">
+    <div class="tri-axis-wrap">
+      <div class="tri-stage">
+        <div class="orbit-ring"></div>
+        <div class="orbit-ring ring-2"></div>
+        <div class="orbit-ring ring-3"></div>
+        <div class="tri-center" aria-hidden="true"></div>
+        <div class="axis-orbit">
+          <div class="orbit-protea" style="--angle:300deg;--radius:30%;" aria-hidden="true">
+            <!-- Minimal protea icon (custom, B/W) -->
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 21V10" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M12 10C9.5 9.8 7.2 8.7 6.1 6.8C5 5 6.2 3 8.5 2.6C10.1 2.3 11.5 2.8 12 3.2C12.5 2.8 13.9 2.3 15.5 2.6C17.8 3 19 5 17.9 6.8C16.8 8.7 14.5 9.8 12 10Z" stroke-width="1.6" stroke-linejoin="round"/>
+              <path d="M9.1 12.8C7.6 12.1 6.2 11.2 5.2 10.2" stroke-width="1.4" stroke-linecap="round"/>
+              <path d="M14.9 12.8C16.4 12.1 17.8 11.2 18.8 10.2" stroke-width="1.4" stroke-linecap="round"/>
+              <path d="M10 21C8.7 19.7 7.8 18.3 7 16.6" stroke-width="1.4" stroke-linecap="round"/>
+              <path d="M14 21C15.3 19.7 16.2 18.3 17 16.6" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <button class="axis-btn active" data-axis="cognition" style="--angle:0deg;--radius:40%;">
+            <span class="axis-name">Cognition</span><span class="axis-sub">focus · mood</span>
+          </button>
+          <button class="axis-btn" data-axis="gut" style="--angle:120deg;--radius:40%;">
+            <span class="axis-name">Gut</span><span class="axis-sub">inflammation</span>
+          </button>
+          <button class="axis-btn" data-axis="hormones" style="--angle:240deg;--radius:40%;">
+            <span class="axis-name">Hormones</span><span class="axis-sub">cycle state</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="tri-copy">
+        <p class="section-label">three-axis intelligence</p>
+        <h2 class="tri-title">three axes.<br><em>one daily read</em></h2>
+        <p class="tri-sub">A calm way to understand your body without dashboards. Tap an axis to see the explanation that matters today.</p>
+        <div class="tri-tags">
+          <span class="tri-tag">minimal UI</span>
+          <span class="tri-tag">one-click explainers</span>
+          <span class="tri-tag">low cognitive load</span>
+        </div>
+        <div class="tri-explain">
+          <p class="tri-explain-title" id="tri-explain-title">Cognition · what we read</p>
+          <p class="tri-explain-body" id="tri-explain-body">Hsence combines sleep architecture, HRV shift, and your check-in language to explain focus capacity and emotional load for today. Instead of scores, you get one actionable sentence: what to protect, what to postpone, and when to push.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       ONBOARDING SETUP FLOW PROTOTYPE
+  ══════════════════════════════════════════ -->
+  <section id="setup" class="onboarding-section">
+    <div class="onboarding-intro">
+      <p class="section-label">interactive prototype</p>
+      <h2 class="onboarding-title">from first sync<br>to <em>full picture</em></h2>
+      <p class="onboarding-sub">
+        This is the real setup flow. Connect your wearable, upload your blood work, and watch Hsence explain what's actually happening — with personalised risks and a supplement plan built for you.
+      </p>
+    </div>
+
+    <div class="setup-frame">
+      <!-- Top bar -->
+      <div class="setup-topbar">
+        <div class="setup-dots">
+          <div class="setup-dot"></div>
+          <div class="setup-dot"></div>
+          <div class="setup-dot"></div>
+        </div>
+        <span class="setup-step-label" id="step-label-top">step 1 of 5 · connect wearable</span>
+        <div class="setup-progress-bar" id="progress-bar">
+          <div class="progress-pip active" id="pip-1"></div>
+          <div class="progress-pip" id="pip-2"></div>
+          <div class="progress-pip" id="pip-3"></div>
+          <div class="progress-pip" id="pip-4"></div>
+          <div class="progress-pip" id="pip-5"></div>
+        </div>
+      </div>
+
+      <div class="setup-body">
+
+        <!-- ── STEP 1: Connect wearable ── -->
+        <div class="setup-step active" id="step-1">
+          <p class="step-eyebrow">step 1 · data sources</p>
+          <h3 class="step-title">connect your<br><em>wearable</em></h3>
+          <p class="step-desc">Hsence reads sleep architecture, HRV, and skin temperature passively. The more nights of data, the richer your personal baseline.</p>
+
+          <div class="connect-grid">
+            <div class="connect-card" id="card-oura" onclick="selectWearable('oura')">
+              <div class="connect-status idle" id="status-oura">tap to connect</div>
+              <div class="connect-card-icon">⭕</div>
+              <div class="connect-card-name">Oura Ring</div>
+              <div class="connect-card-sub">Sleep stages · HRV · temperature deviation · readiness score</div>
+            </div>
+            <div class="connect-card" id="card-apple" onclick="selectWearable('apple')">
+              <div class="connect-status idle" id="status-apple">tap to connect</div>
+              <div class="connect-card-icon">⌚</div>
+              <div class="connect-card-name">Apple Watch</div>
+              <div class="connect-card-sub">Heart rate variability · sleep · activity · cycle tracking</div>
+            </div>
+            <div class="connect-card" id="card-fitbit" onclick="selectWearable('fitbit')">
+              <div class="connect-status idle" id="status-fitbit">tap to connect</div>
+              <div class="connect-card-icon">📱</div>
+              <div class="connect-card-name">Fitbit / Google</div>
+              <div class="connect-card-sub">Sleep score · resting HR · stress management score</div>
+            </div>
+            <div class="connect-card" id="card-none" onclick="selectWearable('none')">
+              <div class="connect-status idle" id="status-none">no wearable</div>
+              <div class="connect-card-icon">✏️</div>
+              <div class="connect-card-name">Manual log only</div>
+              <div class="connect-card-sub">45-second daily check-in. Works well, just less passive signal.</div>
+            </div>
+          </div>
+
+          <div class="syncing-overlay" id="syncing-msg" style="display:none">
+            <div class="brew-spinner"></div>
+            <span id="syncing-text">syncing 90 nights of data…</span>
+          </div>
+
+          <div class="insight-callout" id="wearable-insight" style="display:none">
+            <strong>90 nights synced.</strong> Your HRV baseline is 58ms. Temperature deviation range: −0.4°c to +0.5°c. Sleep efficiency average 71%. Hsence now has enough signal to estimate your hormonal state daily.
+          </div>
+
+          <div class="step-nav">
+            <button class="step-skip" onclick="selectWearable('none');setTimeout(()=>goStep(2),400)">skip for now</button>
+            <button class="step-next" id="next-1" onclick="goStep(2)">next: upload blood work →</button>
+          </div>
+        </div>
+
+        <!-- ── STEP 2: Lab upload ── -->
+        <div class="setup-step" id="step-2">
+          <p class="step-eyebrow">step 2 · blood work</p>
+          <h3 class="step-title">sync your<br><em>lab results</em></h3>
+          <p class="step-desc">Upload a PDF from your GP or lab portal, or enter values manually. Hsence reads estrogen, LH, FSH, testosterone, TSH, fasting glucose, triglycerides, and more.</p>
+
+          <div class="lab-upload-zone" id="upload-zone" onclick="simulateUpload()">
+            <div class="upload-icon" id="upload-icon">📄</div>
+            <div class="upload-text" id="upload-text">tap to upload your blood panel PDF<br><span style="opacity:0.6">or drag and drop here</span></div>
+            <div class="upload-fine">supports NHS, BUPA, Quest, LabCorp, Medichecks formats · auto-parsed</div>
+          </div>
+
+          <div class="lab-markers" id="lab-markers" style="display:none">
+            <div class="lab-marker">
+              <span class="lab-marker-name">LH</span>
+              <span class="lab-marker-val">18.2 IU/L <span class="lab-marker-flag flag-high">↑ high</span></span>
+            </div>
+            <div class="lab-marker">
+              <span class="lab-marker-name">FSH</span>
+              <span class="lab-marker-val">5.1 IU/L <span class="lab-marker-flag flag-ok">normal</span></span>
+            </div>
+            <div class="lab-marker">
+              <span class="lab-marker-name">LH:FSH ratio</span>
+              <span class="lab-marker-val">3.6 <span class="lab-marker-flag flag-high">↑ elevated</span></span>
+            </div>
+            <div class="lab-marker">
+              <span class="lab-marker-name">Testosterone</span>
+              <span class="lab-marker-val">2.9 nmol/L <span class="lab-marker-flag flag-high">↑ high</span></span>
+            </div>
+            <div class="lab-marker">
+              <span class="lab-marker-name">Estradiol (E2)</span>
+              <span class="lab-marker-val">142 pmol/L <span class="lab-marker-flag flag-ok">normal</span></span>
+            </div>
+            <div class="lab-marker">
+              <span class="lab-marker-name">TSH</span>
+              <span class="lab-marker-val">2.8 mIU/L <span class="lab-marker-flag flag-ok">normal</span></span>
+            </div>
+            <div class="lab-marker">
+              <span class="lab-marker-name">Fasting glucose</span>
+              <span class="lab-marker-val">5.9 mmol/L <span class="lab-marker-flag flag-high">↑ borderline</span></span>
+            </div>
+            <div class="lab-marker">
+              <span class="lab-marker-name">Triglycerides</span>
+              <span class="lab-marker-val">1.8 mmol/L <span class="lab-marker-flag flag-ok">normal</span></span>
+            </div>
+            <div class="lab-marker">
+              <span class="lab-marker-name">SHBG</span>
+              <span class="lab-marker-val">28 nmol/L <span class="lab-marker-flag flag-low">↓ low</span></span>
+            </div>
+            <div class="lab-marker">
+              <span class="lab-marker-name">Prolactin</span>
+              <span class="lab-marker-val">312 mIU/L <span class="lab-marker-flag flag-ok">normal</span></span>
+            </div>
+          </div>
+
+          <div class="step-nav">
+            <button class="step-back" onclick="goStep(1)">← back</button>
+            <button class="step-next" onclick="goStep(3)">next: see your state →</button>
+          </div>
+        </div>
+
+        <!-- ── STEP 3: Hormonal state ── -->
+        <div class="setup-step" id="step-3">
+          <p class="step-eyebrow">step 3 · your state</p>
+          <h3 class="step-title">here's what<br><em>we found</em></h3>
+          <p class="step-desc">Based on your wearable data and blood work, this is Hsence's read of your hormonal state right now.</p>
+
+          <div class="state-reveal">
+            <div class="state-primary-card">
+              <div class="state-phase-badge">
+                <div class="state-phase-dot"></div>
+                PCOS · elevated androgen pattern
+              </div>
+              <div class="state-phase-title">androgens elevated,<br><em>cycle likely anovulatory</em></div>
+              <div class="state-phase-desc">
+                Your LH:FSH ratio of 3.6 is above the 2.0 threshold associated with PCOS. Combined with elevated free testosterone (2.9 nmol/L) and low SHBG, this pattern suggests androgen excess is currently active. Your wearable confirms irregular temperature shifts consistent with anovulatory cycles over the past 3 months.
+              </div>
+              <div class="state-signal-row">
+                <div class="state-sig-pill"><div class="state-sig-dot" style="background:var(--red-soft)"></div>LH:FSH 3.6 — elevated</div>
+                <div class="state-sig-pill"><div class="state-sig-dot" style="background:var(--red-soft)"></div>testosterone ↑</div>
+                <div class="state-sig-pill"><div class="state-sig-dot" style="background:var(--amber)"></div>SHBG ↓ low</div>
+                <div class="state-sig-pill"><div class="state-sig-dot" style="background:var(--amber)"></div>glucose 5.9 borderline</div>
+                <div class="state-sig-pill"><div class="state-sig-dot" style="background:var(--blue-mid)"></div>temp pattern: anovulatory</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Risk cards -->
+          <div style="margin-bottom:1rem;font-size:0.63rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--text-light);font-weight:300">possible risks · based on your pattern</div>
+          <div class="risk-grid">
+            <div class="risk-card risk-high">
+              <div class="risk-label">elevated</div>
+              <div class="risk-name">Insulin resistance</div>
+              <div class="risk-bar-wrap"><div class="risk-bar-fill" style="width:0%" data-width="78%"></div></div>
+              <div class="risk-note">borderline glucose + low SHBG + elevated androgens — the classic triad</div>
+            </div>
+            <div class="risk-card risk-med">
+              <div class="risk-label">watch</div>
+              <div class="risk-name">Cardiovascular lipid risk</div>
+              <div class="risk-bar-wrap"><div class="risk-bar-fill" style="width:0%" data-width="44%"></div></div>
+              <div class="risk-note">triglycerides currently normal — worth retesting in 6 months</div>
+            </div>
+            <div class="risk-card risk-low">
+              <div class="risk-label">low risk</div>
+              <div class="risk-name">Thyroid dysfunction</div>
+              <div class="risk-bar-wrap"><div class="risk-bar-fill" style="width:0%" data-width="14%"></div></div>
+              <div class="risk-note">TSH within range — no action needed now</div>
+            </div>
+          </div>
+
+          <div class="insight-callout">
+            <strong>This is not a diagnosis.</strong> Hsence surfaces patterns for your awareness and to help you have more informed conversations with your doctor. The LH:FSH and testosterone findings are worth discussing with an endocrinologist or gynaecologist.
+          </div>
+
+          <div class="step-nav">
+            <button class="step-back" onclick="goStep(2)">← back</button>
+            <button class="step-next" onclick="goStep(4);animateRiskBars()">next: your supplement plan →</button>
+          </div>
+        </div>
+
+        <!-- ── STEP 4: Supplement plan ── -->
+        <div class="setup-step" id="step-4">
+          <p class="step-eyebrow">step 4 · personal plan</p>
+          <h3 class="step-title">supplements that<br><em>match your biology</em></h3>
+          <p class="step-desc">Matched to your elevated androgen pattern, borderline insulin resistance, and low SHBG — not a generic hormone stack. Tap any to track adherence.</p>
+
+          <div class="supps-grid">
+            <div class="supp-row" id="supp-1">
+              <div class="supp-icon-wrap">🌿</div>
+              <div class="supp-info">
+                <div class="supp-name">Myo-Inositol + D-Chiro-Inositol (40:1)</div>
+                <div class="supp-why">Reduces LH:FSH ratio, improves insulin sensitivity, and has the strongest evidence base for PCOS-related anovulation. Directly addresses your androgen excess pattern.</div>
+                <div class="supp-tags">
+                  <span class="supp-tag">insulin sensitivity</span>
+                  <span class="supp-tag">LH regulation</span>
+                  <span class="supp-tag">ovulation support</span>
+                </div>
+                <div class="supp-evidence evidence-strong">★ strong evidence · 14 RCTs</div>
+              </div>
+              <div class="supp-right">
+                <div class="supp-dose">2g + 50mg · twice daily</div>
+                <div class="supp-price">~£18/month</div>
+                <button class="supp-track-btn" onclick="toggleTrack('supp-1',this)">+ track</button>
+              </div>
+            </div>
+
+            <div class="supp-row" id="supp-2">
+              <div class="supp-icon-wrap">🟤</div>
+              <div class="supp-info">
+                <div class="supp-name">Magnesium Glycinate</div>
+                <div class="supp-why">Supports insulin signalling and reduces cortisol dysregulation — both relevant to your pattern. Also improves sleep architecture, which your wearable shows needs work.</div>
+                <div class="supp-tags">
+                  <span class="supp-tag">insulin signalling</span>
+                  <span class="supp-tag">sleep quality</span>
+                  <span class="supp-tag">cortisol</span>
+                </div>
+                <div class="supp-evidence evidence-strong">★ strong evidence</div>
+              </div>
+              <div class="supp-right">
+                <div class="supp-dose">400mg · evening</div>
+                <div class="supp-price">~£9/month</div>
+                <button class="supp-track-btn" onclick="toggleTrack('supp-2',this)">+ track</button>
+              </div>
+            </div>
+
+            <div class="supp-row" id="supp-3">
+              <div class="supp-icon-wrap">☀️</div>
+              <div class="supp-info">
+                <div class="supp-name">Vitamin D3 + K2</div>
+                <div class="supp-why">Vitamin D deficiency is highly prevalent in PCOS and independently associated with insulin resistance and androgen excess. K2 ensures calcium routing.</div>
+                <div class="supp-tags">
+                  <span class="supp-tag">androgen modulation</span>
+                  <span class="supp-tag">insulin</span>
+                  <span class="supp-tag">bone health</span>
+                </div>
+                <div class="supp-evidence evidence-strong">★ strong evidence</div>
+              </div>
+              <div class="supp-right">
+                <div class="supp-dose">2000 IU · daily with food</div>
+                <div class="supp-price">~£7/month</div>
+                <button class="supp-track-btn" onclick="toggleTrack('supp-3',this)">+ track</button>
+              </div>
+            </div>
+
+            <div class="supp-row" id="supp-4">
+              <div class="supp-icon-wrap">🌱</div>
+              <div class="supp-info">
+                <div class="supp-name">N-Acetyl Cysteine (NAC)</div>
+                <div class="supp-why">Comparable to metformin in some trials for PCOS insulin sensitivity. Reduces oxidative stress and supports SHBG — directly targeting your low SHBG reading.</div>
+                <div class="supp-tags">
+                  <span class="supp-tag">SHBG support</span>
+                  <span class="supp-tag">oxidative stress</span>
+                  <span class="supp-tag">glucose</span>
+                </div>
+                <div class="supp-evidence evidence-moderate">◈ moderate evidence · promising</div>
+              </div>
+              <div class="supp-right">
+                <div class="supp-dose">600mg · twice daily</div>
+                <div class="supp-price">~£12/month</div>
+                <button class="supp-track-btn" onclick="toggleTrack('supp-4',this)">+ track</button>
+              </div>
+            </div>
+
+            <div class="supp-row" id="supp-5">
+              <div class="supp-icon-wrap">☕</div>
+              <div class="supp-info">
+                <div class="supp-name">Spearmint tea · 2 cups daily</div>
+                <div class="supp-why">One of the few anti-androgen botanicals with clinical trial support — reduces free testosterone in PCOS. A gentle, zero-cost ritual worth building into your morning routine.</div>
+                <div class="supp-tags">
+                  <span class="supp-tag">anti-androgen</span>
+                  <span class="supp-tag">free testosterone</span>
+                  <span class="supp-tag">ritual</span>
+                </div>
+                <div class="supp-evidence evidence-moderate">◈ 2 RCTs · small but consistent</div>
+              </div>
+              <div class="supp-right">
+                <div class="supp-dose">2 cups · morning + afternoon</div>
+                <div class="supp-price">~£4/month</div>
+                <button class="supp-track-btn" onclick="toggleTrack('supp-5',this)">+ track</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="insight-callout">
+            <strong>Total: ~£50/month</strong> for the full stack. Hsence links to NHS-registered, third-party tested suppliers — no markups, no brand deals. You choose what to buy.
+          </div>
+
+          <div class="step-nav">
+            <button class="step-back" onclick="goStep(3)">← back</button>
+            <button class="step-next" onclick="goStep(5)">next: diet guidance →</button>
+          </div>
+        </div>
+
+        <!-- ── STEP 5: Diet + adherence ── -->
+        <div class="setup-step" id="step-5">
+          <p class="step-eyebrow">step 5 · daily practice</p>
+          <h3 class="step-title">eat better,<br><em>track gently</em></h3>
+          <p class="step-desc">Diet guidance matched to your hormonal imbalance and cardiovascular risk profile — with a light-touch adherence tracker that doesn't shame.</p>
+
+          <div class="diet-cards">
+            <div class="diet-card">
+              <div class="diet-card-title">prioritise</div>
+              <div class="diet-card-desc">For elevated androgens + borderline insulin resistance, these foods directly support your hormonal regulation:</div>
+              <div class="diet-items">
+                <div class="diet-item"><div class="diet-dot"></div>high-fibre breakfast (oats, flaxseed)</div>
+                <div class="diet-item"><div class="diet-dot"></div>protein at every meal (slows glucose spike)</div>
+                <div class="diet-item"><div class="diet-dot"></div>dark leafy greens (zinc, magnesium)</div>
+                <div class="diet-item"><div class="diet-dot"></div>omega-3 rich fish 3× week</div>
+                <div class="diet-item"><div class="diet-dot"></div>spearmint tea 2× daily (anti-androgen)</div>
+                <div class="diet-item"><div class="diet-dot"></div>cinnamon with meals (insulin sensitivity)</div>
+              </div>
+            </div>
+            <div class="diet-card diet-avoid">
+              <div class="diet-card-title">reduce</div>
+              <div class="diet-card-desc">These foods are likely worsening your LH:FSH pattern and insulin profile:</div>
+              <div class="diet-items">
+                <div class="diet-item"><div class="diet-dot"></div>refined carbohydrates + white bread</div>
+                <div class="diet-item"><div class="diet-dot"></div>high-GI breakfast cereals</div>
+                <div class="diet-item"><div class="diet-dot"></div>dairy (may raise IGF-1 + androgens)</div>
+                <div class="diet-item"><div class="diet-dot"></div>alcohol (impairs SHBG production)</div>
+                <div class="diet-item"><div class="diet-dot"></div>ultra-processed seed oils</div>
+                <div class="diet-item"><div class="diet-dot"></div>large portions of red meat</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Adherence tracker -->
+          <div style="margin-bottom:1.2rem;font-size:0.63rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--text-light);font-weight:300">this week · tap each day to log</div>
+          <div class="adherence-section">
+            <div class="adherence-row">
+              <div class="adherence-name">myo-inositol AM</div>
+              <div class="adherence-track" id="track-1"></div>
+              <div class="adherence-pct" id="pct-1">0%</div>
+            </div>
+            <div class="adherence-row">
+              <div class="adherence-name">myo-inositol PM</div>
+              <div class="adherence-track" id="track-2"></div>
+              <div class="adherence-pct" id="pct-2">0%</div>
+            </div>
+            <div class="adherence-row">
+              <div class="adherence-name">magnesium (evening)</div>
+              <div class="adherence-track" id="track-3"></div>
+              <div class="adherence-pct" id="pct-3">0%</div>
+            </div>
+            <div class="adherence-row">
+              <div class="adherence-name">spearmint tea</div>
+              <div class="adherence-track" id="track-4"></div>
+              <div class="adherence-pct" id="pct-4">0%</div>
+            </div>
+            <div class="adherence-row">
+              <div class="adherence-name">protein breakfast</div>
+              <div class="adherence-track" id="track-5"></div>
+              <div class="adherence-pct" id="pct-5">0%</div>
+            </div>
+          </div>
+
+          <div class="insight-callout">
+            <strong>Adherence feeds personalisation.</strong> After 14 days of logging, Hsence experiments with which combination of habits correlates with your HRV and sleep quality — so the plan evolves with your data.
+          </div>
+
+          <div class="step-nav">
+            <button class="step-back" onclick="goStep(4)">← back</button>
+            <button class="step-next" onclick="document.getElementById('prototype').scrollIntoView({behavior:'smooth'})">open your morning brew →</button>
+          </div>
+        </div>
+
+      </div><!-- /setup-body -->
+    </div><!-- /setup-frame -->
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       MORNING BREW PROTOTYPE
+  ══════════════════════════════════════════ -->
+  <section id="prototype" class="prototype-section">
+    <div class="proto-intro">
+      <p class="section-label">live prototype</p>
+      <div class="proto-title-row">
+        <div class="coffee-wrap coffee-wrap--lg">
+          <div class="coffee-steam" aria-hidden="true"><i></i><i></i><i></i></div>
+          <img src="assets/coffee-cup.png" alt="" class="coffee-cup-img brew-header-icon" width="110" height="110"/>
+        </div>
+        <h2 class="proto-title" style="margin-bottom:0">the morning <em>brew</em></h2>
+      </div>
+      <p class="proto-sub">
+        Your daily narrative — generated by Claude, grounded in your condition module and last night's wearable data. Switch conditions below to see how it adapts.
+      </p>
+    </div>
+
+    <div class="brew-frame">
+      <div class="brew-topbar">
+        <div class="brew-dot-row">
+          <div class="brew-dot"></div>
+          <div class="brew-dot"></div>
+          <div class="brew-dot"></div>
+        </div>
+        <span class="brew-title-bar">
+          <span class="coffee-wrap coffee-wrap--sm">
+            <span class="coffee-steam" aria-hidden="true"><i></i><i></i><i></i></span>
+            <img src="assets/coffee-cup.png" alt="" class="coffee-cup-img brew-coffee-icon" width="52" height="52"/>
+          </span>
+          hsence · morning brew
+        </span>
+        <span class="brew-date" id="brew-date"></span>
+      </div>
+
+      <div class="brew-body">
+        <div class="brew-signal-row" id="signal-row">
+          <div class="signal-pill"><div class="signal-dot green"></div>hrv +8% above baseline</div>
+          <div class="signal-pill"><div class="signal-dot amber"></div>sleep 5h 42m · fragmented</div>
+          <div class="signal-pill"><div class="signal-dot blue"></div>temp +0.3°c deviation</div>
+          <div class="signal-pill"><div class="signal-dot green"></div>readiness 74</div>
+        </div>
+
+        <div class="brew-narrative" id="brew-narrative">
+          <span id="narrative-text"></span><span class="cursor" id="brew-cursor" style="display:none"></span>
+        </div>
+
+        <div class="brew-actions">
+          <div class="brew-action-chip" id="action-1"></div>
+          <div class="brew-action-chip" id="action-2"></div>
+          <div class="brew-action-chip" id="action-3"></div>
+        </div>
+
+        <div class="brew-divider"></div>
+
+        <div class="brew-experiment">
+          <div>
+            <div class="experiment-label" id="exp-label">active experiment · protein at breakfast</div>
+            <div style="font-size:0.72rem;color:var(--text-light);margin-top:0.3rem;font-weight:300">day 9 of 14 · tracking afternoon energy</div>
+          </div>
+          <div class="experiment-result">
+            <div class="experiment-bar">
+              <div class="experiment-fill" id="exp-fill" style="width:0%"></div>
+            </div>
+            <span style="font-size:0.72rem;color:var(--text-mid)" id="exp-pct">+34% improvement</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="brew-controls">
+        <div class="controls-label">try different conditions + signal states</div>
+        <div class="controls-row" id="controls-row">
+          <button class="control-btn active" data-mode="pcos-mid">PCOS · mid-cycle</button>
+          <button class="control-btn" data-mode="pcos-low">PCOS · low phase</button>
+          <button class="control-btn" data-mode="peri-fog">perimenopause · brain fog</button>
+          <button class="control-btn" data-mode="peri-stable">perimenopause · stable</button>
+          <button class="control-btn" data-mode="thyroid">thyroid concern</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features" style="padding-left:0;padding-right:0">
+    <div style="padding:0 7vw 4.5rem"><p class="section-label">core features</p></div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-num">01</div>
+        <div class="feature-title">lab sync + blood work</div>
+        <div class="feature-desc">Upload your NHS or private blood panel PDF. Hsence extracts LH, FSH, estradiol, testosterone, TSH, glucose, and more — then explains what the numbers mean together, not in isolation.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">02</div>
+        <div class="feature-title">wearable intelligence</div>
+        <div class="feature-desc">Oura, Apple Watch, Fitbit — passively building your personal HRV and temperature baseline. The more nights of data, the richer your state estimation.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">03</div>
+        <div class="feature-title">hormonal state + risks</div>
+        <div class="feature-desc">Your phase, your androgen pattern, your insulin picture — explained in warm plain language. Personalised risk flags for insulin resistance, cardiovascular lipids, and thyroid drift.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">04</div>
+        <div class="feature-title">supplement matching</div>
+        <div class="feature-desc">A personal stack matched to your specific hormonal imbalance — not a generic hormone formula. Myo-inositol, magnesium, NAC, D3 — with evidence grades, doses, and affordable trusted sources.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">05</div>
+        <div class="feature-title">diet guidance + NAFLD</div>
+        <div class="feature-desc">Dietary recommendations that target your metabolic risk profile — reducing cholesterol and triglyceride risk through food first, before supplements. NAFLD metabolic composite tracked alongside hormones.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">06</div>
+        <div class="feature-title">adherence tracking</div>
+        <div class="feature-desc">Light-touch daily logging with zero shame mechanics. Tap a pip when you took something. After 14 days, the data feeds into experiment correlation — which habits move your HRV and sleep.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">07</div>
+        <div class="feature-title">the morning brew</div>
+        <div class="feature-desc">A gentle daily narrative of your inferred hormonal state — sleep, HRV, temperature woven into warm language by Claude. No charts, no alarms, just an honest read of what your body is doing today.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">08</div>
+        <div class="feature-title">self-experiment lab</div>
+        <div class="feature-desc">Test small hypotheses with zero pressure — does a protein breakfast reduce your 2pm fog? Define it, forget it, let Hsence track it softly over two weeks and report back.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARCHITECTURE -->
+  <section id="architecture" class="arch-section">
+    <div class="arch-inner">
+      <p class="section-label">under the hood</p>
+      <h2 class="arch-title">intelligence<br><em>built in layers</em></h2>
+      <p class="arch-sub">Each layer serves a clear purpose. Signals flow up; understanding flows down.</p>
+      <div class="stack">
+        <div class="stack-layer">
+          <div class="stack-accent" style="background:#b0aca8"></div>
+          <div class="stack-content">
+            <div class="stack-name" style="font-style:italic;font-weight:300">product surface</div>
+            <div class="stack-chips">
+              <span class="stack-chip">morning brew</span>
+              <span class="stack-chip">/daily_insight</span>
+              <span class="stack-chip">/predict_symptoms</span>
+              <span class="stack-chip">/recommendation</span>
+              <span class="stack-chip">supplement plan</span>
+              <span class="stack-chip">adherence tracker</span>
+            </div>
+          </div>
+        </div>
+        <div class="stack-layer">
+          <div class="stack-accent" style="background:#7F77DD"></div>
+          <div class="stack-content">
+            <div class="stack-name" style="font-style:italic;font-weight:300">llm orchestration</div>
+            <div class="stack-chips">
+              <span class="stack-chip">Claude Sonnet</span>
+              <span class="stack-chip">narrative engine</span>
+              <span class="stack-chip">supplement reasoning</span>
+              <span class="stack-chip">safety filter</span>
+            </div>
+          </div>
+        </div>
+        <div class="stack-layer">
+          <div class="stack-accent" style="background:#1D9E75"></div>
+          <div class="stack-content">
+            <div class="stack-name" style="font-style:italic;font-weight:300">intelligence</div>
+            <div class="stack-chips">
+              <span class="stack-chip">state estimator · P(phase|signals)</span>
+              <span class="stack-chip">risk scoring</span>
+              <span class="stack-chip">supplement matcher</span>
+              <span class="stack-chip">condition modules</span>
+            </div>
+          </div>
+        </div>
+        <div class="stack-layer">
+          <div class="stack-accent" style="background:#D85A30"></div>
+          <div class="stack-content">
+            <div class="stack-name" style="font-style:italic;font-weight:300">health memory</div>
+            <div class="stack-chips">
+              <span class="stack-chip">PostgreSQL</span>
+              <span class="stack-chip">FAISS / Pinecone</span>
+              <span class="stack-chip">lab history</span>
+              <span class="stack-chip">supplement log</span>
+            </div>
+          </div>
+        </div>
+        <div class="stack-layer">
+          <div class="stack-accent" style="background:#BA7517"></div>
+          <div class="stack-content">
+            <div class="stack-name" style="font-style:italic;font-weight:300">data processing</div>
+            <div class="stack-chips">
+              <span class="stack-chip">lab PDF parser</span>
+              <span class="stack-chip">feature engineering</span>
+              <span class="stack-chip">time alignment</span>
+              <span class="stack-chip">normaliser</span>
+            </div>
+          </div>
+        </div>
+        <div class="stack-layer">
+          <div class="stack-accent" style="background:#3B8BD4"></div>
+          <div class="stack-content">
+            <div class="stack-name" style="font-style:italic;font-weight:300">data ingestion</div>
+            <div class="stack-chips">
+              <span class="stack-chip">Apple Health</span>
+              <span class="stack-chip">Oura Ring</span>
+              <span class="stack-chip">blood panel PDF</span>
+              <span class="stack-chip">manual log</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="section-label" style="margin-top:6rem">condition modules</p>
+      <div class="conditions-grid">
+        <div class="condition-card">
+          <div class="condition-name">PCOS</div>
+          <div class="condition-desc">Tracks LH/FSH ratio, androgen proxies, insulin resistance signals, and anovulatory cycle patterns. Matches inositol, NAC, spearmint, and dietary interventions.</div>
+          <div class="condition-signals">
+            <span class="condition-signal">LH/FSH ratio</span>
+            <span class="condition-signal">anovulation detection</span>
+            <span class="condition-signal">insulin resistance</span>
+            <span class="condition-signal">supplement matching</span>
+          </div>
+        </div>
+        <div class="condition-card">
+          <div class="condition-name">Thyroid</div>
+          <div class="condition-desc">Correlates temperature patterns, fatigue burden, and weight signals with TSH values. Flags patterns for clinical follow-up. Matches selenium, iodine, ashwagandha.</div>
+          <div class="condition-signals">
+            <span class="condition-signal">TSH correlation</span>
+            <span class="condition-signal">temperature pattern</span>
+            <span class="condition-signal">fatigue clustering</span>
+            <span class="condition-signal">supplement plan</span>
+          </div>
+        </div>
+        <div class="condition-card">
+          <div class="condition-name">Breast / hormonal exposure</div>
+          <div class="condition-desc">Tracks hormonal exposure timeline, density risk from self-reported imaging, and surfaces 6-monthly imaging reminders when risk flags present.</div>
+          <div class="condition-signals">
+            <span class="condition-signal">exposure timeline</span>
+            <span class="condition-signal">imaging reminder</span>
+            <span class="condition-signal">family history</span>
+          </div>
+        </div>
+        <div class="condition-card">
+          <div class="condition-name">Fatty liver (NAFLD)</div>
+          <div class="condition-desc">Metabolic composite from glucose trend, activity, and triglyceride proxies. Diet recommendations to reduce hepatic fat risk — food-first, supplement-second, no diagnosis.</div>
+          <div class="condition-signals">
+            <span class="condition-signal">metabolic composite</span>
+            <span class="condition-signal">glucose trend</span>
+            <span class="condition-signal">cholesterol avoidance diet</span>
+            <span class="condition-signal">no diagnosis</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHILOSOPHY -->
+  <section id="research" style="border-top:0.5px solid var(--border)">
+    <div class="philosophy">
+      <div>
+        <p class="phil-label">our philosophy</p>
+        <h2 class="phil-title">beyond<br><em>reproductive</em><br>health</h2>
+        <div class="phil-body">
+          <p>Hormones are longitudinal biomarkers encoding reproductive, metabolic, emotional, and cognitive risk trajectories. Not just a cycle. Not just fertility.</p>
+          <p>We built Hsence because women with PCOS and perimenopause are routinely dismissed — left to piece together their own understanding from forums and intuition.</p>
+          <p>This is your parallel care system. Warm. Rigorous. Yours.</p>
+        </div>
+      </div>
+      <div class="phil-right">
+        <div class="phil-stat">
+          <div class="phil-stat-num">73%</div>
+          <div class="phil-stat-label">of women with PCOS report feeling dismissed by their GP</div>
+        </div>
+        <div class="phil-stat">
+          <div class="phil-stat-num">8–10</div>
+          <div class="phil-stat-label">years average time to PCOS diagnosis</div>
+        </div>
+        <div class="phil-stat">
+          <div class="phil-stat-num">0</div>
+          <div class="phil-stat-label">FDA-approved medications for perimenopause brain fog</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTES -->
+  <section class="quotes-section" style="border-top:0.5px solid var(--border)">
+    <p class="section-label">peer validation</p>
+    <h2 class="quotes-title">you are not<br><em>imagining it</em></h2>
+    <p class="quotes-sub">Hsence connects you with others navigating the same invisible experience — with medical credibility, not just peer speculation.</p>
+    <div class="quotes-row">
+      <div class="quote-card">
+        <div class="quote-text">"I finally have something that explains the numbers. My LH:FSH was flagged as 'borderline' by my GP for years — Hsence was the first thing that told me what that actually means for my symptoms."</div>
+        <div class="quote-name">— Maya, 34 · PCOS</div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-text">"The supplement plan made sense of all the research I'd been doing for months. Evidence grades, doses, affordable brands — not another vague 'try magnesium' suggestion."</div>
+        <div class="quote-name">— Priya, 47 · perimenopause</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="start" class="cta-section">
+    <p class="section-label">early access</p>
+    <h2 class="cta-title">begin your<br><em>ritual</em></h2>
+    <p class="cta-sub">sync your labs, see your state, build your plan.</p>
+    <div class="cta-group">
+      <button class="btn-primary" onclick="document.getElementById('setup').scrollIntoView({behavior:'smooth'})">try the setup flow →</button>
+      <button class="btn-outline">join waitlist</button>
+      <span class="cta-fine">early access · research-backed · always private</span>
+    </div>
+  </section>
+
+  <footer>
+    <span class="footer-logo"><img src="assets/protea-flower.png" alt="" class="footer-logo-img" width="26" height="26"/>Hsence</span>
+    <span class="footer-note">© 2026 Hsence · hormonal intelligence</span>
+    <div class="footer-links">
+      <a href="labs.html">labs</a>
+      <a href="daily.html">daily ritual</a>
+      <a href="#">privacy</a>
+      <a href="#">research</a>
+      <a href="#">contact</a>
+    </div>
+  </footer>
+
+</div><!-- /page -->
+
+<script>
+// ── Grain canvas ──
+(function(){
+  const canvas=document.getElementById('grain-canvas');
+  const ctx=canvas.getContext('2d');
+  let w,h,grainData,dx=0,dy=0,vx=0.11,vy=0.08;
+  function resize(){w=canvas.width=window.innerWidth;h=canvas.height=window.innerHeight;generateGrain()}
+  function generateGrain(){
+    const tW=w*2,tH=h*2;
+    const off=document.createElement('canvas');off.width=tW;off.height=tH;
+    const octx=off.getContext('2d');const img=octx.createImageData(tW,tH);const d=img.data;
+    for(let i=0;i<d.length;i+=4){const v=(Math.random()*255)|0;d[i]=d[i+1]=d[i+2]=v;d[i+3]=255}
+    octx.putImageData(img,0,0);grainData=off;
+  }
+  function draw(){
+    if(!grainData)return;
+    dx+=vx;dy+=vy;
+    if(dx>w||dx<0)vx*=-1;if(dy>h||dy<0)vy*=-1;
+    ctx.clearRect(0,0,w,h);
+    ctx.drawImage(grainData,-Math.abs(dx%w),-Math.abs(dy%h));
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize',resize);resize();draw();
+})();
+
+// ── Date ──
+(function(){
+  const d=new Date();
+  const days=['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
+  const months=['january','february','march','april','may','june','july','august','september','october','november','december'];
+  document.getElementById('brew-date').textContent=days[d.getDay()]+', '+months[d.getMonth()]+' '+d.getDate();
+})();
+
+// ══════════════════════════════════════
+// ONBOARDING FLOW
+// ══════════════════════════════════════
+let currentStep = 1;
+const stepLabels = [
+  'step 1 of 5 · connect wearable',
+  'step 2 of 5 · blood work',
+  'step 3 of 5 · your hormonal state',
+  'step 4 of 5 · supplement plan',
+  'step 5 of 5 · diet & adherence'
+];
+
+function goStep(n) {
+  document.getElementById('step-'+currentStep).classList.remove('active');
+  currentStep = n;
+  document.getElementById('step-'+n).classList.add('active');
+  document.getElementById('step-label-top').textContent = stepLabels[n-1];
+
+  // Update progress pips
+  for(let i=1;i<=5;i++){
+    const pip = document.getElementById('pip-'+i);
+    pip.classList.remove('done','active');
+    if(i < n) pip.classList.add('done');
+    if(i === n) pip.classList.add('active');
+  }
+
+  // Animate risk bars when arriving at step 3
+  if(n===3) setTimeout(animateRiskBars, 600);
+}
+
+function selectWearable(id) {
+  const cards = ['oura','apple','fitbit','none'];
+  cards.forEach(c => {
+    const card = document.getElementById('card-'+c);
+    const status = document.getElementById('status-'+c);
+    card.classList.remove('selected','connected');
+    status.className = 'connect-status idle';
+    status.textContent = c === 'none' ? 'no wearable' : 'tap to connect';
+  });
+
+  if(id === 'none') {
+    document.getElementById('card-none').classList.add('selected');
+    document.getElementById('status-none').textContent = 'selected';
+    document.getElementById('wearable-insight').style.display = 'none';
+    document.getElementById('syncing-msg').style.display = 'none';
+    return;
+  }
+
+  const card = document.getElementById('card-'+id);
+  const status = document.getElementById('status-'+id);
+  card.classList.add('selected');
+  status.className = 'connect-status syncing';
+  status.textContent = 'syncing…';
+
+  const msg = document.getElementById('syncing-msg');
+  const txt = document.getElementById('syncing-text');
+  const names = {oura:'Oura Ring',apple:'Apple Watch',fitbit:'Fitbit'};
+  txt.textContent = 'syncing 90 nights from '+names[id]+'…';
+  msg.style.display = 'flex';
+
+  setTimeout(() => {
+    card.classList.remove('selected');
+    card.classList.add('connected');
+    status.className = 'connect-status done';
+    status.textContent = '✓ synced';
+    msg.style.display = 'none';
+    document.getElementById('wearable-insight').style.display = 'block';
+    document.getElementById('wearable-insight').style.animation = 'fadeUp 0.5s ease both';
+  }, 2200);
+}
+
+function simulateUpload() {
+  const zone = document.getElementById('upload-zone');
+  const icon = document.getElementById('upload-icon');
+  const text = document.getElementById('upload-text');
+  if(zone.classList.contains('done')) return;
+
+  zone.classList.add('uploading');
+  icon.textContent = '⏳';
+  text.innerHTML = 'parsing blood panel…<br><span style="opacity:0.6">reading LH, FSH, testosterone, TSH, glucose…</span>';
+
+  setTimeout(() => {
+    zone.classList.remove('uploading');
+    zone.classList.add('done');
+    icon.textContent = '✓';
+    text.innerHTML = 'panel parsed successfully<br><span style="opacity:0.6">10 markers extracted · dated 14 Mar 2025</span>';
+    const markers = document.getElementById('lab-markers');
+    markers.style.display = 'grid';
+    markers.style.animation = 'fadeUp 0.5s ease both';
+  }, 2000);
+}
+
+function animateRiskBars() {
+  document.querySelectorAll('.risk-bar-fill').forEach(bar => {
+    const target = bar.getAttribute('data-width') || '50%';
+    bar.style.width = target;
+  });
+}
+
+// ── Adherence tracker init ──
+const days = ['M','T','W','T','F','S','S'];
+function initAdherence() {
+  for(let t=1;t<=5;t++){
+    const track = document.getElementById('track-'+t);
+    track.innerHTML = '';
+    days.forEach((day, i) => {
+      const pip = document.createElement('div');
+      pip.className = 'adherence-pip';
+      pip.textContent = day;
+      pip.title = day;
+      pip.onclick = function(){
+        if(pip.classList.contains('done')){
+          pip.classList.remove('done');
+          pip.classList.add('skipped');
+          pip.textContent = '✕';
+        } else if(pip.classList.contains('skipped')){
+          pip.classList.remove('skipped');
+          pip.textContent = day;
+        } else {
+          pip.classList.add('done');
+          pip.textContent = '✓';
+        }
+        updatePct(t);
+      };
+      // Pre-fill first 5 days with demo data
+      if(t <= 3 && i < 5){
+        pip.classList.add('done');
+        pip.textContent = '✓';
+      }
+      track.appendChild(pip);
+    });
+    updatePct(t);
+  }
+}
+function updatePct(t) {
+  const pips = document.querySelectorAll('#track-'+t+' .adherence-pip');
+  let done=0;
+  pips.forEach(p=>{ if(p.classList.contains('done')) done++; });
+  document.getElementById('pct-'+t).textContent = Math.round((done/7)*100)+'%';
+}
+
+function toggleTrack(suppId, btn) {
+  const row = document.getElementById(suppId);
+  if(btn.classList.contains('tracking')){
+    btn.classList.remove('tracking');
+    btn.textContent = '+ track';
+    row.classList.remove('tracked');
+  } else {
+    btn.classList.add('tracking');
+    btn.textContent = '✓ tracking';
+    row.classList.add('tracked');
+  }
+}
+
+initAdherence();
+
+// ══════════════════════════════════════
+// MORNING BREW
+// ══════════════════════════════════════
+const modes = {
+  'pcos-mid': {
+    signals: [
+      {color:'green', label:'hrv +8% above baseline'},
+      {color:'amber', label:'sleep 5h 42m · fragmented'},
+      {color:'blue',  label:'temp +0.3°c deviation'},
+      {color:'green', label:'readiness 74'},
+    ],
+    narrative: "Your temperature rose a third of a degree overnight — a subtle but consistent signal your body may be approaching or just past ovulation, though given your PCOS pattern, we hold this lightly. Your HRV is tracking above your personal baseline, which points to a relatively lower-inflammation window. The fragmented sleep is worth noting: you were restless in the early morning, which can blunt the clarity this phase usually brings. <em>This is a reasonable day for cognitively demanding work — the hormonal context is supportive, even if the sleep wasn't.</em>",
+    actions: ['prioritise focused work this morning', 'note any afternoon energy dip', 'light movement over high intensity'],
+    exp: { label: 'active experiment · protein at breakfast', pct: 34 }
+  },
+  'pcos-low': {
+    signals: [
+      {color:'red',   label:'hrv −12% below baseline'},
+      {color:'amber', label:'sleep 6h 10m · disrupted deep'},
+      {color:'blue',  label:'temp flat · 0.0°c deviation'},
+      {color:'amber', label:'readiness 51'},
+    ],
+    narrative: "Your HRV is notably lower than your recent baseline, and your temperature hasn't moved — two signals that together point to a lower-energy hormonal window. This is consistent with the anovulatory phases your body moves through more frequently than a textbook cycle would predict. The disrupted deep sleep is layering on top of that. <em>This isn't failure — it's information. Today is better suited to lighter work, nourishment, and rest than to pushing through.</em>",
+    actions: ['avoid high cognitive load this morning', 'prioritise warm protein-rich meals', 'short walk over intense exercise'],
+    exp: { label: 'active experiment · magnesium at night', pct: 18 }
+  },
+  'peri-fog': {
+    signals: [
+      {color:'amber', label:'hrv −6% below baseline'},
+      {color:'red',   label:'sleep 4h 58m · minimal REM'},
+      {color:'amber', label:'temp +0.1°c deviation'},
+      {color:'red',   label:'readiness 44'},
+    ],
+    narrative: "Last night's REM was minimal — under 40 minutes — which directly affects the brain's ability to consolidate memory and regulate mood today. Combined with your HRV dip, this is a classic perimenopause fog setup: estrogen variability is likely affecting your sleep architecture upstream. The cognitive cloudiness you may feel this morning is physiological, not personal. <em>Name the fog, work around it — short tasks, externalised lists, no self-criticism for slower recall.</em>",
+    actions: ['write everything down today', 'caffeine after 10am not before', 'no major decisions before noon'],
+    exp: { label: 'active experiment · evening screen cutoff', pct: 52 }
+  },
+  'peri-stable': {
+    signals: [
+      {color:'green', label:'hrv +4% above baseline'},
+      {color:'green', label:'sleep 7h 12m · good REM'},
+      {color:'green', label:'temp stable · personal range'},
+      {color:'green', label:'readiness 81'},
+    ],
+    narrative: "A genuinely good night by your recent standards — over 90 minutes of REM, stable temperature, and HRV tracking above baseline. In perimenopause, these windows matter more than they once did, because they're less predictable. Your body gave you something tonight. <em>Use this clarity. This is a day to move, think, connect — the hormonal context is as favourable as it gets right now.</em>",
+    actions: ['lean into complex work this morning', 'this is a good day for exercise', 'notice what supported this — log it'],
+    exp: { label: 'active experiment · consistent sleep window', pct: 71 }
+  },
+  'thyroid': {
+    signals: [
+      {color:'red',   label:'hrv −18% below baseline'},
+      {color:'amber', label:'sleep 8h 20m · unrefreshing'},
+      {color:'red',   label:'temp −0.4°c below baseline'},
+      {color:'red',   label:'readiness 38'},
+    ],
+    narrative: "Your temperature has been running below your personal baseline for nine consecutive days — and today continues that pattern. Alongside the unrefreshing long sleep and significant HRV suppression, this cluster of signals is consistent with what we see in thyroid underactivity. This is the third week this pattern has sustained. <em>We'd encourage you to bring these longitudinal trends to your GP — we've prepared a summary you can share directly.</em>",
+    actions: ['download your 3-week pattern summary', 'book a TSH + T3/T4 panel', 'avoid cold exposure today'],
+    exp: { label: 'tracking · temperature vs sleep quality', pct: 0 }
+  }
+};
+
+let typeTimer=null;
+
+function setSignals(signals){
+  const row=document.getElementById('signal-row');
+  row.innerHTML=signals.map(s=>`<div class="signal-pill"><div class="signal-dot ${s.color}"></div>${s.label}</div>`).join('');
+}
+function setActions(actions){
+  actions.forEach((a,i)=>{const el=document.getElementById('action-'+(i+1));if(el)el.textContent=a;});
+}
+function setExperiment(exp){
+  document.getElementById('exp-label').textContent=exp.label;
+  document.getElementById('exp-pct').textContent=exp.pct>0?'+'+exp.pct+'% improvement':'tracking…';
+  setTimeout(()=>{document.getElementById('exp-fill').style.width=exp.pct+'%';},300);
+}
+
+function typeNarrative(htmlText,el,cursor){
+  if(typeTimer)clearTimeout(typeTimer);
+  cursor.style.display='inline-block';
+  el.innerHTML='';
+  const parts=[];
+  let remaining=htmlText;
+  while(remaining.length>0){
+    const emStart=remaining.indexOf('<em>');
+    if(emStart===-1){parts.push({text:remaining,em:false});break;}
+    if(emStart>0)parts.push({text:remaining.substring(0,emStart),em:false});
+    const emEnd=remaining.indexOf('</em>',emStart);
+    parts.push({text:remaining.substring(emStart+4,emEnd),em:true});
+    remaining=remaining.substring(emEnd+5);
+  }
+  const spans=parts.map(p=>{
+    const s=document.createElement(p.em?'em':'span');
+    s.textContent='';el.appendChild(s);
+    return{span:s,text:p.text};
+  });
+  let charIndex=0,partIndex=0,partChar=0;
+  function tick(){
+    if(partIndex>=spans.length){cursor.style.display='none';return;}
+    const current=spans[partIndex];
+    const speed=charIndex<60?12:charIndex<200?8:5;
+    current.span.textContent=current.text.substring(0,partChar+1);
+    partChar++;charIndex++;
+    if(partChar>=current.text.length){partIndex++;partChar=0;}
+    typeTimer=setTimeout(tick,speed);
+  }
+  tick();
+}
+
+function applyMode(mode){
+  const data=modes[mode];if(!data)return;
+  setSignals(data.signals);setActions(data.actions);setExperiment(data.exp);
+  document.getElementById('exp-fill').style.width='0%';
+  typeNarrative(data.narrative,document.getElementById('narrative-text'),document.getElementById('brew-cursor'));
+}
+
+document.getElementById('controls-row').addEventListener('click',function(e){
+  const btn=e.target.closest('.control-btn');if(!btn)return;
+  document.querySelectorAll('.control-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  applyMode(btn.dataset.mode);
+});
+
+applyMode('pcos-mid');
+
+// ══════════════════════════════════════
+// TRI-AXIS ORBIT EXPLAINER
+// ══════════════════════════════════════
+const triAxisCopy = {
+  cognition: {
+    title: 'Cognition · what we read',
+    body: 'Hsence combines sleep architecture, HRV shift, and your check-in language to explain focus capacity and emotional load for today. Instead of scores, you get one actionable sentence: what to protect, what to postpone, and when to push.'
+  },
+  gut: {
+    title: 'Gut · what we read',
+    body: 'Food categories, inflammation notes, and timing patterns are translated into gentle meal guidance. Hsence highlights likely triggers and gives low-friction swaps that reduce gut stress without forcing strict rules.'
+  },
+  hormones: {
+    title: 'Hormones · what we read',
+    body: 'Labs, wearable temperature shifts, and cycle context are merged into a daily hormonal state read. You see what phase pattern you are in, which risks to watch, and what support actions are most relevant right now.'
+  }
+};
+
+document.querySelectorAll('.axis-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const axis = btn.dataset.axis;
+    const copy = triAxisCopy[axis];
+    if (!copy) return;
+    document.querySelectorAll('.axis-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tri-explain-title').textContent = copy.title;
+    document.getElementById('tri-explain-body').textContent = copy.body;
+  });
+});
+</script>
+</body>
+</html>

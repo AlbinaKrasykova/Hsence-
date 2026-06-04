@@ -1,0 +1,128 @@
+{
+  "patient": {
+    "name": "Maya Chen",
+    "dob": "1991-03-14",
+    "sex": "Female",
+    "id": "MC-2025-00841"
+  },
+  "report": {
+    "lab": "Medichecks · Advanced Hormone & Metabolic Panel",
+    "collected": "2025-03-14T08:42:00",
+    "received": "2025-03-14T14:10:00",
+    "reported": "2025-03-15T09:22:00",
+    "fasting": true,
+    "cycleDay": "unknown · last period ~6 weeks ago"
+  },
+  "sections": [
+    {
+      "title": "Full blood count (FBC)",
+      "tests": [
+        { "name": "Haemoglobin", "value": 128, "unit": "g/L", "ref": "120–160", "flag": "ok" },
+        { "name": "Red cell count", "value": 4.42, "unit": "×10¹²/L", "ref": "3.8–5.2", "flag": "ok" },
+        { "name": "Haematocrit", "value": 0.39, "unit": "L/L", "ref": "0.36–0.46", "flag": "ok" },
+        { "name": "MCV", "value": 88, "unit": "fL", "ref": "80–100", "flag": "ok" },
+        { "name": "MCH", "value": 29, "unit": "pg", "ref": "27–33", "flag": "ok" },
+        { "name": "Platelets", "value": 312, "unit": "×10⁹/L", "ref": "150–400", "flag": "ok" },
+        { "name": "White cell count", "value": 6.8, "unit": "×10⁹/L", "ref": "4.0–11.0", "flag": "ok" },
+        { "name": "Neutrophils", "value": 3.9, "unit": "×10⁹/L", "ref": "2.0–7.5", "flag": "ok" },
+        { "name": "Lymphocytes", "value": 2.1, "unit": "×10⁹/L", "ref": "1.0–4.0", "flag": "ok" }
+      ]
+    },
+    {
+      "title": "Reproductive hormones",
+      "tests": [
+        { "name": "LH", "value": 18.2, "unit": "IU/L", "ref": "follicular 2–10 · mid-cycle 20–75", "flag": "high", "note": "Elevated for follicular phase" },
+        { "name": "FSH", "value": 5.1, "unit": "IU/L", "ref": "follicular 3–10", "flag": "ok" },
+        { "name": "LH:FSH ratio", "value": 3.57, "unit": "ratio", "ref": "< 2.0 (PCOS screening)", "flag": "high" },
+        { "name": "Estradiol (E2)", "value": 142, "unit": "pmol/L", "ref": "follicular 110–370", "flag": "ok" },
+        { "name": "Progesterone", "value": 1.2, "unit": "nmol/L", "ref": "luteal > 16", "flag": "low", "note": "Consistent with no ovulation" },
+        { "name": "Total testosterone", "value": 2.9, "unit": "nmol/L", "ref": "0.5–2.1", "flag": "high" },
+        { "name": "Free testosterone (calculated)", "value": 0.078, "unit": "nmol/L", "ref": "< 0.05", "flag": "high" },
+        { "name": "SHBG", "value": 28, "unit": "nmol/L", "ref": "35–120", "flag": "low" },
+        { "name": "Prolactin", "value": 312, "unit": "mIU/L", "ref": "100–500", "flag": "ok" },
+        { "name": "AMH", "value": 8.4, "unit": "pmol/L", "ref": "interpret with age", "flag": "ok", "note": "Suggests adequate ovarian reserve for age 34" },
+        { "name": "DHEA-S", "value": 6.8, "unit": "µmol/L", "ref": "2.4–11.6", "flag": "ok" },
+        { "name": "17-hydroxyprogesterone", "value": 3.1, "unit": "nmol/L", "ref": "follicular < 6", "flag": "ok" }
+      ]
+    },
+    {
+      "title": "Thyroid",
+      "tests": [
+        { "name": "TSH", "value": 2.8, "unit": "mIU/L", "ref": "0.4–4.0", "flag": "ok" },
+        { "name": "Free T4", "value": 14.2, "unit": "pmol/L", "ref": "12–22", "flag": "ok" },
+        { "name": "Free T3", "value": 4.6, "unit": "pmol/L", "ref": "3.1–6.8", "flag": "ok" },
+        { "name": "Thyroid peroxidase antibodies", "value": 28, "unit": "IU/mL", "ref": "< 35", "flag": "ok" }
+      ]
+    },
+    {
+      "title": "Glucose & insulin",
+      "tests": [
+        { "name": "Fasting glucose", "value": 5.9, "unit": "mmol/L", "ref": "3.9–5.5", "flag": "high", "note": "Borderline · prediabetes range" },
+        { "name": "HbA1c", "value": 39, "unit": "mmol/mol", "ref": "< 42", "flag": "ok", "note": "Upper normal" },
+        { "name": "Fasting insulin", "value": 18.4, "unit": "mIU/L", "ref": "2–15", "flag": "high" },
+        { "name": "HOMA-IR (calculated)", "value": 4.1, "unit": "index", "ref": "< 2.0 optimal", "flag": "high" }
+      ]
+    },
+    {
+      "title": "Lipid profile",
+      "tests": [
+        { "name": "Total cholesterol", "value": 5.8, "unit": "mmol/L", "ref": "< 5.0", "flag": "high" },
+        { "name": "LDL cholesterol", "value": 3.9, "unit": "mmol/L", "ref": "< 3.0", "flag": "high" },
+        { "name": "HDL cholesterol", "value": 1.1, "unit": "mmol/L", "ref": "> 1.2", "flag": "low" },
+        { "name": "Triglycerides", "value": 1.8, "unit": "mmol/L", "ref": "< 1.7", "flag": "high" },
+        { "name": "Non-HDL cholesterol", "value": 4.7, "unit": "mmol/L", "ref": "< 3.8", "flag": "high" }
+      ]
+    },
+    {
+      "title": "Liver function",
+      "tests": [
+        { "name": "ALT", "value": 32, "unit": "U/L", "ref": "< 35", "flag": "ok" },
+        { "name": "AST", "value": 24, "unit": "U/L", "ref": "< 35", "flag": "ok" },
+        { "name": "GGT", "value": 28, "unit": "U/L", "ref": "< 38", "flag": "ok" },
+        { "name": "Alkaline phosphatase", "value": 62, "unit": "U/L", "ref": "35–105", "flag": "ok" },
+        { "name": "Albumin", "value": 42, "unit": "g/L", "ref": "35–50", "flag": "ok" },
+        { "name": "Bilirubin", "value": 9, "unit": "µmol/L", "ref": "< 21", "flag": "ok" }
+      ]
+    },
+    {
+      "title": "Kidney & electrolytes",
+      "tests": [
+        { "name": "Creatinine", "value": 68, "unit": "µmol/L", "ref": "45–90", "flag": "ok" },
+        { "name": "eGFR", "value": 98, "unit": "mL/min/1.73m²", "ref": "> 90", "flag": "ok" },
+        { "name": "Urea", "value": 4.2, "unit": "mmol/L", "ref": "2.5–7.0", "flag": "ok" },
+        { "name": "Sodium", "value": 140, "unit": "mmol/L", "ref": "133–146", "flag": "ok" },
+        { "name": "Potassium", "value": 4.1, "unit": "mmol/L", "ref": "3.5–5.0", "flag": "ok" },
+        { "name": "Calcium", "value": 2.32, "unit": "mmol/L", "ref": "2.15–2.55", "flag": "ok" }
+      ]
+    },
+    {
+      "title": "Iron studies",
+      "tests": [
+        { "name": "Ferritin", "value": 22, "unit": "µg/L", "ref": "15–150", "flag": "low", "note": "Low-normal · may affect energy" },
+        { "name": "Serum iron", "value": 11.2, "unit": "µmol/L", "ref": "10–30", "flag": "ok" },
+        { "name": "Transferrin saturation", "value": 18, "unit": "%", "ref": "20–50", "flag": "low" }
+      ]
+    },
+    {
+      "title": "Vitamins & inflammation",
+      "tests": [
+        { "name": "Vitamin D (25-OH)", "value": 38, "unit": "nmol/L", "ref": "75–150 sufficient", "flag": "low", "note": "Insufficient" },
+        { "name": "Vitamin B12", "value": 356, "unit": "pg/mL", "ref": "200–900", "flag": "ok" },
+        { "name": "Folate (serum)", "value": 12.4, "unit": "nmol/L", "ref": "> 7.0", "flag": "ok" },
+        { "name": "CRP", "value": 2.8, "unit": "mg/L", "ref": "< 5.0", "flag": "ok" },
+        { "name": "ESR", "value": 14, "unit": "mm/hr", "ref": "< 20", "flag": "ok" }
+      ]
+    }
+  ],
+  "summary": {
+    "pattern": "PCOS · elevated androgen · insulin resistance · suboptimal vitamin D",
+    "highlights": [
+      "LH:FSH ratio 3.6 — PCOS-associated pattern",
+      "Elevated total & free testosterone with low SHBG",
+      "Low progesterone — likely anovulatory cycle",
+      "Borderline fasting glucose, elevated insulin & HOMA-IR",
+      "Adverse lipid profile (high LDL, low HDL)",
+      "Vitamin D insufficient, ferritin low-normal"
+    ]
+  }
+}

@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Lab Intelligence — Hsence</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;1,100;1,300;1,400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --text-dark:#1a1814;--text-mid:#6b6660;--text-light:#b0aca8;
+  --border:rgba(26,24,20,0.07);--border-med:rgba(26,24,20,0.12);
+  --cream:#ffffff;--green:#7ab89a;--amber:#d4a870;--red-soft:#cc8888;--blue-mid:#8899cc;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Roboto',sans-serif;background:var(--cream);color:var(--text-dark);overflow-x:hidden;font-size:16px;line-height:1.6}
+.gradient-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:var(--cream);overflow:hidden}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);mix-blend-mode:multiply;opacity:0.65}
+.blob-1{width:500px;height:480px;background:radial-gradient(circle,#f0d4c0,#e8b89a,transparent);top:-8%;left:-6%;animation:lava1 28s ease-in-out infinite}
+.blob-2{width:460px;height:500px;background:radial-gradient(circle,#ddd0f0,#c8b8e4,transparent);top:0;right:-8%;animation:lava2 34s ease-in-out infinite}
+.blob-3{width:420px;height:400px;background:radial-gradient(circle,#c0cce8,#a0b0d8,transparent);bottom:-6%;left:15%;animation:lava3 30s ease-in-out infinite}
+@keyframes lava1{0%,100%{transform:translate(0,0)}50%{transform:translate(60px,70px)}}
+@keyframes lava2{0%,100%{transform:translate(0,0)}50%{transform:translate(-70px,60px)}}
+@keyframes lava3{0%,100%{transform:translate(0,0)}50%{transform:translate(50px,-60px)}}
+#grain-canvas{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:0.035;mix-blend-mode:multiply}
+.page{position:relative;z-index:3;min-height:100vh}
+nav{display:flex;justify-content:space-between;align-items:center;padding:1.2rem 7vw;position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.55);backdrop-filter:blur(22px) saturate(180%);-webkit-backdrop-filter:blur(22px) saturate(180%);border-bottom:0.5px solid rgba(255,255,255,0.65);box-shadow:0 8px 32px rgba(26,24,20,0.06),inset 0 1px 0 rgba(255,255,255,0.85)}
+.nav-logo{display:inline-flex;align-items:center;gap:0.65rem;text-decoration:none;line-height:1}
+.nav-logo-img{width:72px;height:72px;object-fit:contain;display:block;flex-shrink:0}
+.nav-logo-text{font-weight:300;font-size:1.5rem;letter-spacing:0.07em;color:var(--text-dark)}
+.nav-links{display:flex;gap:2rem;list-style:none;flex-wrap:wrap}
+.nav-links a{font-size:0.76rem;font-weight:300;color:var(--text-mid);text-decoration:none;letter-spacing:0.14em;text-transform:lowercase}
+.nav-links a:hover,.nav-links a.active{color:var(--text-dark)}
+.nav-cta{font-size:0.73rem;font-weight:300;letter-spacing:0.14em;color:#fff;background:var(--text-dark);padding:0.6rem 1.8rem;border-radius:999px;text-decoration:none;text-transform:lowercase}
+.lab-hero{padding:8vh 7vw 4vh;text-align:center}
+.lab-hero-protea{width:min(240px,42vw);height:auto;object-fit:contain;display:block;margin:0 auto 1.5rem}
+.lab-hero-eyebrow{font-size:0.63rem;letter-spacing:0.36em;color:var(--text-light);text-transform:uppercase;margin-bottom:1.5rem;font-weight:300}
+.lab-hero-title{font-weight:100;font-size:clamp(2.4rem,5.5vw,4rem);line-height:1.05;letter-spacing:-0.02em;margin-bottom:1rem}
+.lab-hero-title em{font-style:italic;color:var(--text-mid)}
+.lab-hero-sub{font-size:0.9rem;font-weight:300;color:var(--text-mid);max-width:520px;margin:0 auto;line-height:1.9}
+.lab-workspace{max-width:1100px;margin:0 auto;padding:0 7vw 10vh;display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start}
+@media(max-width:960px){.lab-workspace{grid-template-columns:1fr}}
+.panel{background:rgba(255,255,255,0.88);backdrop-filter:blur(24px);border:0.5px solid var(--border-med);border-radius:24px;overflow:hidden;box-shadow:0 32px 80px rgba(26,24,20,0.06)}
+.panel-head{padding:1.2rem 2rem;border-bottom:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,0.5)}
+.panel-title{font-size:0.72rem;font-weight:300;letter-spacing:0.16em;color:var(--text-light);text-transform:lowercase}
+.panel-body{padding:2rem 2.2rem}
+.sync-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:1.5rem}
+@media(max-width:520px){.sync-grid{grid-template-columns:1fr}}
+.sync-card{border:0.5px solid var(--border);border-radius:14px;padding:1.4rem 1.5rem;cursor:pointer;background:rgba(255,255,255,0.6);transition:all 0.2s;position:relative}
+.sync-card:hover{border-color:rgba(26,24,20,0.2);background:rgba(255,255,255,0.95)}
+.sync-card.selected{border-color:var(--text-dark);background:rgba(26,24,20,0.04)}
+.sync-card.syncing{border-color:var(--amber)}
+.sync-card.done{border-color:var(--green)}
+.sync-icon{font-size:1.4rem;margin-bottom:0.6rem}
+.sync-name{font-weight:300;font-size:0.92rem;margin-bottom:0.25rem}
+.sync-sub{font-size:0.7rem;color:var(--text-light);line-height:1.55}
+.sync-badge{position:absolute;top:0.8rem;right:0.8rem;font-size:0.6rem;letter-spacing:0.08em;padding:0.2rem 0.55rem;border-radius:999px;background:rgba(26,24,20,0.06);color:var(--text-light)}
+.sync-badge.active{background:rgba(212,168,112,0.15);color:var(--amber)}
+.sync-badge.ok{background:rgba(122,184,154,0.15);color:var(--green)}
+.lab-upload-zone{border:0.5px dashed rgba(26,24,20,0.18);border-radius:16px;padding:2.5rem 2rem;text-align:center;cursor:pointer;transition:all 0.2s;background:rgba(255,255,255,0.4)}
+.lab-upload-zone:hover{border-color:rgba(26,24,20,0.32)}
+.lab-upload-zone.uploading{border-color:var(--amber)}
+.lab-upload-zone.done{border-color:var(--green);background:rgba(122,184,154,0.07)}
+.upload-icon{font-size:2rem;margin-bottom:0.6rem;opacity:0.45}
+.upload-text{font-size:0.82rem;font-weight:300;color:var(--text-mid);line-height:1.7}
+.upload-fine{font-size:0.66rem;color:var(--text-light);margin-top:0.4rem;letter-spacing:0.06em}
+.manual-toggle{font-size:0.7rem;color:var(--text-light);letter-spacing:0.1em;background:none;border:none;cursor:pointer;font-family:inherit;margin-top:1.2rem;display:block;width:100%;text-align:center}
+.manual-toggle:hover{color:var(--text-mid)}
+.manual-form{display:none;margin-top:1.2rem;border-top:0.5px solid var(--border);padding-top:1.2rem}
+.manual-form.open{display:block}
+.manual-row{display:grid;grid-template-columns:1fr 100px;gap:0.6rem;margin-bottom:0.6rem;align-items:center}
+.manual-row label{font-size:0.72rem;color:var(--text-mid);font-weight:300}
+.manual-row input{border:0.5px solid var(--border);border-radius:10px;padding:0.55rem 0.8rem;font-family:inherit;font-size:0.8rem;font-weight:300;background:rgba(255,255,255,0.8)}
+.btn-analyze{width:100%;margin-top:1.2rem;background:var(--text-dark);color:#fff;font-family:inherit;font-size:0.74rem;font-weight:300;letter-spacing:0.16em;padding:0.95rem;border:none;border-radius:999px;cursor:pointer;text-transform:lowercase;transition:opacity 0.2s}
+.btn-analyze:disabled{opacity:0.35;cursor:not-allowed}
+.btn-analyze:not(:disabled):hover{opacity:0.78}
+.syncing-row{display:none;align-items:center;gap:0.7rem;font-size:0.76rem;color:var(--text-mid);margin-top:1rem}
+.syncing-row.show{display:flex}
+.spinner{width:14px;height:14px;border:0.5px solid var(--border);border-top-color:var(--text-mid);border-radius:50%;animation:spin 0.9s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.insights-panel{opacity:0.4;pointer-events:none;transition:opacity 0.5s}
+.insights-panel.ready{opacity:1;pointer-events:auto}
+.insights-empty{text-align:center;padding:4rem 1rem;color:var(--text-light);font-size:0.85rem;font-weight:300;line-height:1.8}
+.insights-empty span{display:block;font-size:2rem;margin-bottom:0.8rem;opacity:0.35}
+.hormone-card{border:0.5px solid var(--border-med);border-radius:16px;padding:1.6rem 1.8rem;background:rgba(255,255,255,0.7);margin-bottom:1.2rem}
+.hormone-badge{display:inline-flex;align-items:center;gap:0.5rem;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.3rem 0.85rem;border-radius:999px;background:rgba(204,136,136,0.12);color:var(--red-soft);border:0.5px solid rgba(204,136,136,0.25);margin-bottom:0.9rem}
+.hormone-title{font-weight:100;font-size:1.5rem;line-height:1.15;margin-bottom:0.6rem}
+.hormone-title em{font-style:italic;color:var(--text-mid)}
+.hormone-body{font-size:0.82rem;font-weight:300;color:var(--text-mid);line-height:1.85}
+.marker-chips{display:flex;flex-wrap:wrap;gap:0.45rem;margin-top:1rem}
+.marker-chip{font-size:0.68rem;padding:0.35rem 0.75rem;border:0.5px solid var(--border);border-radius:999px;color:var(--text-mid);background:rgba(255,255,255,0.8)}
+.section-mini{font-size:0.6rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--text-light);font-weight:300;margin:1.5rem 0 0.9rem}
+.risk-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.65rem}
+@media(max-width:520px){.risk-grid{grid-template-columns:1fr}}
+.risk-card{border-radius:12px;padding:1.1rem 1.2rem;border:0.5px solid var(--border);background:rgba(255,255,255,0.55)}
+.risk-card.risk-high .risk-lbl{color:var(--red-soft)}
+.risk-card.risk-med .risk-lbl{color:var(--amber)}
+.risk-card.risk-low .risk-lbl{color:var(--green)}
+.risk-lbl{font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem}
+.risk-name{font-size:0.82rem;font-weight:300;margin-bottom:0.35rem}
+.risk-bar{height:3px;background:var(--border);border-radius:2px;margin-top:0.5rem}
+.risk-fill{height:100%;border-radius:2px;width:0;transition:width 1.2s ease}
+.risk-high .risk-fill{background:var(--red-soft)}
+.risk-med .risk-fill{background:var(--amber)}
+.risk-low .risk-fill{background:var(--green)}
+.risk-note{font-size:0.65rem;color:var(--text-light);margin-top:0.4rem;line-height:1.45}
+.extra-list{display:flex;flex-direction:column;gap:0.5rem}
+.extra-item{border:0.5px solid var(--border);border-radius:12px;padding:0.9rem 1.1rem;cursor:pointer;transition:background 0.2s}
+.extra-item:hover{background:rgba(255,255,255,0.95)}
+.extra-item.open{background:rgba(255,255,255,0.95)}
+.extra-q{font-size:0.8rem;font-weight:300;color:var(--text-dark);display:flex;justify-content:space-between;gap:0.5rem}
+.extra-a{font-size:0.74rem;font-weight:300;color:var(--text-mid);line-height:1.7;margin-top:0.5rem;display:none}
+.extra-item.open .extra-a{display:block}
+.meds-tabs{display:flex;gap:0.5rem;margin-bottom:1rem;flex-wrap:wrap}
+.med-tab{font-size:0.68rem;letter-spacing:0.1em;padding:0.45rem 1rem;border:0.5px solid var(--border);border-radius:999px;background:transparent;cursor:pointer;font-family:inherit;color:var(--text-mid)}
+.med-tab.active{background:var(--text-dark);color:#fff;border-color:var(--text-dark)}
+.med-list{display:none;flex-direction:column;gap:0.55rem}
+.med-list.active{display:flex}
+.med-row{display:flex;gap:1rem;padding:1rem 1.1rem;border:0.5px solid var(--border);border-radius:12px;background:rgba(255,255,255,0.55)}
+.med-type{font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.2rem 0.5rem;border-radius:6px;flex-shrink:0;height:fit-content}
+.med-type.rx{background:rgba(136,153,204,0.15);color:var(--blue-mid)}
+.med-type.otc{background:rgba(122,184,154,0.12);color:var(--green)}
+.med-type.lifestyle{background:rgba(212,168,112,0.12);color:var(--amber)}
+.med-info{flex:1}
+.med-name{font-size:0.86rem;font-weight:300;margin-bottom:0.2rem}
+.med-why{font-size:0.72rem;color:var(--text-mid);line-height:1.6}
+.med-note{font-size:0.65rem;color:var(--text-light);margin-top:0.35rem;font-style:italic}
+.disclaimer{border:0.5px solid rgba(204,136,136,0.25);border-radius:12px;padding:1rem 1.2rem;font-size:0.72rem;color:var(--text-mid);line-height:1.7;background:rgba(204,136,136,0.06);margin-top:1.2rem}
+.disclaimer strong{font-weight:400;color:var(--text-dark)}
+.lab-markers{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:0.5rem;margin-bottom:1rem;max-height:280px;overflow-y:auto;padding-right:0.3rem}
+.lab-marker{border:0.5px solid var(--border);border-radius:10px;padding:0.75rem 0.9rem;font-size:0.72rem}
+.lab-marker-name{color:var(--text-light);display:block;margin-bottom:0.2rem}
+.lab-marker-val{color:var(--text-dark);font-weight:300}
+.flag-high{color:var(--red-soft);font-size:0.58rem}
+.flag-low{color:var(--blue-mid);font-size:0.58rem}
+.flag-ok{color:var(--green);font-size:0.58rem}
+.export-row{display:flex;gap:0.6rem;margin-top:1.2rem;flex-wrap:wrap}
+.btn-outline{background:transparent;color:var(--text-dark);font-family:inherit;font-size:0.7rem;font-weight:300;letter-spacing:0.12em;border:0.5px solid rgba(26,24,20,0.2);border-radius:999px;padding:0.65rem 1.4rem;cursor:pointer}
+.btn-outline:hover{background:rgba(26,24,20,0.04)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{animation:fadeUp 0.5s ease both}
+footer{padding:2rem 7vw;border-top:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;background:rgba(255,255,255,0.78)}
+footer .footer-brand{font-weight:300;letter-spacing:0.07em;display:inline-flex;align-items:center;gap:0.55rem}
+footer .footer-brand img{width:24px;height:24px;object-fit:contain;display:block}
+footer a{font-size:0.62rem;color:var(--text-light);text-decoration:none;letter-spacing:0.1em;text-transform:lowercase}
+</style>
+</head>
+<body>
+<div class="gradient-bg"><div class="blob blob-1"></div><div class="blob blob-2"></div><div class="blob blob-3"></div></div>
+<canvas id="grain-canvas"></canvas>
+<div class="page">
+  <nav>
+    <a href="index.html" class="nav-logo"><img src="assets/protea-flower.png" alt="" class="nav-logo-img" width="72" height="72"/><span class="nav-logo-text">Hsence</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">home</a></li>
+      <li><a href="agent.html">precision agent</a></li>
+      <li><a href="labs.html" class="active">labs</a></li>
+      <li><a href="daily.html">daily ritual</a></li>
+    </ul>
+    <a href="#sync-panel" class="nav-cta">sync labs</a>
+  </nav>
+
+  <header class="lab-hero">
+    <img src="assets/protea-flower.png" alt="" class="lab-hero-protea" width="240" height="240"/>
+    <p class="lab-hero-eyebrow">lab intelligence · separate workspace</p>
+    <h1 class="lab-hero-title">upload once,<br><em>understand everything</em></h1>
+    <p class="lab-hero-sub">Sync or upload your blood panel. Hsence reads hormones together with metabolic markers — then surfaces risk groups, what each level means, and what to discuss with your clinician.</p>
+  </header>
+
+  <div class="lab-workspace">
+    <!-- LEFT: Sync / upload -->
+    <div class="panel" id="sync-panel">
+      <div class="panel-head">
+        <span class="panel-title">sync or upload</span>
+        <span class="panel-title" id="source-label">no source yet</span>
+      </div>
+      <div class="panel-body">
+        <p style="font-size:0.8rem;font-weight:300;color:var(--text-mid);line-height:1.8;margin-bottom:1.2rem">Connect a lab portal or drop a PDF. We parse LH, FSH, estradiol, testosterone, thyroid, lipids, glucose, vitamin D, ferritin, and more.</p>
+
+        <div class="sync-grid" id="sync-grid">
+          <div class="sync-card" data-source="nhs" onclick="selectSync('nhs')">
+            <span class="sync-badge" id="badge-nhs">connect</span>
+            <div class="sync-icon">🏥</div>
+            <div class="sync-name">NHS / GP portal</div>
+            <div class="sync-sub">Pull recent panels from your NHS account</div>
+          </div>
+          <div class="sync-card" data-source="medichecks" onclick="selectSync('medichecks')">
+            <span class="sync-badge" id="badge-medichecks">connect</span>
+            <div class="sync-icon">🔬</div>
+            <div class="sync-name">Medichecks</div>
+            <div class="sync-sub">Private UK hormone & metabolic panels</div>
+          </div>
+          <div class="sync-card" data-source="quest" onclick="selectSync('quest')">
+            <span class="sync-badge" id="badge-quest">connect</span>
+            <div class="sync-icon">🧪</div>
+            <div class="sync-name">Quest / LabCorp</div>
+            <div class="sync-sub">US lab networks · auto-import</div>
+          </div>
+          <div class="sync-card" data-source="oura" onclick="selectSync('oura')">
+            <span class="sync-badge" id="badge-oura">optional</span>
+            <div class="sync-icon">⭕</div>
+            <div class="sync-name">+ wearable context</div>
+            <div class="sync-sub">Layer HRV & temp with lab timing</div>
+          </div>
+        </div>
+
+        <div class="manual-or" style="text-align:center;font-size:0.72rem;color:var(--text-light);letter-spacing:0.12em;margin:1rem 0">or upload PDF</div>
+
+        <div class="lab-upload-zone" id="upload-zone" onclick="triggerUpload()">
+          <input type="file" id="file-input" accept=".pdf,.png,.jpg,.jpeg" hidden onchange="handleFile(this)"/>
+          <div class="upload-icon" id="upload-icon">📄</div>
+          <div class="upload-text" id="upload-text">tap to upload blood panel PDF<br><span style="opacity:0.6">NHS · BUPA · Quest · Medichecks</span></div>
+          <div class="upload-fine">encrypted · never sold · you can delete anytime</div>
+        </div>
+
+        <button type="button" class="manual-toggle" onclick="toggleManual()">enter values manually instead</button>
+        <div class="manual-form" id="manual-form">
+          <div class="manual-row"><label>LH (IU/L)</label><input type="text" id="m-lh" placeholder="e.g. 18.2"/></div>
+          <div class="manual-row"><label>FSH (IU/L)</label><input type="text" id="m-fsh" placeholder="e.g. 5.1"/></div>
+          <div class="manual-row"><label>Testosterone (nmol/L)</label><input type="text" id="m-testo" placeholder="e.g. 2.9"/></div>
+          <div class="manual-row"><label>Total cholesterol (mmol/L)</label><input type="text" id="m-chol" placeholder="e.g. 5.8"/></div>
+          <div class="manual-row"><label>Vitamin D (nmol/L)</label><input type="text" id="m-vitd" placeholder="e.g. 42"/></div>
+        </div>
+
+        <div class="syncing-row" id="syncing-row">
+          <div class="spinner"></div>
+          <span id="syncing-text">connecting…</span>
+        </div>
+
+        <div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin-top:0.8rem">
+          <a href="data/Maya-Chen-Sample-Lab-Report.pdf" download class="btn-outline" style="flex:1;min-width:140px;text-align:center;text-decoration:none;display:inline-flex;align-items:center;justify-content:center">↓ download sample PDF</a>
+          <button type="button" class="btn-outline" style="flex:1;min-width:140px" onclick="loadSamplePanel()">load sample (no upload)</button>
+          <a href="sample-lab-report.html" class="btn-outline" style="flex:1;min-width:140px;text-align:center;text-decoration:none;display:inline-flex;align-items:center;justify-content:center">view web report</a>
+        </div>
+        <p style="font-size:0.66rem;color:var(--text-light);margin-top:0.7rem;text-align:center;letter-spacing:0.06em">Upload the PDF above to test sync · 54 markers · fictional Maya Chen panel</p>
+        <button type="button" class="btn-analyze" id="btn-analyze" disabled onclick="runAnalysis()">generate lab insights →</button>
+      </div>
+    </div>
+
+    <!-- RIGHT: Insights -->
+    <div class="panel insights-panel" id="insights-panel">
+      <div class="panel-head">
+        <span class="panel-title">your lab intelligence</span>
+        <span class="panel-title" id="panel-date"></span>
+      </div>
+      <div class="panel-body" id="insights-body">
+        <div class="insights-empty" id="insights-empty">
+          <span>◌</span>
+          Sync or upload your panel on the left.<br>
+          Insights appear here — hormones, risk groups, and what to discuss with your doctor.
+        </div>
+
+        <div id="insights-content" style="display:none">
+          <div class="lab-markers" id="markers-grid"></div>
+
+          <div class="hormone-card fade-in" id="hormone-card">
+            <div class="hormone-badge" id="hormone-badge">hormonal pattern</div>
+            <h2 class="hormone-title" id="hormone-title">androgens elevated,<br><em>cycle likely anovulatory</em></h2>
+            <p class="hormone-body" id="hormone-body"></p>
+            <div class="marker-chips" id="hormone-chips"></div>
+          </div>
+
+          <p class="section-mini">risk groups · from your panel</p>
+          <div class="risk-grid" id="risk-grid"></div>
+
+          <p class="section-mini">what else your labs can reveal</p>
+          <div class="extra-list" id="extra-list"></div>
+
+          <p class="section-mini">discuss with your clinician</p>
+          <div class="meds-tabs">
+            <button type="button" class="med-tab active" data-tab="rx" onclick="switchMedTab('rx')">prescription options</button>
+            <button type="button" class="med-tab" data-tab="otc" onclick="switchMedTab('otc')">supplements & OTC</button>
+            <button type="button" class="med-tab" data-tab="life" onclick="switchMedTab('life')">lifestyle first</button>
+          </div>
+          <div class="med-list active" id="med-rx"></div>
+          <div class="med-list" id="med-otc"></div>
+          <div class="med-list" id="med-life"></div>
+
+          <div class="disclaimer">
+            <strong>Not medical advice.</strong> Hsence interprets patterns for awareness and conversation prep — not diagnosis or prescribing. Always confirm medications, doses, and tests with your GP, endocrinologist, or gynaecologist.
+          </div>
+
+          <div class="export-row">
+            <button type="button" class="btn-outline" onclick="alert('Demo: PDF summary would download for your next appointment.')">download GP summary</button>
+            <button type="button" class="btn-outline" onclick="runPrecisionAgent()">run precision agent →</button>
+            <a href="agent.html" class="btn-outline" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center">open agent view</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span class="footer-brand"><img src="assets/protea-flower.png" alt="" width="24" height="24"/>Hsence</span>
+    <span style="font-size:0.62rem;color:var(--text-light)">lab intelligence · prototype</span>
+    <div style="display:flex;gap:1.5rem">
+      <a href="index.html">home</a>
+      <a href="labs.html">labs</a>
+    </div>
+  </footer>
+</div>
+
+<script src="data/fake-lab-panel.js"></script>
+<script>
+(function grain(){
+  const c=document.getElementById('grain-canvas'),x=c.getContext('2d');
+  let w,h,off,dx=0,dy=0,vx=0.1,vy=0.07;
+  function resize(){w=c.width=innerWidth;h=c.height=innerHeight;
+    const t=document.createElement('canvas');t.width=w*2;t.height=h*2;
+    const g=t.getContext('2d'),im=g.createImageData(t.width,t.height),d=im.data;
+    for(let i=0;i<d.length;i+=4){const v=(Math.random()*255)|0;d[i]=d[i+1]=d[i+2]=v;d[i+3]=255}
+    g.putImageData(im,0,0);off=t}
+  function draw(){dx+=vx;dy+=vy;if(dx>w||dx<0)vx*=-1;if(dy>h||dy<0)vy*=-1;
+    x.clearRect(0,0,w,h);x.drawImage(off,-Math.abs(dx%w),-Math.abs(dy%h));requestAnimationFrame(draw)}
+  addEventListener('resize',resize);resize();draw();
+})();
+
+const d=new Date();
+document.getElementById('panel-date').textContent=d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+
+let hasSource=false, sourceType='';
+
+function selectSync(id){
+  document.querySelectorAll('.sync-card').forEach(c=>{c.classList.remove('selected','syncing','done');
+    const b=document.getElementById('badge-'+c.dataset.source);
+    if(b){b.className='sync-badge';b.textContent=c.dataset.source==='oura'?'optional':'connect'}});
+  const card=document.querySelector('[data-source="'+id+'"]');
+  const badge=document.getElementById('badge-'+id);
+  card.classList.add('selected','syncing');
+  badge.className='sync-badge active';badge.textContent='syncing…';
+  document.getElementById('syncing-row').classList.add('show');
+  document.getElementById('syncing-text').textContent='pulling panels from '+card.querySelector('.sync-name').textContent+'…';
+  setTimeout(()=>{
+    card.classList.remove('syncing');card.classList.add('done');
+    badge.className='sync-badge ok';badge.textContent='✓ synced';
+    document.getElementById('syncing-row').classList.remove('show');
+    hasSource=true;sourceType=id;
+    document.getElementById('source-label').textContent=id==='oura'?'wearable linked':'panel synced';
+    document.getElementById('btn-analyze').disabled=false;
+  },1800);
+}
+
+function triggerUpload(){document.getElementById('file-input').click()}
+function handleFile(input){
+  if(!input.files||!input.files[0])return;
+  simulateUpload(input.files[0].name);
+}
+function simulateUpload(name){
+  const z=document.getElementById('upload-zone'),icon=document.getElementById('upload-icon'),text=document.getElementById('upload-text');
+  z.classList.add('uploading');icon.textContent='⏳';
+  text.innerHTML='parsing '+name+'…';
+  document.getElementById('syncing-row').classList.add('show');
+  document.getElementById('syncing-text').textContent='extracting markers…';
+  setTimeout(()=>{
+    z.classList.remove('uploading');z.classList.add('done');
+    icon.textContent='✓';text.innerHTML='panel parsed · 14 markers<br><span style="opacity:0.6">dated 14 Mar 2025</span>';
+    document.getElementById('syncing-row').classList.remove('show');
+    hasSource=true;sourceType='pdf';
+    document.getElementById('source-label').textContent='PDF uploaded';
+    document.getElementById('btn-analyze').disabled=false;
+  },2200);
+}
+function toggleManual(){
+  document.getElementById('manual-form').classList.toggle('open');
+  if(document.getElementById('manual-form').classList.contains('open')){
+    hasSource=true;sourceType='manual';
+    document.getElementById('btn-analyze').disabled=false;
+    document.getElementById('source-label').textContent='manual entry';
+  }
+}
+
+let DEMO_MARKERS=[];
+let PANEL_DATA=null;
+
+function flattenPanel(data){
+  const out=[];
+  data.sections.forEach(sec=>{
+    sec.tests.forEach(t=>{
+      const val=typeof t.value==='number'?(Number.isInteger(t.value)?String(t.value):t.value.toFixed(2)):t.value;
+      out.push({n:t.name,v:val+' '+t.unit,f:t.flag});
+    });
+  });
+  return out;
+}
+
+async function loadPanelData(){
+  if(PANEL_DATA)return PANEL_DATA;
+  if(window.FAKE_LAB_PANEL){PANEL_DATA=window.FAKE_LAB_PANEL}
+  else{
+    const res=await fetch('data/fake-lab-panel.json');
+    PANEL_DATA=await res.json();
+  }
+  DEMO_MARKERS=flattenPanel(PANEL_DATA);
+  return PANEL_DATA;
+}
+
+function loadSamplePanel(){
+  loadPanelData().then(data=>{
+    hasSource=true;sourceType='sample';
+    document.getElementById('source-label').textContent='sample · Maya Chen';
+    document.getElementById('btn-analyze').disabled=false;
+    const z=document.getElementById('upload-zone');
+    z.classList.add('done');
+    document.getElementById('upload-icon').textContent='✓';
+    document.getElementById('upload-text').innerHTML='sample panel loaded · '+DEMO_MARKERS.length+' markers<br><span style="opacity:0.6">Medichecks demo · 14 Mar 2025</span>';
+    document.querySelector('[data-source="medichecks"]')?.classList.add('done');
+    const b=document.getElementById('badge-medichecks');
+    if(b){b.className='sync-badge ok';b.textContent='✓ sample';}
+  });
+}
+
+const RISKS=[
+  {id:'insulin',name:'Insulin resistance / PCOS metabolic',level:'high',pct:82,note:'Glucose borderline + low SHBG + elevated androgens'},
+  {id:'chol',name:'High cholesterol / cardiovascular',level:'med',pct:58,note:'LDL elevated, HDL low — lipid pattern worth retesting in 3–6 months'},
+  {id:'osteo',name:'Bone health / osteoporosis risk',level:'med',pct:52,note:'Vitamin D suboptimal + potential low estrogen exposure over time'},
+  {id:'thyroid',name:'Thyroid dysfunction',level:'low',pct:18,note:'TSH in range today — continue monitoring if symptomatic'},
+  {id:'nafld',name:'Fatty liver (NAFLD) metabolic',level:'med',pct:46,note:'Glucose + androgen pattern — hepatic fat risk when combined with waist gain'},
+  {id:'anemia',name:'Iron deficiency / fatigue',level:'med',pct:41,note:'Ferritin on lower end — can amplify brain fog with hormonal flux'}
+];
+
+const EXTRAS=[
+  {q:'Fertility & ovulation timing',a:'LH surge patterns and progesterone proxies (when available) help estimate whether ovulation occurred — critical if you are trying to conceive or tracking PCOS recovery.'},
+  {q:'Inflammation & autoimmune overlap',a:'CRP, ESR, and thyroid antibodies (if on panel) can explain fatigue and cycle disruption that pure sex hormones miss.'},
+  {q:'Adrenal / cortisol stress load',a:'Morning cortisol or DHEA-S (when tested) contextualise sleep disruption and abdominal weight — often confused with “just hormones”.'},
+  {q:'Kidney & liver clearance',a:'eGFR, ALT, AST matter before starting metformin, spironolactone, or high-dose supplements — safety screen, not optional.'},
+  {q:'Micronutrient gaps affecting mood',a:'B12, folate, magnesium, and vitamin D jointly influence energy and cognition — especially in perimenopause.'},
+  {q:'Cancer screening signals',a:'Not diagnostic — but sustained estrogen exposure, family history flags, and age-based reminders for breast/cervical screening can be layered on your timeline.'}
+];
+
+const MEDS_RX=[
+  {name:'Metformin',why:'First-line for insulin resistance in PCOS when lifestyle alone is insufficient — can lower androgens indirectly.',note:'Discuss if fasting glucose or HOMA-IR supports need; monitor B12.'},
+  {name:'Spironolactone',why:'Anti-androgen for hirsutism/acne when testosterone is elevated — often paired with contraception counselling.',note:'Check potassium & kidney function; not if pregnant.'},
+  {name:'Combined oral contraceptive',why:'Suppresses LH-driven androgen production and regulates bleeding — individual risk profile required.',note:'Thrombosis/migraine history must be reviewed.'},
+  {name:'Letrozole / Clomiphene',why:'Ovulation induction if trying to conceive with anovulatory PCOS — specialist-led only.',note:'Fertility clinic pathway.'},
+  {name:'Statin (e.g. atorvastatin)',why:'If LDL stays high after diet/exercise — cardiovascular risk reduction.',note:'Only when lipids confirm sustained elevation.'},
+  {name:'HRT (estradiol ± progesterone)',why:'Perimenopause with debilitating symptoms — not PCOS-first but may apply as you age.',note:'Personalised risk/benefit conversation.'}
+];
+
+const MEDS_OTC=[
+  {name:'Myo-Inositol + D-Chiro (40:1)',why:'Strongest supplement evidence for PCOS insulin sensitivity and LH:FSH improvement.',note:'~2g + 50mg twice daily — discuss if already on metformin.'},
+  {name:'Vitamin D3 + K2',why:'Your vitamin D is suboptimal — linked to insulin resistance, bone health, and mood.',note:'Retest level in 12 weeks after loading dose plan.'},
+  {name:'Magnesium glycinate',why:'Supports glucose handling, sleep, and cramping — low risk adjunct.',note:'Evening dose often best tolerated.'},
+  {name:'NAC',why:'May improve insulin sensitivity and SHBG — relevant to your low SHBG reading.',note:'Avoid high doses if asthma exacerbation history.'},
+  {name:'Omega-3 (EPA/DHA)',why:'Triglyceride-friendly; anti-inflammatory for cardiovascular risk.',note:'Food-first still primary.'},
+  {name:'Iron (only if confirmed deficient)',why:'Ferritin is low-normal — confirm with GP before supplementing iron.',note:'Do not self-start iron without ferritin + CBC review.'}
+];
+
+const MEDS_LIFE=[
+  {name:'Low-GI, protein-forward meals',why:'Directly targets insulin resistance pattern driving androgen excess.',note:'3–6 month trial with repeat glucose.'},
+  {name:'Resistance training 3×/week',why:'Improves insulin sensitivity more sustainably than cardio alone for PCOS.',note:'Start light if fatigued.'},
+  {name:'Sleep regularity window',why:'Fragmented sleep worsens glucose and cortisol — amplifies lab abnormalities.',note:'Pair with wearable if connected.'},
+  {name:'Reduce alcohol',why:'Impairs SHBG production — relevant to your low SHBG.',note:'Track 4 weeks, repeat labs.'},
+  {name:'Bone-loading exercise + D3',why:'Osteoporosis risk is long-horizon — impact exercise + vitamin D repletion.',note:'DEXA if risk factors accumulate.'},
+  {name:'Repeat panel in 3–6 months',why:'Track LH:FSH, lipids, vitamin D, ferritin after interventions.',note:'Same lab for comparable ranges.'}
+];
+
+function renderMedList(el,items,type){
+  el.innerHTML=items.map(m=>'<div class="med-row"><span class="med-type '+type+'">'+({rx:'rx discuss',otc:'otc',life:'daily'}[type])+'</span><div class="med-info"><div class="med-name">'+m.name+'</div><div class="med-why">'+m.why+'</div><div class="med-note">'+m.note+'</div></div></div>').join('');
+}
+
+function switchMedTab(tab){
+  document.querySelectorAll('.med-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
+  document.getElementById('med-rx').classList.toggle('active',tab==='rx');
+  document.getElementById('med-otc').classList.toggle('active',tab==='otc');
+  document.getElementById('med-life').classList.toggle('active',tab==='life');
+}
+
+function runAnalysis(){
+  if(!hasSource)return;
+  loadPanelData().then(()=>{
+  document.getElementById('btn-analyze').disabled=true;
+  document.getElementById('btn-analyze').textContent='analysing…';
+  document.getElementById('syncing-row').classList.add('show');
+  document.getElementById('syncing-text').textContent='building hormonal + metabolic model…';
+
+  setTimeout(()=>{
+    document.getElementById('syncing-row').classList.remove('show');
+    document.getElementById('insights-empty').style.display='none';
+    document.getElementById('insights-content').style.display='block';
+    document.getElementById('insights-panel').classList.add('ready');
+    document.getElementById('btn-analyze').textContent='insights generated ✓';
+
+    const flags={high:'flag-high',low:'flag-low',ok:'flag-ok'};
+    const flagTxt={high:'↑',low:'↓',ok:'·'};
+    document.getElementById('markers-grid').innerHTML=DEMO_MARKERS.map(m=>
+      '<div class="lab-marker"><span class="lab-marker-name">'+m.n+'</span><span class="lab-marker-val">'+m.v+' <span class="'+flags[m.f]+'">'+flagTxt[m.f]+'</span></span></div>'
+    ).join('');
+
+    const sum=PANEL_DATA?.summary;
+    document.getElementById('hormone-badge').textContent=sum?.pattern||'PCOS · elevated androgen pattern';
+    document.getElementById('hormone-body').textContent=
+      'Your LH:FSH ratio (3.57) sits above the 2.0 threshold often seen in PCOS, with total testosterone 2.9 nmol/L (high) and SHBG 28 nmol/L (low) — active androgen excess. Progesterone 1.2 nmol/L supports anovulation. Fasting glucose 5.9 mmol/L, insulin 18.4 mIU/L, and HOMA-IR 4.1 indicate insulin resistance. Lipids show total cholesterol 5.8, LDL 3.9, HDL 1.1 — cardiovascular attention warranted. Vitamin D 38 nmol/L is insufficient; ferritin 22 µg/L is low-normal.';
+    document.getElementById('hormone-chips').innerHTML=(sum?.highlights||[]).slice(0,6).map(c=>'<span class="marker-chip">'+c.replace(/—.*/,'').trim()+'</span>').join('');
+
+    document.getElementById('risk-grid').innerHTML=RISKS.map(r=>{
+      const cls='risk-'+r.level;
+      return '<div class="risk-card '+cls+'"><div class="risk-lbl">'+r.level+'</div><div class="risk-name">'+r.name+'</div><div class="risk-bar"><div class="risk-fill" data-w="'+r.pct+'%"></div></div><div class="risk-note">'+r.note+'</div></div>';
+    }).join('');
+    setTimeout(()=>document.querySelectorAll('.risk-fill').forEach(b=>{b.style.width=b.dataset.w}),400);
+
+    document.getElementById('extra-list').innerHTML=EXTRAS.map((e,i)=>
+      '<div class="extra-item'+(i===0?' open':'')+'" onclick="this.classList.toggle(\'open\')"><div class="extra-q">'+e.q+' <span style="color:var(--text-light)">+</span></div><div class="extra-a">'+e.a+'</div></div>'
+    ).join('');
+
+    renderMedList(document.getElementById('med-rx'),MEDS_RX,'rx');
+    renderMedList(document.getElementById('med-otc'),MEDS_OTC,'otc');
+    renderMedList(document.getElementById('med-life'),MEDS_LIFE,'life');
+  },2400);
+  }).catch(()=>alert('Load sample panel first, or serve files via a local server for JSON fetch.'));
+}
+
+if(new URLSearchParams(location.search).get('sample')==='1'){
+  loadPanelData().then(()=>{loadSamplePanel();setTimeout(runAnalysis,600);});
+}
+
+const AGENT_API = window.location.origin;
+async function runPrecisionAgent(){
+  try{
+    await loadPanelData();
+    const res=await fetch(`${AGENT_API}/agent/run`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({event_type:'full_cycle',payload:{panel:PANEL_DATA}})
+    });
+    if(!res.ok)throw new Error('agent unavailable');
+    location.href='agent.html';
+  }catch(e){
+    alert('Start the agent API first:\\n.venv/bin/python scripts/run_agent.py\\n\\nOr run both servers:\\nbash scripts/start.sh');
+  }
+}
+
+renderMedList(document.getElementById('med-rx'),MEDS_RX,'rx');
+renderMedList(document.getElementById('med-otc'),MEDS_OTC,'otc');
+renderMedList(document.getElementById('med-life'),MEDS_LIFE,'life');
+</script>
+</body>
+</html>

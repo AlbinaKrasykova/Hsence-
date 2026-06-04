@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Lab Report — Maya Chen · Medichecks (Sample)</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Roboto',sans-serif;font-size:13px;color:#1a1814;background:#f4f4f4;line-height:1.5}
+.toolbar{position:sticky;top:0;z-index:10;background:#1a1814;color:#fff;padding:0.9rem 2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.8rem}
+.toolbar a,.toolbar button{font-size:0.72rem;letter-spacing:0.1em;text-transform:lowercase;color:#fff;text-decoration:none;background:transparent;border:0.5px solid rgba(255,255,255,0.35);padding:0.5rem 1.2rem;border-radius:999px;cursor:pointer;font-family:inherit}
+.toolbar button.primary{background:#fff;color:#1a1814;border-color:#fff}
+.report{max-width:820px;margin:2rem auto;background:#fff;box-shadow:0 8px 40px rgba(0,0,0,0.08);padding:2.5rem 3rem 3rem}
+@media print{.toolbar{display:none}.report{margin:0;box-shadow:none;max-width:none}}
+.lab-header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #1a1814;padding-bottom:1.2rem;margin-bottom:1.5rem}
+.lab-brand{font-size:1.4rem;font-weight:300;letter-spacing:0.04em}
+.lab-brand span{display:block;font-size:0.65rem;color:#6b6660;letter-spacing:0.2em;text-transform:uppercase;margin-top:0.3rem}
+.lab-meta{text-align:right;font-size:0.72rem;color:#6b6660;line-height:1.7}
+.patient-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem 2rem;margin-bottom:1.8rem;font-size:0.8rem}
+.patient-grid dt{color:#6b6660;font-weight:300}
+.patient-grid dd{font-weight:400}
+.banner{background:#faf5ef;border:0.5px solid #e8e0d8;padding:1rem 1.2rem;margin-bottom:2rem;font-size:0.78rem;color:#6b6660}
+.banner strong{color:#1a1814;font-weight:400}
+.section{margin-bottom:2rem}
+.section h2{font-size:0.7rem;font-weight:400;letter-spacing:0.22em;text-transform:uppercase;color:#6b6660;border-bottom:0.5px solid #e0ddd8;padding-bottom:0.5rem;margin-bottom:0.8rem}
+table{width:100%;border-collapse:collapse;font-size:0.78rem}
+th{text-align:left;font-weight:400;color:#6b6660;font-size:0.68rem;letter-spacing:0.08em;padding:0.45rem 0.5rem;border-bottom:0.5px solid #e0ddd8}
+td{padding:0.5rem;border-bottom:0.5px solid #f0eeea;vertical-align:top}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+.flag-high{color:#b85454;font-weight:400}
+.flag-low{color:#5a6a9a;font-weight:400}
+.flag-ok{color:#5a8a6e}
+.note{font-size:0.68rem;color:#6b6660;font-style:italic}
+.summary-box{margin-top:2rem;padding:1.2rem 1.4rem;background:#f8f6f2;border-left:3px solid #7ab89a}
+.summary-box h3{font-size:0.75rem;letter-spacing:0.14em;text-transform:uppercase;color:#6b6660;margin-bottom:0.6rem;font-weight:400}
+.summary-box ul{margin-left:1.1rem;font-size:0.78rem;color:#1a1814}
+.summary-box li{margin-bottom:0.35rem}
+.footer-note{margin-top:2.5rem;padding-top:1rem;border-top:0.5px solid #e0ddd8;font-size:0.65rem;color:#b0aca8;line-height:1.7}
+.watermark{text-align:center;font-size:0.62rem;color:#b0aca8;letter-spacing:0.15em;text-transform:uppercase;margin-top:1.5rem}
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <span style="font-weight:300;letter-spacing:0.06em">Hsence · sample lab report (fictional)</span>
+  <div style="display:flex;gap:0.6rem;flex-wrap:wrap">
+    <a href="labs.html">← labs</a>
+    <a href="daily.html">daily ritual</a>
+    <a href="data/Maya-Chen-Sample-Lab-Report.pdf" download>↓ download PDF</a>
+    <button type="button" onclick="window.print()">print</button>
+    <button type="button" class="primary" onclick="location.href='labs.html?sample=1'">analyse in Hsence →</button>
+  </div>
+</div>
+<div class="report" id="report-root"></div>
+<script src="data/fake-lab-panel.js"></script>
+<script>
+function boot(){
+  if(window.FAKE_LAB_PANEL)return render(window.FAKE_LAB_PANEL);
+  return fetch('data/fake-lab-panel.json').then(r=>r.json()).then(render);
+}
+boot().catch(()=>{
+  document.getElementById('report-root').innerHTML='<p style="padding:2rem">Could not load lab data.</p>';
+});
+
+function render(data){
+  const p=data.patient, r=data.report;
+  const collected=new Date(r.collected).toLocaleString('en-GB',{dateStyle:'medium',timeStyle:'short'});
+  const reported=new Date(r.reported).toLocaleString('en-GB',{dateStyle:'medium',timeStyle:'short'});
+  const flagCls={high:'flag-high',low:'flag-low',ok:'flag-ok'};
+  const flagLbl={high:'HIGH',low:'LOW',ok:''};
+
+  let sections='';
+  data.sections.forEach(sec=>{
+    const rows=sec.tests.map(t=>{
+      const fl=t.flag!=='ok'?'<span class="'+flagCls[t.flag]+'">'+flagLbl[t.flag]+'</span>':'';
+      const note=t.note?'<div class="note">'+t.note+'</div>':'';
+      const val=typeof t.value==='number'?(Number.isInteger(t.value)?t.value:t.value.toFixed(2)):t.value;
+      return '<tr><td>'+t.name+note+'</td><td class="num">'+val+'</td><td>'+t.unit+'</td><td>'+t.ref+'</td><td class="num">'+fl+'</td></tr>';
+    }).join('');
+    sections+='<div class="section"><h2>'+sec.title+'</h2><table><thead><tr><th>Test</th><th>Result</th><th>Units</th><th>Reference</th><th>Flag</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
+  });
+
+  const highlights=data.summary.highlights.map(h=>'<li>'+h+'</li>').join('');
+
+  document.getElementById('report-root').innerHTML=`
+    <div class="lab-header">
+      <div class="lab-brand">Medichecks<span>certified laboratory report · sample</span></div>
+      <div class="lab-meta">
+        Report ID: ${p.id}<br>
+        Collected: ${collected}<br>
+        Reported: ${reported}<br>
+        Fasting: ${r.fasting?'Yes':'No'}
+      </div>
+    </div>
+    <dl class="patient-grid">
+      <div><dt>Patient</dt><dd>${p.name}</dd></div>
+      <div><dt>Date of birth</dt><dd>${new Date(p.dob).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})} (34y)</dd></div>
+      <div><dt>Sex</dt><dd>${p.sex}</dd></div>
+      <div><dt>Panel</dt><dd>${r.lab}</dd></div>
+      <div><dt>Cycle day</dt><dd>${r.cycleDay}</dd></div>
+      <div><dt>Referrer</dt><dd>Self-request · Hsence demo</dd></div>
+    </dl>
+    <div class="banner"><strong>Clinical note:</strong> This is fictional demo data for product testing only — not a real patient result. Do not use for medical decisions.</div>
+    ${sections}
+    <div class="summary-box">
+      <h3>Automated pattern summary (demo)</h3>
+      <p style="font-size:0.85rem;margin-bottom:0.6rem"><strong style="font-weight:400">${data.summary.pattern}</strong></p>
+      <ul>${highlights}</ul>
+    </div>
+    <div class="footer-note">
+      Results interpreted using UK reference ranges. Hormone interpretation depends on cycle phase, medications, and time of collection.
+      Abnormal results should be confirmed with repeat testing and clinical correlation. Medichecks is a fictional label in this demo.
+    </div>
+    <p class="watermark">fictional sample · hsence hormonemap prototype</p>
+  `;
+}
+</script>
+</body>
+</html>
