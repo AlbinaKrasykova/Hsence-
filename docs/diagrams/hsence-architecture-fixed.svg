@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 1180" role="img" aria-label="Hsence architecture diagram">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L9,3 L0,6 Z" fill="#6b6660"/>
+    </marker>
+    <marker id="arrow-dash" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L9,3 L0,6 Z" fill="#b0aca8"/>
+    </marker>
+    <style>
+      .title { font: 300 28px Roboto, Arial, sans-serif; fill: #1a1814; }
+      .subtitle { font: 300 14px Roboto, Arial, sans-serif; fill: #6b6660; }
+      .label { font: 400 11px Roboto, Arial, sans-serif; fill: #1a1814; letter-spacing: 0.08em; }
+      .chip { font: 300 12px Roboto, Arial, sans-serif; fill: #3d3a36; }
+      .small { font: 300 10px Roboto, Arial, sans-serif; fill: #6b6660; }
+      .box-title { font: 400 13px Roboto, Arial, sans-serif; fill: #1a1814; }
+      .legend { font: 300 11px Roboto, Arial, sans-serif; fill: #6b6660; }
+    </style>
+  </defs>
+
+  <!-- background -->
+  <rect width="920" height="1180" fill="#ffffff"/>
+
+  <!-- header -->
+  <text x="460" y="42" text-anchor="middle" class="title">Hsence Architecture</text>

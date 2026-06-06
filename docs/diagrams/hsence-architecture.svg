@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 1180" role="img" aria-label="Hsence architecture diagram">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L9,3 L0,6 Z" fill="#6b6660"/>
+    </marker>
+    <marker id="arrow-dash" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L9,3 L0,6 Z" fill="#b0aca8"/>
+    </marker>
+    <style>
+      .title { font: 300 28px Roboto, Arial, sans-serif; fill: #1a1814; }
+      .subtitle { font: 300 14px Roboto, Arial, sans-serif; fill: #6b6660; }
+      .label { font: 400 11px Roboto, Arial, sans-serif; fill: #1a1814; letter-spacing: 0.08em; }
+      .chip { font: 300 12px Roboto, Arial, sans-serif; fill: #3d3a36; }
+      .small { font: 300 10px Roboto, Arial, sans-serif; fill: #6b6660; }
+      .box-title { font: 400 13px Roboto, Arial, sans-serif; fill: #1a1814; }
+      .legend { font: 300 11px Roboto, Arial, sans-serif; fill: #6b6660; }
+    </style>
+  </defs>
+
+  <!-- background -->
+  <rect width="920" height="1180" fill="#ffffff"/>
+
+  <!-- header -->
+  <text x="460" y="42" text-anchor="middle" class="title">Hsence Architecture</text>
+  <text x="460" y="68" text-anchor="middle" class="subtitle">Multimodal data flows up · understanding and clinician-ready actions flow down</text>
+
+  <!-- legend -->
+  <rect x="280" y="82" width="14" height="14" fill="#ffffff" stroke="#1a1814" stroke-width="1.5"/>
+  <text x="302" y="94" class="legend">Built today</text>
+  <line x1="400" y1="89" x2="430" y2="89" stroke="#b0aca8" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <text x="438" y="94" class="legend">Vision / roadmap</text>
+
+  <!-- Patient Front Door -->
+  <rect x="60" y="115" width="800" height="88" rx="12" fill="#fef6e8" stroke="#BA7517" stroke-width="1.5"/>
+  <text x="80" y="140" class="box-title">Patient Front Door · built</text>
+  <rect x="80" y="152" width="200" height="34" rx="8" fill="#ffffff" stroke="#e8e4df"/>
+  <text x="92" y="173" class="chip">agent.html · patient chat</text>
+  <rect x="300" y="152" width="240" height="34" rx="8" fill="#ffffff" stroke="#e8e4df"/>
+  <text x="312" y="173" class="chip">detect_patient_intent · regex</text>
+  <rect x="560" y="152" width="280" height="34" rx="8" fill="#ffffff" stroke="#e8e4df" stroke-dasharray="5,4"/>
+  <text x="572" y="173" class="chip">Search intercept · vision</text>
+
+  <line x1="460" y1="203" x2="460" y2="228" stroke="#6b6660" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Inputs row -->
+  <rect x="60" y="230" width="390" height="120" rx="12" fill="#e8f4fc" stroke="#3B8BD4" stroke-width="1.5"/>
+  <text x="80" y="255" class="box-title">Data inputs · demo today</text>
+  <text x="80" y="280" class="chip">fake-lab-panel.json · Maya PCOS</text>
+  <text x="80" y="300" class="chip">Wearable fields · agent form</text>
+  <text x="80" y="320" class="chip">daily.html · localStorage</text>
+  <text x="80" y="340" class="chip">Setup flow · UI prototype</text>
+
+  <rect x="470" y="230" width="390" height="120" rx="12" fill="#f8f8f7" stroke="#b0aca8" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="490" y="255" class="box-title">Data inputs · vision</text>
+  <text x="490" y="280" class="chip">Oura / Apple Health OAuth</text>
+  <text x="490" y="300" class="chip">Lab PDF parser</text>
+  <text x="490" y="320" class="chip">EHR / FHIR</text>
+
+  <line x1="255" y1="350" x2="255" y2="385" stroke="#6b6660" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="665" y1="350" x2="665" y2="385" stroke="#b0aca8" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#arrow-dash)"/>
+
+  <!-- Memory -->
+  <rect x="60" y="388" width="390" height="72" rx="12" fill="#fdeee8" stroke="#D85A30" stroke-width="1.5"/>
+  <text x="80" y="413" class="box-title">Health memory · built</text>
+  <text x="80" y="438" class="chip">patient-memory.json · trace · gaps · plan</text>
+
+  <rect x="470" y="388" width="390" height="72" rx="12" fill="#f8f8f7" stroke="#b0aca8" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="490" y="413" class="box-title">Health memory · vision</text>
+  <text x="490" y="438" class="chip">PostgreSQL + vector store</text>
+
+  <line x1="460" y1="460" x2="460" y2="488" stroke="#6b6660" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Runtime -->
+  <rect x="60" y="490" width="800" height="68" rx="12" fill="#e8f8f0" stroke="#1D9E75" stroke-width="1.5"/>
+  <text x="80" y="515" class="box-title">Runtime · built · one port 8080</text>
+  <text x="80" y="540" class="chip">FastAPI agent/server.py · POST /agent/run · static HTML site</text>
+
+  <line x1="460" y1="558" x2="460" y2="586" stroke="#6b6660" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- CDSS -->
+  <rect x="60" y="588" width="800" height="200" rx="12" fill="#eeeefb" stroke="#7F77DD" stroke-width="1.5"/>
+  <text x="80" y="613" class="box-title">Medical Intelligence · Track 01 CDSS · built</text>
+  <text x="80" y="638" class="chip">planner.py ’ orchestrator.py ’ 9 rule-based tools</text>
+
+  <rect x="80" y="652" width="130" height="28" rx="6" fill="#ffffff" stroke="#e8e4df"/>
+  <text x="88" y="670" class="small">parse_lab_panel</text>
+  <rect x="220" y="652" width="130" height="28" rx="6" fill="#ffffff" stroke="#e8e4df"/>
+  <text x="228" y="670" class="small">score_care_gaps</text>
+  <rect x="360" y="652" width="140" height="28" rx="6" fill="#ffffff" stroke="#e8e4df"/>
+  <text x="368" y="670" class="small">score_layer_health</text>
+  <rect x="510" y="652" width="150" height="28" rx="6" fill="#ffffff" stroke="#e8e4df"/>
+  <text x="518" y="670" class="small">guideline_snippet</text>
+  <rect x="670" y="652" width="170" height="28" rx="6" fill="#ffffff" stroke="#e8e4df"/>
+  <text x="678" y="670" class="small">precision_nutrition</text>
+
+  <rect x="80" y="688" width="150" height="28" rx="6" fill="#ffffff" stroke="#e8e4df"/>
+  <text x="88" y="706" class="small">match_trials · demo</text>
+  <rect x="240" y="688" width="170" height="28" rx="6" fill="#ffffff" stroke="#e8e4df"/>
+  <text x="248" y="706" class="small">clinician_handoff</text>
+  <rect x="420" y="688" width="140" height="28" rx="6" fill="#ffffff" stroke="#e8e4df"/>
+  <text x="428" y="706" class="small">safety_guardrail</text>
+
+  <!-- 4 layers -->
+  <rect x="80" y="728" width="160" height="44" rx="8" fill="#ffffff" stroke="#7F77DD"/>
+  <text x="120" y="755" text-anchor="middle" class="chip">Hormones</text>
+  <rect x="250" y="728" width="160" height="44" rx="8" fill="#ffffff" stroke="#7F77DD"/>
+  <text x="330" y="755" text-anchor="middle" class="chip">Metabolic</text>
+  <rect x="420" y="728" width="160" height="44" rx="8" fill="#ffffff" stroke="#7F77DD"/>
+  <text x="500" y="755" text-anchor="middle" class="chip">Cognition</text>
+  <rect x="590" y="728" width="160" height="44" rx="8" fill="#ffffff" stroke="#7F77DD"/>
+  <text x="670" y="755" text-anchor="middle" class="chip">Inflammation</text>
+
+  <line x1="460" y1="788" x2="460" y2="816" stroke="#6b6660" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Product surface -->
+  <rect x="60" y="818" width="800" height="100" rx="12" fill="#f5f5f4" stroke="#b0aca8" stroke-width="1.5"/>
+  <text x="80" y="843" class="box-title">Product surface · built</text>
+  <rect x="80" y="856" width="170" height="44" rx="8" fill="#ffffff" stroke="#e8e4df"/>
+  <text x="165" y="883" text-anchor="middle" class="chip">Setup · 5 steps</text>
+  <rect x="265" y="856" width="170" height="44" rx="8" fill="#ffffff" stroke="#e8e4df"/>
+  <text x="350" y="883" text-anchor="middle" class="chip">Precision agent</text>
+  <rect x="450" y="856" width="170" height="44" rx="8" fill="#ffffff" stroke="#e8e4df"/>
+  <text x="535" y="883" text-anchor="middle" class="chip">Daily ritual</text>
+  <rect x="635" y="856" width="170" height="44" rx="8" fill="#ffffff" stroke="#e8e4df"/>
+  <text x="720" y="883" text-anchor="middle" class="chip">Morning brew</text>
+
+  <!-- Conditions footer -->
+  <rect x="60" y="940" width="800" height="88" rx="12" fill="#ffffff" stroke="#e8e4df" stroke-width="1.5"/>
+  <text x="80" y="965" class="box-title">Condition modules</text>
+  <text x="80" y="990" class="chip">PCOS · Perimenopause · GDM · Osteoporosis · ER+ survivorship</text>
+  <text x="80" y="1012" class="small">Demo persona: Maya Chen · PCOS · berberine front-door query</text>
+
+  <!-- footer -->
+  <text x="460" y="1060" text-anchor="middle" class="small">Hsence · Not a diagnosis engine · Decision support + clinician handoff</text>
+  <text x="460" y="1082" text-anchor="middle" class="small">github.com/AlbinaKrasykova/Hsence-</text>
+</svg>

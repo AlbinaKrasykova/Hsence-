@@ -5,7 +5,7 @@ Copy each block into Google Slides / Canva / Keynote.
 
 **Total time:** ~3 min pitch + 2 min live demo
 
-**Architecture PNG:** paste Mermaid below into [mermaid.live](https://mermaid.live) → export SVG/PNG
+**Architecture PNG/SVG:** use **[docs/diagrams/hsence-architecture.svg](diagrams/hsence-architecture.svg)** · or paste Mermaid into [mermaid.live](https://mermaid.live)
 
 ---
 
@@ -85,60 +85,76 @@ Based on a patient’s hormone state, it helps clinicians recommend:
 
 ---
 
-## Slide 4 — Architecture *(current build)*
+## Slide 4 — Architecture *(built today + vision)*
 
 *Multimodal data flows up · personalised understanding and clinician-ready actions flow down.*
+
+**Say:** “Solid boxes are live in the repo. Dashed lines are the production path.”
 
 ### System stack — paste into slides
 
 ```mermaid
 flowchart TB
-  subgraph PFD["Patient Front Door"]
-    CHAT[Patient chat · intent]
-    SEARCH[Replaces harmful search path]
+  subgraph PFD["Patient Front Door · built"]
+    CHAT[agent.html · intent detection]
+    SEARCH[Search intercept · vision]
   end
 
-  subgraph INGEST["Data ingestion"]
-    OURA[Wearables · Oura / Apple Watch]
-    PDF[Blood labs · PDF / manual]
-    LOG[Daily ritual · cognition + behavior]
+  subgraph INGEST["Data · demo → vision"]
+    LABS[Lab JSON demo → PDF parser]
+    WEAR[Wearable fields → live OAuth]
+    LOG[Daily ritual · localStorage]
     EHR[EHR · roadmap]
   end
 
-  subgraph MEMORY["Health memory · longitudinal"]
-    STORE[(Labs · wearable · daily · intent · trace)]
+  subgraph RUNTIME["One port · built"]
+    API[FastAPI POST /agent/run]
   end
 
-  subgraph CDSS["Medical Intelligence · Track 01 CDSS"]
-    PLAN[Autonomous planner]
-    TRIAGE[Triage · care gaps]
+  subgraph MEMORY["Memory · built → vision"]
+    STORE[(patient-memory.json → PostgreSQL)]
+  end
+
+  subgraph CDSS["Track 01 CDSS · built"]
+    PLAN[planner.py]
+    TOOLS[9 tools · orchestrator.py]
     LAYERS[4 layers · H · M · C · I]
-    PATH[Care pathways · nutrition · supplements]
-    TRIAL[Trial matching · eligibility trace]
+    PATH[★/◈ pathways]
     HANDOFF[Clinician handoff]
-    GUARD[Safety guardrails]
+    GUARD[safety_guardrail]
   end
 
-  subgraph UI["Product surface"]
-    HOME[Home · setup]
-    AGENT[Agent UI]
+  subgraph UI["Product · built"]
+    HOME[Setup · 5 steps]
+    AGENT[Agent + trace]
     DAILY[Daily ritual]
     BREW[Morning brew]
   end
 
-  CHAT --> PLAN
-  OURA & PDF & LOG --> STORE
+  CHAT --> API
+  LABS & WEAR & LOG --> STORE
   EHR -.-> STORE
   STORE --> PLAN
-  PLAN --> TRIAGE --> LAYERS --> PATH --> TRIAL --> HANDOFF --> GUARD
+  API --> PLAN --> TOOLS --> LAYERS --> PATH --> HANDOFF --> GUARD
   GUARD --> HOME & AGENT & DAILY & BREW
-  SEARCH -.->|intercept| CHAT
+  SEARCH -.-> CHAT
 
   style PFD fill:#fef6e8,stroke:#BA7517
   style CDSS fill:#eeeefb,stroke:#7F77DD
   style INGEST fill:#e8f4fc,stroke:#3B8BD4
   style MEMORY fill:#fdeee8,stroke:#D85A30
+  style RUNTIME fill:#e8f8f0,stroke:#1D9E75
 ```
+
+### Built vs vision (talk track)
+
+| Built now | Vision |
+|-----------|--------|
+| Rule-based 9-tool CDSS + full trace | Optional LLM narrative layer |
+| `fake-lab-panel.json` (Maya PCOS) | PDF lab upload + parser |
+| Wearable demo fields | Oura / Apple Health sync |
+| `patient-memory.json` | PostgreSQL + FHIR |
+| Setup + brew = UI prototype | Live ingestion pipeline |
 
 ### Four health layers
 
@@ -173,7 +189,7 @@ flowchart TB
 | Memory (demo) | `data/patient-memory.json` → PostgreSQL / FHIR |
 | Deploy | `render.yaml` · one port — site + API · no API keys for demo |
 
-**Extended diagrams:** `docs/ARCHITECTURE.md`
+**SVG slides:** `docs/diagrams/hsence-architecture.svg` · `hsence-agent-flow.svg` · **Mermaid:** `docs/ARCHITECTURE.md`
 
 ---
 
@@ -247,7 +263,7 @@ sequenceDiagram
 “Hsence is a preventive medicine agent using hormones as the core biological signal. We fuse wearables, labs, EHR-ready history, and daily behavior for proactive monitoring — not reactive guesswork. We recommend evidence-graded supplements, route all medications through clinicians, send smart follow-up alerts, and double-check front-door questions like whether a supplement will normalize blood sugar. Each condition module — PCOS, bone, GDM, ER-positive survivorship — has tailored biomarker tracking and adherence support.”
 
 ### Slide 4 — 35 sec
-“Architecturally, the Patient Front Door intercepts chat intent. Labs, wearables, and daily ritual feed longitudinal memory. An autonomous planner runs nine CDSS tools — triage, four-layer scoring, pathways, trials, handoff, guardrails — and outputs to home, agent, daily ritual, and morning brew. Everything is traceable. The demo runs on FastAPI with no API keys.”
+“Architecturally, solid boxes are built today: FastAPI on one port, patient-memory JSON, nine rule-based CDSS tools with full trace. Dashed lines are vision — live Oura, PDF labs, PostgreSQL, EHR. The Patient Front Door intercepts chat intent; labs, wearables, and daily ritual feed memory; the planner runs triage, four layers, pathways, handoff, and guardrails. No black-box chatbot — every step is auditable.”
 
 ### Slide 5 — 40 sec *(or switch to live demo)*
 “Maya, 34, asks: should I take berberine for PCOS? We detect high-risk supplement intent, fuse her labs and Oura data, surface insulin resistance as the top gap, flag berberine as weak evidence, recommend myo-inositol with strong PCOS evidence, and generate GP questions — with a full trace judges can audit.”

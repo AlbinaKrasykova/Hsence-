@@ -50,56 +50,75 @@ Most patients form treatment beliefs on Google, Reddit, and generic AI *before* 
 
 *Multimodal data flows up · personalised understanding and clinician-ready actions flow down.*
 
+**Solid = built today** · **Dashed = vision**
+
 ```mermaid
 flowchart TB
-  subgraph PFD["Patient Front Door"]
-    CHAT[Patient chat · intent]
-    SEARCH[Replaces harmful search path]
+  subgraph PFD["Patient Front Door · built"]
+    CHAT[agent.html · chat + intent]
+    SEARCH[Intercepts search path · vision]
   end
 
-  subgraph INGEST["Data ingestion"]
-    OURA[Wearables · Oura / Apple Watch]
-    PDF[Blood labs · PDF / manual]
-    LOG[Daily ritual · cognition + behavior]
-    EHR[EHR · roadmap]
+  subgraph INGEST["Data · demo today → vision"]
+    LABS[fake-lab-panel.json → PDF parser]
+    WEAR[Wearable fields → Oura / Apple OAuth]
+    LOG[Daily ritual · localStorage + API]
+    EHR[EHR / FHIR · roadmap]
   end
 
-  subgraph MEMORY["Health memory · longitudinal"]
-    STORE[(Labs · wearable · daily · intent · trace)]
+  subgraph RUNTIME["Runtime · built · port 8080"]
+    API[FastAPI · agent/server.py]
+    SITE[Static HTML · index · agent · daily]
   end
 
-  subgraph CDSS["Medical Intelligence · Track 01 CDSS"]
-    PLAN[Autonomous planner]
-    TRIAGE[Triage · care gaps]
+  subgraph MEMORY["Memory · built → vision"]
+    STORE[(patient-memory.json → PostgreSQL)]
+  end
+
+  subgraph CDSS["Track 01 CDSS · built"]
+    PLAN[planner.py]
+    TOOLS[9 rule-based tools · orchestrator.py]
     LAYERS[4 layers · H · M · C · I]
-    PATH[Care pathways · nutrition · supplements]
-    TRIAL[Trial matching · eligibility trace]
+    PATH[Pathways · ★/◈ supplements]
+    TRIAL[Trial match · demo]
     HANDOFF[Clinician handoff]
-    GUARD[Safety guardrails]
+    GUARD[safety_guardrail]
   end
 
-  subgraph UI["Product surface"]
-    HOME[Home · setup]
-    AGENT[Agent UI]
+  subgraph UI["Product · built"]
+    HOME[Setup · 5 steps]
+    AGENT[Precision agent + trace]
     DAILY[Daily ritual]
-    BREW[Morning brew]
+    BREW[Morning brew · JS narratives]
   end
 
-  CHAT --> PLAN
-  OURA & PDF & LOG --> STORE
+  CHAT --> API
+  LABS & WEAR & LOG --> STORE
   EHR -.-> STORE
   STORE --> PLAN
-  PLAN --> TRIAGE --> LAYERS --> PATH --> TRIAL --> HANDOFF --> GUARD
-  GUARD --> HOME & AGENT & DAILY & BREW
-  SEARCH -.->|intercept| CHAT
+  API --> PLAN --> TOOLS --> LAYERS --> PATH --> TRIAL --> HANDOFF --> GUARD
+  GUARD --> AGENT
+  SITE --> HOME & DAILY & BREW
+  SEARCH -.-> CHAT
 
   style PFD fill:#fef6e8,stroke:#BA7517
   style CDSS fill:#eeeefb,stroke:#7F77DD
   style INGEST fill:#e8f4fc,stroke:#3B8BD4
   style MEMORY fill:#fdeee8,stroke:#D85A30
+  style RUNTIME fill:#e8f8f0,stroke:#1D9E75
 ```
 
-Export PNG for slides: paste the diagram into [mermaid.live](https://mermaid.live). Extended diagrams: **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)**
+| Built now | Vision |
+|-----------|--------|
+| FastAPI + static site, one port | Production deploy (Render) |
+| `patient-memory.json` + agent trace | PostgreSQL + FHIR |
+| Demo lab JSON + wearable form fields | Live labs PDF + Oura OAuth |
+| 9 traceable rule-based CDSS tools | LLM narrative layer (optional) |
+| Setup UI prototype + morning brew JS | Full ingestion pipeline |
+
+Export PNG: [mermaid.live](https://mermaid.live) · **SVG diagrams:** **[docs/diagrams/](docs/diagrams/)** · Full docs: **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)**
+
+![Hsence architecture](docs/diagrams/hsence-architecture.png)
 
 ---
 
@@ -292,6 +311,7 @@ See **[docs/DEPLOY.md](docs/DEPLOY.md)**
 | [docs/PITCH.md](docs/PITCH.md) | Problem, solution, distribution |
 | [docs/PITCH_DECK.md](docs/PITCH_DECK.md) | 6-slide deck copy |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Mermaid diagrams + speaker script |
+| [docs/diagrams/](docs/diagrams/) | **SVG architecture + agent flow** (slides) |
 | [docs/TRACK01_ALIGNMENT.md](docs/TRACK01_ALIGNMENT.md) | Patient Front Door ↔ Track 01 mapping |
 | [docs/CONDITION_CASES.md](docs/CONDITION_CASES.md) | PCOS · perimenopause · GDM · bone · cancer |
 | [docs/DEMO.md](docs/DEMO.md) | Judge demo script |
