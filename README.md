@@ -1,6 +1,8 @@
 # Hsence
  **[DEMO](https://hsence.onrender.com/)**
-![Recording](Hsence-/Recording 2026-06-06 at 14.24.57.gif)
+
+![Recording](Hsence-/Recording%202026-06-06%20at%2014.24.57.gif)
+
 > **Definition:** Hsence is a preventive medicine agent and hormonal intelligence platform that uses hormones as longitudinal biomarkers to track health, prevent chronic disease, and close the loop to clinicians — with a traceable clinical decision support (CDSS) agent.
 
 **Hormonal intelligence platform** · Patient Front Door + Medical Intelligence
