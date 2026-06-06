@@ -1,27 +1,45 @@
 # Hsence
 
+> **Definition:** Hsence is a preventive medicine agent and hormonal intelligence platform that uses hormones as longitudinal biomarkers to track health, prevent chronic disease, and close the loop to clinicians — with a traceable clinical decision support (CDSS) agent.
+
 **Hormonal intelligence platform** · Patient Front Door + Medical Intelligence
 
 **Nucleate NY BioHack · Track 01** — *Triage, diagnostics, care pathways, trial matching & multimodal patient data*
 
 ---
 
-## What is Hsence?
+## Project definition
 
-**Hsence is a preventive medicine agent that uses hormones as a key biological signal** to track health and prevent chronic disease across a woman’s life course — PCOS, osteoporosis, gestational diabetes, and hormone-sensitive cancers.
+**Hsence** helps women navigate hormone-linked conditions — **PCOS, perimenopause, gestational diabetes, osteoporosis, and hormone-sensitive cancers** — with proactive, evidence-based care between appointments.
 
-Sync labs and wearable once. Hsence continuously fuses **wearable data, lab work, EHR-ready history, and daily behavior** to surface biomarker trends, care gaps, and evidence-graded plans — then closes the loop to your clinician with a **traceable CDSS agent**.
+Most patients form treatment beliefs on Google, Reddit, and generic AI *before* seeing a clinician. Hsence meets them at that **Patient Front Door**: it detects intent, double-checks risky requests against *their* labs and wearable data, and routes weak evidence to standard care first. On the clinical side, **Medical Intelligence** fuses multimodal signals into a traceable CDSS pipeline — triage, four-layer scoring, care pathways, trial matching, and clinician handoff.
+
+### What Hsence is
+
+| | |
+|---|---|
+| **Type** | Hackathon demo — static web app + Python FastAPI agent on one port |
+| **Core idea** | Hormones as living biomarkers — tracked over time, not one annual blood draw |
+| **Inputs** | Blood labs · wearable (Oura / Apple Watch) · daily ritual · patient chat |
+| **Outputs** | Hormonal pattern read · care gaps · ★/◈ supplements · food rules · doctor questions · full agent trace |
+| **Conditions** | PCOS · perimenopause · GDM · osteoporosis · ER+ cancer survivorship |
+
+### What Hsence is not
+
+- **Not a diagnosis engine** — decision support and education only
+- **Not a prescription tool** — medications always clinician-prescribed
+- **Not a cycle tracker** — condition-aware patterns, not a generic 28-day model
+
+### Two pillars
 
 | Pillar | What it does |
 |--------|----------------|
-| **Patient Front Door** | Meets patients where beliefs form — Google, AI chatbots, social — *before* clinicians are involved. Detects intent, double-checks risky requests (e.g. *“Should I take berberine for PCOS?”*), routes weak evidence to standard care first. |
-| **Medical Intelligence** | Track 01 CDSS: triage, 4-layer scoring (hormones · metabolic · cognition · inflammation), care pathways, trial matching, clinician handoff — with **full agent trace**. |
+| **Patient Front Door** | Intercepts beliefs before the clinic. Detects intent, double-checks supplement requests (e.g. *“Should I take berberine for PCOS?”*), closes the loop safely. |
+| **Medical Intelligence** | Track 01 CDSS: autonomous planner → 9 tools → 4 layers (hormones · metabolic · cognition · inflammation) → pathways → trials → handoff → guardrails. |
 
-**Tagline:** Hormones as longitudinal biomarkers. Proactive care — not reactive guesswork.
+**Tagline:** Proactive care — not reactive guesswork.
 
-> **Not a diagnosis engine.** Decision support and education only. Medications are always clinician-prescribed.
-
-**Pitch deck:** [docs/PITCH_DECK.md](docs/PITCH_DECK.md) · **Full depth:** [docs/OVERVIEW.md](docs/OVERVIEW.md)
+**Pitch deck:** [docs/PITCH_DECK.md](docs/PITCH_DECK.md) · **Full depth:** [docs/OVERVIEW.md](docs/OVERVIEW.md) · **User steps:** see [User journey](#user-journey) below
 
 ---
 
@@ -82,7 +100,20 @@ Export PNG for slides: paste the diagram into [mermaid.live](https://mermaid.liv
 
 ---
 
-## 2. Problem
+## User journey
+
+| Step | Where | What you complete |
+|------|-------|-------------------|
+| **1 · Setup** | Home → `#setup` | Connect wearable → upload labs → see hormonal state → supplement plan → diet (5 steps) |
+| **2 · Daily ritual** | `/daily.html` | Mood → supplements → food → inflammation → optional voice memo |
+| **3 · Precision agent** | `/agent.html` | Ask a question → **Run full CDSS cycle** → review intent, layers, gaps, handoff, trace |
+| **4 · Morning brew** | Home → `#prototype` | Daily narrative from sleep, HRV, and hormone context |
+
+**Demo query:** *“Should I take berberine for PCOS?”*
+
+---
+
+## Problem
 
 ### Hormonal health is systemic — care is fragmented
 
@@ -104,7 +135,7 @@ Clinical decision-making is **data-intensive and time-pressured**. Trial recruit
 
 ---
 
-## 3. Solution — Hsence preventative medicine agent
+## Solution — Hsence preventative medicine agent
 
 Hsence focuses on **multimodal analysis**, **longitudinal memory**, and **hormones as biomarkers** to track health and help prevent — and manage — chronic disease.
 
@@ -126,7 +157,7 @@ PCOS · perimenopause · gestational diabetes · osteoporosis · hormonal cancer
 
 ---
 
-## 4. Patient Front Door — experiment & impact
+## Patient Front Door — experiment & impact
 
 ### Current efforts
 
@@ -152,9 +183,9 @@ Alignment detail: **[docs/TRACK01_ALIGNMENT.md](docs/TRACK01_ALIGNMENT.md)**
 
 ---
 
-## 5. Agent flow & technical detail
+## Agent flow & technical detail
 
-### 5.1 CDSS agent flow (one patient question)
+### CDSS agent flow (one patient question)
 
 ```mermaid
 sequenceDiagram
@@ -179,7 +210,7 @@ sequenceDiagram
   Tools->>UI: summary · layers · gaps · trace
 ```
 
-### 5.2 Four health layers
+### Four health layers
 
 | Layer | Signals |
 |-------|---------|
@@ -188,7 +219,7 @@ sequenceDiagram
 | **Cognition** | Sleep, HRV, mood, daily check-in |
 | **Inflammation** | Recovery, food triggers, guideline context |
 
-### 5.3 CDSS tool catalog
+### CDSS tool catalog
 
 | Tool | Track 01 function |
 |------|-------------------|
@@ -202,7 +233,7 @@ sequenceDiagram
 | `generate_clinician_handoff` | Loop closure |
 | `safety_guardrail` | Not a diagnosis engine |
 
-### 5.4 Tech stack (this repo)
+### Tech stack (this repo)
 
 | Layer | Implementation |
 |-------|----------------|
