@@ -50,7 +50,7 @@ body{
 @keyframes lava4{0%{transform:translate(0,0) scale(1) rotate(0deg)}40%{transform:translate(-70px,-50px) scale(1.09) rotate(4deg)}75%{transform:translate(50px,70px) scale(0.94) rotate(-2deg)}100%{transform:translate(0,0) scale(1) rotate(0deg)}}
 @keyframes lava5{0%{transform:translate(0,0) scale(1)}45%{transform:translate(-50px,-80px) scale(1.05)}85%{transform:translate(30px,-40px) scale(0.98)}100%{transform:translate(0,0) scale(1)}}
 
-#grain-canvas{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:0.035;mix-blend-mode:multiply}
+#grain-canvas{display:none}
 .page{position:relative;z-index:3}
 .site-wrap{width:100%;max-width:var(--content-wide);margin-left:auto;margin-right:auto;padding-left:var(--section-x);padding-right:var(--section-x)}
 .site-wrap--narrow{max-width:var(--content-max)}
@@ -64,10 +64,7 @@ nav{
   padding:1rem var(--section-x);
   position:sticky;top:0;z-index:100;
   background:#ffffff;
-  backdrop-filter:blur(22px) saturate(180%);
-  -webkit-backdrop-filter:blur(22px) saturate(180%);
-  border-bottom:0.5px solid rgba(255,255,255,0.65);
-  box-shadow:0 8px 32px rgba(26,24,20,0.06),inset 0 1px 0 rgba(255,255,255,0.85);
+  border-bottom:0.5px solid var(--border);
 }
 .nav-logo{justify-self:start}
 .nav-links{justify-self:center;display:flex;gap:1.8rem;list-style:none;flex-wrap:wrap;justify-content:center}
@@ -79,8 +76,9 @@ nav{
 .nav-logo{display:inline-flex;align-items:center;gap:0.65rem;text-decoration:none;line-height:1}
 .nav-logo-img{width:72px;height:72px;object-fit:contain;display:block;flex-shrink:0}
 .nav-logo-text{font-weight:300;font-size:1.5rem;letter-spacing:0.07em;color:var(--text-dark)}
-.nav-links a{font-size:0.76rem;font-weight:300;color:var(--text-mid);text-decoration:none;letter-spacing:0.14em;text-transform:lowercase;transition:color 0.2s}
+.nav-links a{font-size:0.76rem;font-weight:300;color:var(--text-mid);text-decoration:none;letter-spacing:0.14em;text-transform:lowercase;transition:color 0.2s,background 0.2s,border-color 0.2s;padding:0.35rem 0.7rem;border-radius:999px;border:0.5px solid transparent}
 .nav-links a:hover{color:var(--text-dark)}
+.nav-links a.active{color:var(--text-dark);background:rgba(26,24,20,0.06);border-color:rgba(26,24,20,0.12)}
 .nav-cta{font-size:0.73rem;font-weight:300;letter-spacing:0.14em;color:#fff;background:var(--text-dark);padding:0.6rem 1.8rem;border-radius:999px;text-decoration:none;text-transform:lowercase;transition:opacity 0.2s}
 .nav-cta:hover{opacity:0.75}
 
@@ -152,106 +150,6 @@ section{padding:var(--section-y) var(--section-x)}
 }
 .section-head{text-align:center;max-width:640px;margin:0 auto clamp(3rem,6vw,5rem)}
 .section-head .section-label{margin-bottom:1.2rem}
-
-/* ── TRI-AXIS PROTEA ── */
-.tri-axis-section{
-  border-top:0.5px solid var(--border);
-  border-bottom:0.5px solid var(--border);
-  background:#ffffff;
-}
-.tri-axis-wrap{
-  max-width:var(--content-wide);margin:0 auto;
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:clamp(2rem,4vw,3.5rem);align-items:center;
-}
-.tri-stage{
-  position:relative;
-  width:min(460px,92vw);
-  aspect-ratio:1/1;
-  margin:0 auto;
-}
-.orbit-ring{
-  position:absolute;inset:12%;
-  border:0.5px solid var(--border-med);
-  border-radius:50%;
-}
-.orbit-ring.ring-2{inset:21%;opacity:0.5}
-.orbit-ring.ring-3{inset:30%;opacity:0.32}
-.tri-center{
-  position:absolute;left:50%;top:50%;
-  transform:translate(-50%,-50%);
-  width:18px;height:18px;border-radius:50%;
-  border:0.5px solid var(--border-med);
-  background:rgba(255,255,255,0.9);
-}
-.tri-center::after{
-  content:'';
-  position:absolute;left:50%;top:50%;
-  transform:translate(-50%,-50%);
-  width:6px;height:6px;border-radius:50%;
-  background:rgba(26,24,20,0.22);
-}
-.axis-orbit{
-  position:absolute;inset:0;animation:spinSlow 24s linear infinite;
-}
-.orbit-protea{
-  position:absolute;left:50%;top:50%;
-  transform:translate(-50%,-50%) rotate(var(--angle)) translateY(calc(-1 * var(--radius))) rotate(calc(-1 * var(--angle)));
-  width:26px;height:26px;border-radius:9px;
-  border:0.5px solid var(--border-med);
-  background:rgba(255,255,255,0.92);
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 18px 40px rgba(26,24,20,0.06);
-  pointer-events:none;
-}
-.orbit-protea svg{width:16px;height:16px;display:block}
-.orbit-protea path{stroke:var(--text-dark)}
-.axis-btn{
-  position:absolute;left:50%;top:50%;
-  transform:translate(-50%,-50%) rotate(var(--angle)) translateY(calc(-1 * var(--radius))) rotate(calc(-1 * var(--angle)));
-  width:110px;min-height:110px;border-radius:50%;
-  border:0.5px solid var(--border-med);
-  background:rgba(255,255,255,0.92);
-  color:var(--text-mid);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:0.25rem;padding:0.8rem;
-  font-family:'Roboto',sans-serif;cursor:pointer;
-  transition:transform 0.2s,border-color 0.2s,background 0.2s,color 0.2s;
-}
-.axis-btn:hover{border-color:rgba(26,24,20,0.2);color:var(--text-dark)}
-.axis-btn.active{
-  border-color:var(--text-dark);
-  color:var(--text-dark);
-  background:rgba(26,24,20,0.05);
-}
-.axis-name{font-size:0.67rem;letter-spacing:0.11em;text-transform:uppercase;font-weight:300}
-.axis-sub{font-size:0.62rem;opacity:0.8;font-weight:300}
-.tri-copy{
-  background:rgba(255,255,255,0.86);
-  border:0.5px solid var(--border-med);
-  border-radius:22px;padding:2rem 2.2rem;text-align:center;
-}
-.tri-copy .section-label{text-align:center;margin-bottom:1rem}
-.tri-explain{
-  text-align:left;
-  border-top:0.5px solid var(--border);
-  margin-top:0.7rem;padding-top:1rem;
-}
-.tri-title{font-weight:100;font-size:clamp(2rem,4vw,3rem);line-height:1.05;margin-bottom:0.8rem;text-align:center}
-.tri-title em{font-style:italic;color:var(--text-mid)}
-.tri-sub{font-size:0.84rem;color:var(--text-mid);font-weight:300;line-height:1.8;margin-bottom:1.3rem;text-align:center}
-.tri-tags{display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:1rem;justify-content:center}
-.tri-tag{
-  font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;
-  padding:0.22rem 0.56rem;border:0.5px solid var(--border);
-  border-radius:999px;color:var(--text-light);font-weight:300;
-}
-.tri-explain-title{font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-light);font-weight:300;margin-bottom:0.55rem}
-.tri-explain-body{font-size:0.82rem;color:var(--text-mid);line-height:1.85;font-weight:300;min-height:100px}
-@keyframes spinSlow{to{transform:rotate(360deg)}}
-@media (max-width:980px){
-  .tri-axis-wrap{grid-template-columns:1fr;gap:1.6rem}
-}
 
 /* ── ONBOARDING FLOW SECTION ── */
 .onboarding-section{
@@ -626,18 +524,6 @@ section{padding:var(--section-y) var(--section-x)}
 .condition-signals{display:flex;flex-wrap:wrap;gap:0.4rem}
 .condition-signal{font-size:0.65rem;padding:0.25rem 0.7rem;border:0.5px solid var(--border);border-radius:999px;color:var(--text-light);font-weight:300;letter-spacing:0.06em}
 
-/* ── PHILOSOPHY ── */
-.philosophy{display:grid;grid-template-columns:1fr 1fr;gap:9vw;align-items:center;max-width:1000px;margin:0 auto}
-.phil-label{font-size:0.63rem;letter-spacing:0.36em;color:var(--text-light);text-transform:uppercase;font-weight:300;margin-bottom:2.2rem}
-.phil-title{font-weight:100;font-size:clamp(2.2rem,4vw,3.4rem);line-height:1.1;color:var(--text-dark);margin-bottom:2.2rem;letter-spacing:-0.01em}
-.phil-title em{font-style:italic;color:var(--text-mid)}
-.phil-body{font-size:0.86rem;font-weight:300;color:var(--text-mid);line-height:1.95;max-width:360px}
-.phil-body p+p{margin-top:1.1rem}
-.phil-right{display:flex;flex-direction:column;gap:2.2rem}
-.phil-stat{border-top:0.5px solid var(--border);padding-top:1.6rem}
-.phil-stat-num{font-size:3.2rem;font-weight:100;color:var(--text-dark);line-height:1;margin-bottom:0.4rem;letter-spacing:-0.02em}
-.phil-stat-label{font-size:0.74rem;font-weight:300;color:var(--text-light);letter-spacing:0.06em;line-height:1.6}
-
 /* ── QUOTES ── */
 .quotes-section{text-align:center}
 .quotes-title{font-weight:100;font-size:clamp(2rem,4vw,3.4rem);line-height:1.1;letter-spacing:-0.01em;margin-bottom:1rem}
@@ -715,8 +601,8 @@ footer{
   <nav>
     <a href="index.html" class="nav-logo"><img src="assets/protea-flower.png" alt="" class="nav-logo-img" width="72" height="72"/><span class="nav-logo-text">Hsence</span></a>
     <ul class="nav-links">
+      <li><a href="index.html" data-nav="home" class="active">home</a></li>
       <li><a href="agent.html">precision agent</a></li>
-      <li><a href="labs.html">labs</a></li>
       <li><a href="daily.html">daily ritual</a></li>
       <li><a href="#setup">setup</a></li>
       <li><a href="#prototype">morning brew</a></li>
@@ -734,7 +620,7 @@ footer{
         sync your labs and wearable once — and Hsence explains your hormonal state, surfaces your personal risks, and builds a supplement plan matched to your biology.
       </p>
       <div class="hero-actions">
-        <button class="btn-primary" onclick="location.href='labs.html'">open lab intelligence →</button>
+        <button class="btn-primary" onclick="location.href='agent.html'">open precision agent →</button>
         <button class="btn-outline" onclick="document.getElementById('setup').scrollIntoView({behavior:'smooth'})">try the setup flow</button>
         <span class="hero-note">free · no streaks · no pressure</span>
       </div>
@@ -763,55 +649,6 @@ footer{
         <div class="how-num">03</div>
         <div class="how-title">act on a personal plan</div>
         <div class="how-desc">Supplements matched to your hormonal imbalance, diet guidance that avoids cholesterol risk, and a daily adherence tracker — with affordable trusted product links.</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TRI-AXIS PROTEA -->
-  <section id="tri-axis" class="tri-axis-section">
-    <div class="tri-axis-wrap">
-      <div class="tri-stage">
-        <div class="orbit-ring"></div>
-        <div class="orbit-ring ring-2"></div>
-        <div class="orbit-ring ring-3"></div>
-        <div class="tri-center" aria-hidden="true"></div>
-        <div class="axis-orbit">
-          <div class="orbit-protea" style="--angle:300deg;--radius:30%;" aria-hidden="true">
-            <!-- Minimal protea icon (custom, B/W) -->
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 21V10" stroke-width="1.6" stroke-linecap="round"/>
-              <path d="M12 10C9.5 9.8 7.2 8.7 6.1 6.8C5 5 6.2 3 8.5 2.6C10.1 2.3 11.5 2.8 12 3.2C12.5 2.8 13.9 2.3 15.5 2.6C17.8 3 19 5 17.9 6.8C16.8 8.7 14.5 9.8 12 10Z" stroke-width="1.6" stroke-linejoin="round"/>
-              <path d="M9.1 12.8C7.6 12.1 6.2 11.2 5.2 10.2" stroke-width="1.4" stroke-linecap="round"/>
-              <path d="M14.9 12.8C16.4 12.1 17.8 11.2 18.8 10.2" stroke-width="1.4" stroke-linecap="round"/>
-              <path d="M10 21C8.7 19.7 7.8 18.3 7 16.6" stroke-width="1.4" stroke-linecap="round"/>
-              <path d="M14 21C15.3 19.7 16.2 18.3 17 16.6" stroke-width="1.4" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <button class="axis-btn active" data-axis="cognition" style="--angle:0deg;--radius:40%;">
-            <span class="axis-name">Cognition</span><span class="axis-sub">focus · mood</span>
-          </button>
-          <button class="axis-btn" data-axis="gut" style="--angle:120deg;--radius:40%;">
-            <span class="axis-name">Gut</span><span class="axis-sub">inflammation</span>
-          </button>
-          <button class="axis-btn" data-axis="hormones" style="--angle:240deg;--radius:40%;">
-            <span class="axis-name">Hormones</span><span class="axis-sub">cycle state</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="tri-copy">
-        <p class="section-label">three-axis intelligence</p>
-        <h2 class="tri-title">three axes.<br><em>one daily read</em></h2>
-        <p class="tri-sub">A calm way to understand your body without dashboards. Tap an axis to see the explanation that matters today.</p>
-        <div class="tri-tags">
-          <span class="tri-tag">minimal UI</span>
-          <span class="tri-tag">one-click explainers</span>
-          <span class="tri-tag">low cognitive load</span>
-        </div>
-        <div class="tri-explain">
-          <p class="tri-explain-title" id="tri-explain-title">Cognition · what we read</p>
-          <p class="tri-explain-body" id="tri-explain-body">Hsence combines sleep architecture, HRV shift, and your check-in language to explain focus capacity and emotional load for today. Instead of scores, you get one actionable sentence: what to protect, what to postpone, and when to push.</p>
-        </div>
       </div>
     </div>
   </section>
@@ -1422,71 +1259,43 @@ footer{
       <div class="conditions-grid">
         <div class="condition-card">
           <div class="condition-name">PCOS</div>
-          <div class="condition-desc">Tracks LH/FSH ratio, androgen proxies, insulin resistance signals, and anovulatory cycle patterns. Matches inositol, NAC, spearmint, and dietary interventions.</div>
+          <div class="condition-desc">Tracks LH/FSH ratio, androgen proxies, insulin resistance, and anovulatory cycle patterns. Matches inositol, NAC, spearmint, and low-GI food rules — with care gaps ranked across all four health layers.</div>
           <div class="condition-signals">
             <span class="condition-signal">LH/FSH ratio</span>
-            <span class="condition-signal">anovulation detection</span>
-            <span class="condition-signal">insulin resistance</span>
-            <span class="condition-signal">supplement matching</span>
+            <span class="condition-signal">HOMA-IR</span>
+            <span class="condition-signal">androgen excess</span>
+            <span class="condition-signal">precision nutrition</span>
           </div>
         </div>
         <div class="condition-card">
-          <div class="condition-name">Thyroid</div>
-          <div class="condition-desc">Correlates temperature patterns, fatigue burden, and weight signals with TSH values. Flags patterns for clinical follow-up. Matches selenium, iodine, ashwagandha.</div>
+          <div class="condition-name">Gestational diabetes</div>
+          <div class="condition-desc">Monitors fasting glucose, post-meal patterns, and wearable activity during pregnancy. Builds meal timing plans, flags metabolic care gaps, and generates clinician handoff questions — pregnancy-safe, no self-treatment.</div>
           <div class="condition-signals">
-            <span class="condition-signal">TSH correlation</span>
-            <span class="condition-signal">temperature pattern</span>
-            <span class="condition-signal">fatigue clustering</span>
-            <span class="condition-signal">supplement plan</span>
-          </div>
-        </div>
-        <div class="condition-card">
-          <div class="condition-name">Breast / hormonal exposure</div>
-          <div class="condition-desc">Tracks hormonal exposure timeline, density risk from self-reported imaging, and surfaces 6-monthly imaging reminders when risk flags present.</div>
-          <div class="condition-signals">
-            <span class="condition-signal">exposure timeline</span>
-            <span class="condition-signal">imaging reminder</span>
-            <span class="condition-signal">family history</span>
-          </div>
-        </div>
-        <div class="condition-card">
-          <div class="condition-name">Fatty liver (NAFLD)</div>
-          <div class="condition-desc">Metabolic composite from glucose trend, activity, and triglyceride proxies. Diet recommendations to reduce hepatic fat risk — food-first, supplement-second, no diagnosis.</div>
-          <div class="condition-signals">
-            <span class="condition-signal">metabolic composite</span>
             <span class="condition-signal">glucose trend</span>
-            <span class="condition-signal">cholesterol avoidance diet</span>
-            <span class="condition-signal">no diagnosis</span>
+            <span class="condition-signal">meal timing</span>
+            <span class="condition-signal">low-GI food rules</span>
+            <span class="condition-signal">pregnancy safety</span>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PHILOSOPHY -->
-  <section id="research" style="border-top:0.5px solid var(--border)">
-    <div class="philosophy">
-      <div>
-        <p class="phil-label">our philosophy</p>
-        <h2 class="phil-title">beyond<br><em>reproductive</em><br>health</h2>
-        <div class="phil-body">
-          <p>Hormones are longitudinal biomarkers encoding reproductive, metabolic, emotional, and cognitive risk trajectories. Not just a cycle. Not just fertility.</p>
-          <p>We built Hsence because women with PCOS and perimenopause are routinely dismissed — left to piece together their own understanding from forums and intuition.</p>
-          <p>This is your parallel care system. Warm. Rigorous. Yours.</p>
+        <div class="condition-card">
+          <div class="condition-name">Osteoporosis</div>
+          <div class="condition-desc">Correlates vitamin D, calcium, PTH, and estrogen decline with bone density risk. Matches D3+K2, weight-bearing lifestyle cues, and surfaces imaging follow-up care gaps — especially post-menopause.</div>
+          <div class="condition-signals">
+            <span class="condition-signal">vitamin D status</span>
+            <span class="condition-signal">DEXA follow-up</span>
+            <span class="condition-signal">estrogen decline</span>
+            <span class="condition-signal">bone-safe nutrition</span>
+          </div>
         </div>
-      </div>
-      <div class="phil-right">
-        <div class="phil-stat">
-          <div class="phil-stat-num">73%</div>
-          <div class="phil-stat-label">of women with PCOS report feeling dismissed by their GP</div>
-        </div>
-        <div class="phil-stat">
-          <div class="phil-stat-num">8–10</div>
-          <div class="phil-stat-label">years average time to PCOS diagnosis</div>
-        </div>
-        <div class="phil-stat">
-          <div class="phil-stat-num">0</div>
-          <div class="phil-stat-label">FDA-approved medications for perimenopause brain fog</div>
+        <div class="condition-card">
+          <div class="condition-name">Hormonal cancer · survivorship</div>
+          <div class="condition-desc">Tracks treatment timeline, inflammation during recovery, and hormone-sensitive patterns. Surfaces surveillance care gaps, trial eligibility, and evidence-backed questions for oncology — clinical decision support, not diagnosis.</div>
+          <div class="condition-signals">
+            <span class="condition-signal">surveillance gaps</span>
+            <span class="condition-signal">inflammation layer</span>
+            <span class="condition-signal">trial matching</span>
+            <span class="condition-signal">clinician handoff</span>
+          </div>
         </div>
       </div>
     </div>
@@ -1503,8 +1312,8 @@ footer{
         <div class="quote-name">— Maya, 34 · PCOS</div>
       </div>
       <div class="quote-card">
-        <div class="quote-text">"The supplement plan made sense of all the research I'd been doing for months. Evidence grades, doses, affordable brands — not another vague 'try magnesium' suggestion."</div>
-        <div class="quote-name">— Priya, 47 · perimenopause</div>
+        <div class="quote-text">"At 26 weeks my glucose kept spiking and no one explained what to eat between appointments. Hsence gave me a meal plan I could actually follow — and three questions to bring back to my midwife."</div>
+        <div class="quote-name">— Sofia, 28 · gestational diabetes</div>
       </div>
     </div>
   </section>
@@ -1525,7 +1334,7 @@ footer{
     <span class="footer-logo"><img src="assets/protea-flower.png" alt="" class="footer-logo-img" width="26" height="26"/>Hsence</span>
     <span class="footer-note">© 2026 Hsence · hormonal intelligence</span>
     <div class="footer-links">
-      <a href="labs.html">labs</a>
+      <a href="agent.html">precision agent</a>
       <a href="daily.html">daily ritual</a>
       <a href="#">privacy</a>
       <a href="#">research</a>
@@ -1848,35 +1657,7 @@ document.getElementById('controls-row').addEventListener('click',function(e){
 
 applyMode('pcos-mid');
 
-// ══════════════════════════════════════
-// TRI-AXIS ORBIT EXPLAINER
-// ══════════════════════════════════════
-const triAxisCopy = {
-  cognition: {
-    title: 'Cognition · what we read',
-    body: 'Hsence combines sleep architecture, HRV shift, and your check-in language to explain focus capacity and emotional load for today. Instead of scores, you get one actionable sentence: what to protect, what to postpone, and when to push.'
-  },
-  gut: {
-    title: 'Gut · what we read',
-    body: 'Food categories, inflammation notes, and timing patterns are translated into gentle meal guidance. Hsence highlights likely triggers and gives low-friction swaps that reduce gut stress without forcing strict rules.'
-  },
-  hormones: {
-    title: 'Hormones · what we read',
-    body: 'Labs, wearable temperature shifts, and cycle context are merged into a daily hormonal state read. You see what phase pattern you are in, which risks to watch, and what support actions are most relevant right now.'
-  }
-};
-
-document.querySelectorAll('.axis-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const axis = btn.dataset.axis;
-    const copy = triAxisCopy[axis];
-    if (!copy) return;
-    document.querySelectorAll('.axis-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('tri-explain-title').textContent = copy.title;
-    document.getElementById('tri-explain-body').textContent = copy.body;
-  });
-});
 </script>
+<script src="scripts/nav.js"></script>
 </body>
 </html>

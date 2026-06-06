@@ -5,28 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Precision Agent — Hsence</title>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;1,100;1,300;1,400&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="assets/site.css"/>
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --text-dark:#1a1814;--text-mid:#6b6660;--text-light:#b0aca8;
-  --border:rgba(26,24,20,0.07);--border-med:rgba(26,24,20,0.12);
-  --cream:#ffffff;--warm:#f0d4c0;--lavender:#ddd0f0;--blue-soft:#c0cce8;
-  --green:#7ab89a;--amber:#d4a870;--red-soft:#cc8888;--blue-mid:#8899cc;
-}
-body{font-family:'Roboto',sans-serif;background:var(--cream);color:var(--text-dark);line-height:1.6;font-size:16px}
-.gradient-bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:var(--cream)}
-.blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:0.6;mix-blend-mode:multiply}
-.blob-1{width:520px;height:500px;background:var(--warm);top:-8%;left:-6%}
-.blob-2{width:480px;height:460px;background:var(--lavender);top:5%;right:-8%}
-.blob-3{width:420px;height:400px;background:var(--blue-soft);bottom:-5%;left:20%}
-.page{position:relative;z-index:3;max-width:1180px;margin:0 auto;padding:0 7vw 6rem}
-nav{display:flex;justify-content:space-between;align-items:center;padding:1.2rem 0;border-bottom:0.5px solid rgba(255,255,255,0.65);margin-bottom:2rem;flex-wrap:wrap;gap:1rem;background:rgba(255,255,255,0.55);backdrop-filter:blur(22px) saturate(180%);-webkit-backdrop-filter:blur(22px) saturate(180%);position:sticky;top:0;z-index:100;box-shadow:0 8px 32px rgba(26,24,20,0.06),inset 0 1px 0 rgba(255,255,255,0.85)}
-.nav-logo{display:inline-flex;align-items:center;gap:0.65rem;text-decoration:none;line-height:1}
-.nav-logo-img{width:72px;height:72px;object-fit:contain;display:block;flex-shrink:0}
-.nav-logo-text{font-weight:300;font-size:1.5rem;letter-spacing:0.07em;color:var(--text-dark)}
-.nav-links{display:flex;gap:1.5rem;list-style:none;flex-wrap:wrap}
-.nav-links a{font-size:0.76rem;font-weight:300;color:var(--text-mid);text-decoration:none;letter-spacing:0.14em;text-transform:lowercase}
-.nav-links a.active,.nav-links a:hover{color:var(--text-dark)}
 .hero{margin-bottom:2.5rem;display:grid;grid-template-columns:auto 1fr;gap:clamp(1.5rem,4vw,3rem);align-items:center}
 .hero-illu-protea{width:min(220px,32vw);height:auto;object-fit:contain;display:block}
 @media(max-width:720px){.hero{grid-template-columns:1fr;text-align:center}.hero-illu-protea{margin:0 auto;max-width:160px}}
@@ -39,13 +19,9 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1.2rem
 .api-hint code{background:rgba(26,24,20,0.06);padding:0.15rem 0.45rem;border-radius:6px;font-size:0.75rem}
 .layout{display:grid;grid-template-columns:340px 1fr;gap:1.5rem;align-items:start}
 @media(max-width:960px){.layout{grid-template-columns:1fr}}
-.panel{background:rgba(255,255,255,0.88);backdrop-filter:blur(24px);border:0.5px solid var(--border-med);border-radius:24px;overflow:hidden;box-shadow:0 32px 80px rgba(26,24,20,0.06)}
-.panel-head{padding:1rem 1.5rem;border-bottom:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-.panel-title{font-size:0.7rem;font-weight:300;letter-spacing:0.16em;color:var(--text-light);text-transform:lowercase}
-.panel-body{padding:1.5rem}
 .field{margin-bottom:1rem}
 .field label{display:block;font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-light);margin-bottom:0.35rem}
-.field input,.field select{width:100%;border:0.5px solid var(--border);border-radius:10px;padding:0.55rem 0.75rem;font-family:inherit;font-size:0.82rem;background:rgba(255,255,255,0.8)}
+.field input,.field select{width:100%;border:0.5px solid var(--border);border-radius:10px;padding:0.55rem 0.75rem;font-family:inherit;font-size:0.82rem;background:#ffffff}
 .field-row{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem}
 .mood-row{display:flex;gap:0.35rem;margin-top:0.3rem}
 .mood-row label{flex:1;text-align:center;border:0.5px solid var(--border);border-radius:10px;padding:0.5rem;font-size:0.72rem;cursor:pointer;color:var(--text-mid)}
@@ -59,13 +35,12 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1.2rem
 .btn-run:disabled{opacity:0.4;cursor:not-allowed}
 .btn-adapt{width:100%;margin-top:0.5rem;background:transparent;color:var(--text-dark);border:0.5px solid var(--border-med);font-family:inherit;font-size:0.72rem;padding:0.75rem;border-radius:999px;cursor:pointer}
 .agent-status{font-size:0.68rem;color:var(--text-light);text-align:center;margin-top:0.8rem;letter-spacing:0.08em}
-.summary-card{border:0.5px solid var(--border-med);border-radius:18px;padding:1.5rem 1.6rem;background:rgba(255,255,255,0.7);margin-bottom:1.5rem}
+.summary-card{border:0.5px solid var(--border-med);border-radius:18px;padding:1.5rem 1.6rem;background:#ffffff;margin-bottom:1.5rem}
 .pattern-badge{display:inline-block;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.35rem 0.85rem;border-radius:999px;background:rgba(136,153,204,0.15);color:var(--blue-mid);border:0.5px solid rgba(136,153,204,0.3);margin-bottom:0.9rem}
 .summary-text{font-size:0.88rem;font-weight:300;color:var(--text-mid);line-height:1.85}
-.section-label{font-size:0.6rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--text-light);font-weight:300;margin:1.5rem 0 0.9rem}
 .layers-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0.75rem}
 @media(max-width:600px){.layers-grid{grid-template-columns:1fr}}
-.layer-card{border:0.5px solid var(--border);border-radius:16px;padding:1.1rem 1.2rem;background:rgba(255,255,255,0.55)}
+.layer-card{border:0.5px solid var(--border);border-radius:16px;padding:1.1rem 1.2rem;background:#ffffff}
 .layer-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem}
 .layer-icon{font-size:1.1rem}
 .layer-status{font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light)}
@@ -78,14 +53,14 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1.2rem
 .signal-chip,.layer-tag{font-size:0.58rem;padding:0.25rem 0.55rem;border-radius:999px;border:0.5px solid var(--border);color:var(--text-light)}
 .plan-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 @media(max-width:700px){.plan-grid{grid-template-columns:1fr}}
-.plan-block{border:0.5px solid var(--border);border-radius:14px;padding:1rem 1.1rem;background:rgba(255,255,255,0.5)}
+.plan-block{border:0.5px solid var(--border);border-radius:14px;padding:1rem 1.1rem;background:#ffffff}
 .plan-block h3{font-size:0.72rem;font-weight:300;letter-spacing:0.12em;text-transform:lowercase;color:var(--text-mid);margin-bottom:0.7rem}
 .plan-row{padding:0.65rem 0;border-bottom:0.5px solid var(--border);font-size:0.78rem;font-weight:300;color:var(--text-mid);line-height:1.6}
 .plan-row:last-child{border-bottom:none}
 .plan-row strong{display:block;color:var(--text-dark);font-weight:400;font-size:0.82rem;margin-bottom:0.15rem}
 .empty-plan{font-size:0.75rem;color:var(--text-light);font-style:italic}
 .gaps-list{display:grid;gap:0.65rem}
-.gap-card{border-radius:14px;padding:1rem 1.1rem;border:0.5px solid var(--border);background:rgba(255,255,255,0.55)}
+.gap-card{border-radius:14px;padding:1rem 1.1rem;border:0.5px solid var(--border);background:#ffffff}
 .gap-high{border-color:rgba(204,136,136,0.35)}
 .gap-med{border-color:rgba(212,168,112,0.35)}
 .gap-head{display:flex;justify-content:space-between;margin-bottom:0.35rem}
@@ -105,12 +80,12 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1.2rem
 .plan-steps{font-size:0.72rem;color:var(--text-mid);line-height:1.7}
 .plan-step{display:flex;gap:0.5rem;margin-bottom:0.35rem}
 .plan-step-num{color:var(--text-light);min-width:1rem}
-.chat-field{width:100%;border:0.5px solid var(--border);border-radius:12px;padding:0.75rem;font-family:inherit;font-size:0.8rem;min-height:72px;resize:vertical;background:rgba(255,255,255,0.8)}
+.chat-field{width:100%;border:0.5px solid var(--border);border-radius:12px;padding:0.75rem;font-family:inherit;font-size:0.8rem;min-height:72px;resize:vertical;background:#ffffff}
 .intent-badge{display:inline-block;font-size:0.6rem;letter-spacing:0.1em;padding:0.3rem 0.7rem;border-radius:999px;margin-top:0.5rem;background:rgba(212,168,112,0.15);color:var(--amber);border:0.5px solid rgba(212,168,112,0.35)}
 .guideline-card{font-size:0.76rem;color:var(--text-mid);padding:0.75rem 0;border-bottom:0.5px solid var(--border);line-height:1.65}
 .guideline-card:last-child{border-bottom:none}
 .guideline-src{font-size:0.58rem;letter-spacing:0.1em;color:var(--text-light);text-transform:uppercase;margin-bottom:0.25rem}
-.trial-card{border:0.5px solid var(--border);border-radius:12px;padding:0.9rem 1rem;margin-bottom:0.5rem;background:rgba(255,255,255,0.55)}
+.trial-card{border:0.5px solid var(--border);border-radius:12px;padding:0.9rem 1rem;margin-bottom:0.5rem;background:#ffffff}
 .trial-id{font-size:0.58rem;color:var(--text-light);letter-spacing:0.08em}
 .doctor-q{font-size:0.8rem;color:var(--text-mid);padding:0.7rem 0;border-bottom:0.5px solid var(--border);line-height:1.65}
 .doctor-q strong{color:var(--text-dark);font-weight:400;display:block;margin-bottom:0.25rem}
@@ -119,18 +94,22 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1.2rem
 </style>
 </head>
 <body>
-<div class="gradient-bg"><div class="blob blob-1"></div><div class="blob blob-2"></div><div class="blob blob-3"></div></div>
+<div class="gradient-bg"></div>
 <div class="page">
   <nav>
     <a href="index.html" class="nav-logo"><img src="assets/protea-flower.png" alt="" class="nav-logo-img" width="72" height="72"/><span class="nav-logo-text">Hsence</span></a>
     <ul class="nav-links">
-      <li><a href="agent.html" class="active">precision agent</a></li>
-      <li><a href="labs.html">labs</a></li>
-      <li><a href="daily.html">daily ritual</a></li>
       <li><a href="index.html">home</a></li>
+      <li><a href="agent.html">precision agent</a></li>
+      <li><a href="daily.html">daily ritual</a></li>
+      <li><a href="index.html#setup">setup</a></li>
+      <li><a href="index.html#prototype">morning brew</a></li>
+      <li><a href="index.html#features">features</a></li>
     </ul>
+    <a href="daily.html" class="nav-cta">log today</a>
   </nav>
 
+  <div class="site-wrap page-main">
   <header class="hero">
     <img src="assets/protea-flower.png" alt="" class="hero-illu-protea" width="220" height="220"/>
     <div>
@@ -253,7 +232,21 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1.2rem
       <p class="disclaimer" id="disclaimer">Not a diagnosis or prescription. Confirm all supplements and interventions with your clinician.</p>
     </main>
   </div>
+  </div>
+
+  <footer>
+    <span class="footer-logo"><img src="assets/protea-flower.png" alt="" class="footer-logo-img" width="26" height="26"/>Hsence</span>
+    <span class="footer-note">© 2026 Hsence · hormonal intelligence</span>
+    <div class="footer-links">
+      <a href="agent.html">precision agent</a>
+      <a href="daily.html">daily ritual</a>
+      <a href="#">privacy</a>
+      <a href="#">research</a>
+      <a href="#">contact</a>
+    </div>
+  </footer>
 </div>
 <script src="scripts/agent-ui.js"></script>
+<script src="scripts/nav.js"></script>
 </body>
 </html>

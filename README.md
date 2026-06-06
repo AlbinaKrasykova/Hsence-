@@ -1,22 +1,50 @@
 # Hsence
 
-Hormonal intelligence platform — static site + precision medicine agent API on **one port**.
+**Hormonal intelligence platform** — static site + precision medicine agent API on **one port**.
 
-Anyone with **Python 3.10+** can run it on Mac, Linux, or Windows. No API keys required for the demo agent.
+Sync labs and wearable once. Hsence explains your hormonal state, surfaces personal risks, and builds a supplement and daily plan matched to your biology. Includes an autonomous **clinical decision support** agent for intent detection, care-gap triage, trial matching, and clinician handoff.
 
-## Run locally (fastest)
+> **Not a diagnosis engine.** Decision support and education only.
+
+---
+
+## Problem → Solution
+
+| Problem | Hsence solution |
+|---------|-----------------|
+| Dismissed or unexplained lab results | Multimodal read: labs + wearable + daily signals, plain language |
+| Siloed hormone / metabolic / mood care | Four-layer agent + unified home setup flow |
+| Forum-only answers between visits | Evidence-graded supplements, GP questions, trial criteria |
+| Overwhelming health dashboards | Morning brew + daily ritual — low cognitive load |
+
+Full pitch, distribution, and safety scope: **[docs/PITCH.md](docs/PITCH.md)**  
+Demo script: **[docs/DEMO.md](docs/DEMO.md)**  
+Deploy guide: **[docs/DEPLOY.md](docs/DEPLOY.md)**
+
+---
+
+## Live & repo
+
+- **GitHub:** https://github.com/AlbinaKrasykova/Hsence-
+- **Deploy:** Connect repo on [Render](https://render.com) → Blueprint → `render.yaml` → public URL (e.g. `https://hsence.onrender.com`)
+
+---
+
+## Run locally
 
 ```bash
-cd hormonemap
+git clone https://github.com/AlbinaKrasykova/Hsence-.git
+cd Hsence-
 bash scripts/start.sh
 ```
 
 Then open:
 
-- http://localhost:8080 — home
-- http://localhost:8080/agent.html — precision agent
-- http://localhost:8080/labs.html — labs
-- http://localhost:8080/daily.html — daily ritual
+| URL | Page |
+|-----|------|
+| http://localhost:8080 | Home — setup flow, morning brew, features |
+| http://localhost:8080/agent.html | Precision agent (CDSS demo) |
+| http://localhost:8080/daily.html | Daily ritual |
 
 ### Manual start
 
@@ -27,26 +55,9 @@ pip install -r requirements.txt
 python scripts/run_app.py
 ```
 
-Optional env:
+Optional: `PORT=9000` · `HOST=0.0.0.0` for LAN sharing.
 
-- `PORT=9000` — change port (default `8080`)
-- `HOST=0.0.0.0` — listen on all interfaces (so others on your network can open it)
-
-## Share on your network
-
-```bash
-HOST=0.0.0.0 PORT=8080 bash scripts/start.sh
-```
-
-Others use `http://YOUR_LAN_IP:8080` (same Wi‑Fi).
-
-## Deploy online (public URL)
-
-1. Push this folder to GitHub.
-2. [Render](https://render.com) → **New** → **Blueprint** → connect the repo.
-3. Render uses `render.yaml` automatically.
-
-Live app serves the same pages and `POST /agent/run` API.
+---
 
 ## Health check
 
@@ -54,11 +65,27 @@ Live app serves the same pages and `POST /agent/run` API.
 curl http://localhost:8080/agent/health
 ```
 
-## What’s included
+---
 
-- `index.html`, `labs.html`, `daily.html`, `agent.html` — UI
-- `agent/` — planner, tools, memory, FastAPI server
-- `data/` — demo patient + sample lab panel
-- `assets/` — images (protea, coffee cup)
+## What’s in the repo
 
-No database setup — demo memory is `data/patient-memory.json`.
+| Path | Purpose |
+|------|---------|
+| `index.html`, `agent.html`, `daily.html` | UI |
+| `assets/site.css`, `scripts/nav.js` | Shared layout + nav |
+| `agent/` | FastAPI server, planner, tools, memory |
+| `data/` | Demo patient + sample lab panel |
+| `docs/` | Pitch, demo script, deploy |
+| `render.yaml` | Render blueprint |
+
+No database — demo memory is `data/patient-memory.json`. No API keys required for the demo agent.
+
+---
+
+## Quick demo (agent)
+
+1. Open `agent.html`
+2. Chat: *Should I take berberine for PCOS?*
+3. Run full CDSS cycle → layers, gaps, evidence, trials, handoff
+
+See **[docs/DEMO.md](docs/DEMO.md)** for the full judge script.

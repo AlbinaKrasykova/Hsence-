@@ -17,7 +17,6 @@ fi
 PORT="${PORT:-8080}"
 echo "Starting Hsence at http://127.0.0.1:${PORT}"
 echo "  Agent UI → http://127.0.0.1:${PORT}/agent.html"
-echo "  Labs     → http://127.0.0.1:${PORT}/labs.html"
 echo ""
 
 exec "$PY" scripts/run_app.py
