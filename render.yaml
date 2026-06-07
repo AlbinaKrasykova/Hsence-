@@ -9,3 +9,12 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: "3.12.0"
+      # Set ELEVENLABS_API_KEY in Render dashboard — never commit the key
+      - key: ELEVENLABS_API_KEY
+        sync: false
+      - key: ELEVENLABS_VOICE_ID
+        value: XrExE9yKIg1WjnnlVkGX
+      - key: ELEVENLABS_MODEL_ID
+        value: eleven_turbo_v2_5
+      - key: ELEVENLABS_STT_MODEL_ID
+        value: scribe_v1
