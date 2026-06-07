@@ -221,7 +221,7 @@
     const btn = el('agent-send-btn');
     if (!btn) return;
     btn.disabled = busy;
-    btn.textContent = busy ? '…' : 'ask';
+    btn.textContent = busy ? '…' : '→';
     btn.style.opacity = busy ? '0.6' : '';
     btn.style.pointerEvents = busy ? 'none' : '';
   }
@@ -337,7 +337,7 @@
   async function sendConversationTurn(message) {
     const text = (message || el('agent-input')?.value || '').trim();
     if (!text) {
-      setStatus('Type your answer first, then press ask');
+      setStatus('Type your answer first, then press →');
       el('agent-input')?.focus();
       return;
     }
@@ -365,7 +365,7 @@
   async function sendMessage(message) {
     const text = (message || el('agent-input')?.value || '').trim();
     if (!text) {
-      setStatus('Type a message first, then press ask');
+      setStatus('Type a message first, then press →');
       el('agent-input')?.focus();
       return;
     }
