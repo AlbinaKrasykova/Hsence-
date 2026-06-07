@@ -12,7 +12,8 @@
 .pillar.done{border-color:rgba(122,184,154,0.4);color:var(--green);background:rgba(122,184,154,0.08)}
 .pillar.current{border-color:var(--text-dark);color:var(--text-dark)}
 .daily-content{max-width:720px;margin:0 auto}
-.mode-tabs{display:flex;gap:0.4rem;margin-bottom:1.5rem;max-width:420px;margin-left:auto;margin-right:auto}
+.mode-tabs{display:flex;gap:0.4rem;margin-bottom:1.5rem;max-width:520px;margin-left:auto;margin-right:auto}
+.ritual-intro{font-size:0.72rem;color:var(--text-mid);text-align:center;margin:-0.5rem 0 1.2rem;font-weight:300;line-height:1.6}
 .mode-tab{flex:1;font-family:inherit;font-size:0.7rem;letter-spacing:0.1em;padding:0.65rem;border:0.5px solid var(--border);border-radius:999px;background:transparent;color:var(--text-mid);cursor:pointer;text-transform:lowercase}
 .mode-tab.active{background:var(--text-dark);color:#fff;border-color:var(--text-dark)}
 .cal-wrap{background:#ffffff;border:0.5px solid var(--border-med);border-radius:20px;padding:1.2rem 1.4rem;margin-bottom:1.5rem}
@@ -88,20 +89,64 @@ input[type=text]{min-height:auto}
 .hidden{display:none!important}
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 .fade{animation:fadeUp 0.4s ease both}
+.agent-panel{background:#ffffff;border:0.5px solid var(--border-med);border-radius:22px;padding:1.2rem 1.4rem;margin-bottom:1.5rem}
+.agent-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;gap:0.5rem;flex-wrap:wrap}
+.agent-title{font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-light)}
+.agent-status{font-size:0.68rem;color:var(--text-mid);font-weight:300}
+.agent-messages{max-height:220px;overflow-y:auto;display:flex;flex-direction:column;gap:0.65rem;margin-bottom:0.85rem;padding-right:0.25rem}
+.agent-msg{font-size:0.78rem;line-height:1.65;color:var(--text-mid);font-weight:300;padding:0.75rem 0.9rem;border-radius:12px;background:rgba(26,24,20,0.03);border:0.5px solid var(--border)}
+.agent-msg--user{background:rgba(122,184,154,0.1);border-color:rgba(122,184,154,0.25);align-self:flex-end;max-width:92%}
+.agent-msg--agent{align-self:flex-start;max-width:100%}
+.agent-msg-label{display:block;font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--green);margin-bottom:0.35rem}
+.agent-quick{display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.75rem}
+.agent-quick-chip{font-size:0.66rem;padding:0.45rem 0.75rem;border:0.5px solid var(--border);border-radius:999px;background:transparent;cursor:pointer;font-family:inherit;color:var(--text-mid)}
+.agent-quick-chip:hover{border-color:var(--text-dark);color:var(--text-dark)}
+.agent-suggestions{display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.65rem}
+.agent-suggest-chip{font-size:0.66rem;padding:0.45rem 0.75rem;border:0.5px solid rgba(122,184,154,0.35);border-radius:999px;background:rgba(122,184,154,0.08);cursor:pointer;font-family:inherit;color:var(--green)}
+.agent-cog-note{width:100%;font-size:0.68rem;color:var(--text-mid);margin:0.25rem 0 0}
+.agent-form{display:flex;gap:0.45rem;align-items:stretch}
+.agent-form input{flex:1;min-height:auto;border:0.5px solid var(--border);border-radius:999px;padding:0.65rem 1rem;font-family:inherit;font-size:0.78rem}
+.agent-form button{border:none;border-radius:999px;cursor:pointer;font-family:inherit;font-size:0.68rem;letter-spacing:0.08em;padding:0.65rem 1rem}
+#agent-send-btn{background:var(--text-dark);color:#fff;cursor:pointer;min-width:3.2rem}
+#agent-send-btn:disabled{opacity:0.55;cursor:wait}
+#agent-voice-btn{background:transparent;border:0.5px solid var(--border)!important;color:var(--text-mid)}
+#agent-voice-btn.recording{border-color:var(--red-soft)!important;color:var(--red-soft)}
+#agent-voice-btn.your-turn{border-color:var(--green)!important;color:var(--green)!important;animation:micPulse 1.1s ease 4}
+@keyframes micPulse{0%,100%{box-shadow:0 0 0 0 rgba(122,184,154,0.45)}50%{box-shadow:0 0 0 8px rgba(122,184,154,0)}}
+.agent-talk-row{display:flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:0.85rem;gap:0.55rem}
+.voice-orb-btn{background:none;border:none;padding:0.4rem;cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:transform 0.2s ease}
+.voice-orb-btn:hover{transform:scale(1.03)}
+.voice-orb-btn:focus-visible{outline:2px solid rgba(124,77,255,0.45);outline-offset:4px}
+.voice-orb{position:relative;width:92px;height:92px;border-radius:50%;animation:orbPulse 2.6s ease-in-out infinite}
+.voice-orb-glass{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 32% 26%,rgba(255,255,255,0.98) 0%,rgba(248,248,252,0.82) 42%,rgba(228,230,242,0.62) 100%);box-shadow:0 10px 36px rgba(72,84,160,0.16),0 2px 8px rgba(255,255,255,0.9) inset,inset 0 -10px 24px rgba(200,205,230,0.35);border:0.5px solid rgba(255,255,255,0.75);overflow:hidden}
+.voice-orb-core{position:absolute;inset:22%;border-radius:50%;background:linear-gradient(128deg,#2f5bff 0%,#6b4cff 38%,#b84dff 72%,#e056fd 100%);filter:blur(5px);opacity:0.9;animation:orbSwoosh 5s ease-in-out infinite}
+.voice-orb-shine{position:absolute;top:14%;left:20%;width:28%;height:18%;border-radius:50%;background:rgba(255,255,255,0.75);filter:blur(3px);transform:rotate(-24deg);pointer-events:none}
+.voice-orb-label{font-size:0.68rem;letter-spacing:0.14em;text-transform:lowercase;color:var(--text-light);margin:0;font-weight:300}
+.voice-orb-btn.active .voice-orb{animation:orbPulseActive 1.4s ease-in-out infinite}
+.voice-orb-btn.active .voice-orb-core{background:linear-gradient(128deg,#ff5c7a 0%,#c44fd4 45%,#6b4cff 100%);animation-duration:2.5s}
+.voice-orb-btn.speaking .voice-orb{animation:orbPulseActive 0.9s ease-in-out infinite}
+.voice-orb-btn.speaking .voice-orb-core{animation-duration:1.2s}
+.voice-orb-btn.recording .voice-orb-core{background:linear-gradient(128deg,#7ab89a 0%,#4a8fd4 50%,#7c4dff 100%)}
+@keyframes orbPulse{0%,100%{transform:scale(1) translateY(0)}50%{transform:scale(1.07) translateY(-5px)}}
+@keyframes orbPulseActive{0%,100%{transform:scale(1) translateY(0)}50%{transform:scale(1.1) translateY(-3px)}}
+@keyframes orbSwoosh{0%,100%{transform:rotate(0deg) scale(1) translate(0,0)}33%{transform:rotate(130deg) scale(1.14) translate(7%,-5%)}66%{transform:rotate(250deg) scale(0.92) translate(-6%,6%)}}
+.agent-tts-note{font-size:0.65rem;color:var(--text-light);text-align:center;margin-bottom:0.65rem}
+.agent-voice-steps{font-size:0.68rem;color:var(--text-mid);margin:0 0 0.65rem 1.1rem;padding:0;line-height:1.7}
+.agent-voice-steps.active li:first-child{text-decoration:line-through;opacity:0.5}
+.agent-voice-steps.active li:nth-child(2){color:var(--green);font-weight:400}
 </style>
 </head>
 <body>
 <div class="gradient-bg"></div>
 <div class="page">
   <nav>
-    <a href="index.html" class="nav-logo"><img src="assets/protea-flower-logo.png" alt="" class="nav-logo-img" width="72" height="72"/><span class="nav-logo-text">Hsence</span></a>
+    <a href="index.html" class="nav-logo"><img src="assets/protea-flower-web.png" alt="" class="nav-logo-img" width="72" height="72"/><span class="nav-logo-text">Hsence</span></a>
     <ul class="nav-links">
       <li><a href="index.html">home</a></li>
-      <li><a href="agent.html">precision agent</a></li>
-      <li><a href="daily.html">daily ritual</a></li>
       <li><a href="index.html#setup">setup</a></li>
+      <li><a href="daily.html">daily ritual</a></li>
       <li><a href="index.html#prototype">morning brew</a></li>
-      <li><a href="index.html#features">features</a></li>
+      <li><a href="index.html#about">about</a></li>
     </ul>
     <a href="daily.html" class="nav-cta">log today</a>
   </nav>
@@ -115,7 +160,7 @@ input[type=text]{min-height:auto}
     </div>
     <p class="page-hero-eyebrow">you are in charge · one thing at a time</p>
     <h1 class="page-hero-title">today's <em>ritual</em></h1>
-    <p class="page-hero-sub">Log only what you want. Hsence connects feelings, food, and supplements to your labs and wearable — gently, without overwhelm.</p>
+    <p class="page-hero-sub">Log only what you want. Ask the lab agent anything — mood, supplements, food — grounded in your blood work and wearable signals.</p>
   </header>
 
   <div class="site-wrap page-main">
@@ -127,9 +172,11 @@ input[type=text]{min-height:auto}
   </div>
 
   <div class="mode-tabs">
-    <button type="button" class="mode-tab active" data-mode="log" onclick="setMode('log')">log today</button>
-    <button type="button" class="mode-tab" data-mode="review" onclick="setMode('review')">review & filter</button>
+    <button type="button" class="mode-tab active" data-mode="manual" onclick="setMode('manual')">manual log</button>
+    <button type="button" class="mode-tab" data-mode="coach" onclick="setMode('coach')">talk to Anna</button>
+    <button type="button" class="mode-tab" data-mode="history" onclick="setMode('history')">history</button>
   </div>
+  <p class="ritual-intro" id="ritual-intro">Tap through mood, supplements, food — step by step at your pace.</p>
 
   <div class="cal-wrap">
     <div class="cal-nav">
@@ -141,6 +188,40 @@ input[type=text]{min-height:auto}
   </div>
 
   <div id="view-log">
+    <div id="view-coach" class="hidden">
+    <div class="agent-panel" id="agent-panel">
+      <div class="agent-head">
+        <span class="agent-title">Anna · your personal hormone intelligence assistant</span>
+        <span class="agent-status" id="agent-status-line">Connecting…</span>
+      </div>
+      <div class="agent-talk-row">
+        <button type="button" id="agent-talk-btn" class="voice-orb-btn" aria-label="Talk to Anna">
+          <span class="voice-orb" aria-hidden="true">
+            <span class="voice-orb-glass"></span>
+            <span class="voice-orb-core"></span>
+            <span class="voice-orb-shine"></span>
+          </span>
+        </button>
+        <p class="voice-orb-label" id="agent-talk-label">tap Anna to speak</p>
+      </div>
+      <ol class="agent-voice-steps" id="agent-voice-steps">
+        <li>Wait until I finish speaking</li>
+        <li>Tap <strong>🎙 1 · record</strong></li>
+        <li>Say your answer out loud</li>
+        <li>Tap <strong>■ 2 · send</strong></li>
+      </ol>
+      <p class="agent-tts-note">Voice needs <code>ELEVENLABS_API_KEY</code> in <code>.env</code> · or <strong>type</strong> below</p>
+      <div class="agent-messages" id="agent-messages"></div>
+      <div class="agent-suggestions" id="agent-suggestions"></div>
+      <div class="agent-quick" id="agent-quick"></div>
+      <form class="agent-form" id="agent-form">
+        <input type="text" id="agent-input" placeholder="Ask about mood, supplements, food, labs…" autocomplete="off"/>
+        <button type="button" id="agent-voice-btn">🎙 1 · record</button>
+        <button type="button" id="agent-send-btn">ask</button>
+      </form>
+    </div>
+    </div>
+    <div id="view-manual">
     <div class="card" id="wizard-card">
       <div class="step-progress" id="step-progress"></div>
       <div id="step-container" class="fade"></div>
@@ -150,9 +231,10 @@ input[type=text]{min-height:auto}
         <button type="button" class="step-next" id="btn-next" onclick="nextStep()">continue →</button>
       </div>
     </div>
+    </div>
   </div>
 
-  <div id="view-review" class="hidden">
+  <div id="view-history" class="hidden">
     <div class="filter-bar" id="filter-bar">
       <button type="button" class="filter-chip active" data-f="all" onclick="setFilter('all')">all</button>
       <button type="button" class="filter-chip" data-f="mood" onclick="setFilter('mood')">feelings</button>
@@ -168,10 +250,9 @@ input[type=text]{min-height:auto}
   </div>
 
   <footer>
-    <span class="footer-logo"><img src="assets/protea-flower-logo.png" alt="" class="footer-logo-img" width="26" height="26"/>Hsence</span>
+    <span class="footer-logo"><img src="assets/protea-flower-web.png" alt="" class="footer-logo-img" width="26" height="26"/>Hsence</span>
     <span class="footer-note">© 2026 Hsence · hormonal intelligence</span>
     <div class="footer-links">
-      <a href="agent.html">precision agent</a>
       <a href="daily.html">daily ritual</a>
       <a href="#">privacy</a>
       <a href="#">research</a>
@@ -243,7 +324,7 @@ function renderCalendar(){
     btn.type='button';
     btn.className='cal-day'+(k===selectedDate?' selected':'')+(k===today?' today':'')+(logs[k]?' has-log':'');
     btn.innerHTML='<span>'+d.getDate()+'</span><span class="cal-dot"></span><span style="font-size:0.55rem;opacity:0.6">'+days[d.getDay()]+'</span>';
-    btn.onclick=()=>{selectedDate=k;loadDraftFromDay();renderCalendar();setMode('log');renderStep()};
+    btn.onclick=()=>{selectedDate=k;loadDraftFromDay();renderCalendar();setMode('manual');renderStep()};
     el.appendChild(btn);
   }
   document.getElementById('cal-month').textContent=weekStart.toLocaleDateString('en-GB',{month:'long',year:'numeric'});
@@ -268,6 +349,7 @@ function renderProgress(){
 function renderStep(){
   renderProgress();
   const step=STEPS[stepIndex];
+  if(window.HsenceDailyAgent)HsenceDailyAgent.refreshQuickReplies(step);
   const c=document.getElementById('step-container');
   document.getElementById('btn-back').classList.toggle('hidden',stepIndex===0);
   document.getElementById('btn-skip').style.visibility=step==='done'?'hidden':'visible';
@@ -277,7 +359,7 @@ function renderStep(){
     c.innerHTML=`
       <p class="step-label">step 1 of 5 · feelings</p>
       <h2 class="step-q">how does your <em>body feel</em> today?</h2>
-      <p class="step-hint">Tap one face — or skip. Add a few words only if you want.</p>
+      <p class="step-hint">Tap one face — or ask the lab agent above about fog, sleep, or mood.</p>
       <div class="step-body">
         <div class="wearable-pill"><span class="wearable-dot"></span> wearable synced passively · HRV + sleep last night</div>
         <div class="mood-row" id="mood-row">
@@ -295,7 +377,7 @@ function renderStep(){
     c.innerHTML=`
       <p class="step-label">step 2 of 5 · supplements</p>
       <h2 class="step-q">what did you <em>take</em>?</h2>
-      <p class="step-hint">From your personal plan — tap what you took. No streaks, no guilt.</p>
+      <p class="step-hint">From your personal plan — or ask the agent which supplements match your PCOS labs.</p>
       <div class="step-body chip-grid" id="supp-chips">
         ${REC_SUPPS.map(s=>'<button type="button" class="chip'+(draft.supps.includes(s.id)?' on':'')+'" data-id="'+s.id+'">'+s.label+'</button>').join('')}
       </div>`;
@@ -311,7 +393,7 @@ function renderStep(){
     c.innerHTML=`
       <p class="step-label">step 3 of 5 · food</p>
       <h2 class="step-q">what did you <em>eat</em>?</h2>
-      <p class="step-hint">Track food categories and get recommendations by hormonal state.</p>
+      <p class="step-hint">Track categories — ask the agent what to eat for insulin resistance.</p>
       <div class="step-body">
         <div class="food-grid">
           <div class="food-box">
@@ -362,7 +444,7 @@ function renderStep(){
     c.innerHTML=`
       <p class="step-label">step 4 of 5 · inflammation</p>
       <h2 class="step-q">any <em>inflammation</em> signals?</h2>
-      <p class="step-hint">Bloating, joint ache, skin flare — helps Hsence correlate with food and cycle.</p>
+      <p class="step-hint">Bloating, joint ache, skin flare — ask the agent how this links to your labs.</p>
       <div class="step-body infl-row">
         ${['none','mild','noticeable'].map(v=>'<button type="button" class="infl-btn'+(draft.infl===v?' on':'')+'" data-v="'+v+'">'+v+'</button>').join('')}
       </div>`;
@@ -375,12 +457,17 @@ function renderStep(){
     c.innerHTML=`
       <p class="step-label">step 5 of 5 · optional voice</p>
       <h2 class="step-q">rather <em>speak</em> than type?</h2>
-      <p class="step-hint">30-second memo — optional. Stored on your device in this demo.</p>
+      <p class="step-hint">Prefer speaking? Switch to <strong>talk to Anna</strong> — or type a note below.</p>
       <div class="step-body">
-        <button type="button" class="voice-btn" id="voice-btn" onclick="toggleVoice()">
-          <span id="voice-icon">🎙</span> <span id="voice-label">${draft.voice?'memo saved · tap to re-record':'hold to record (demo)'}</span>
-        </button>
+        <textarea id="voice-note-manual" placeholder="e.g. I have brain fog and didn't sleep well…" style="width:100%;min-height:72px;border:0.5px solid var(--border);border-radius:12px;padding:0.75rem;font-family:inherit;font-size:0.78rem;margin-bottom:0.75rem">${draft.voice?.transcript||''}</textarea>
+        <button type="button" class="step-next" style="width:100%;margin-bottom:0.6rem" onclick="setMode('coach')">talk to Anna instead →</button>
+        <div class="rec-card">
+          <div class="rec-head">voice → cognition layer</div>
+          <div class="rec-text">${draft.voice?.transcript ? 'Saved: “'+draft.voice.transcript.slice(0,120)+(draft.voice.transcript.length>120?'…':'')+'”' : 'Your note maps to cognition signals when saved.'}</div>
+        </div>
       </div>`;
+    const noteBox=document.getElementById('voice-note-manual');
+    if(noteBox)noteBox.oninput=()=>{draft.voice={...(draft.voice||{}),at:new Date().toISOString(),transcript:noteBox.value.trim()}};
     return;
   }
   if(step==='done'){
@@ -390,9 +477,9 @@ function renderStep(){
       <div class="done-card">
         <p class="step-label">saved · ${selectedDate}</p>
         <h3>thank you — that's enough.</h3>
-        <p style="font-size:0.85rem;color:var(--text-mid);font-weight:300">You logged what mattered. Edit anytime from review mode.</p>
+        <p style="font-size:0.85rem;color:var(--text-mid);font-weight:300">You logged what mattered. Edit anytime from history.</p>
         <div class="insight-snippet"><strong style="font-weight:400;color:var(--text-dark)">Hsence read ·</strong> ${insight}</div>
-        <button type="button" class="step-next" style="margin-top:1.5rem" onclick="setMode('review')">view timeline →</button>
+        <button type="button" class="step-next" style="margin-top:1.5rem" onclick="setMode('history')">view history →</button>
       </div>`;
     document.getElementById('step-nav').classList.add('hidden');
     return;
@@ -427,8 +514,9 @@ function buildFoodRecommendation(){
 }
 
 function toggleVoice(){
-  draft.voice=draft.voice?null:{at:new Date().toISOString(),note:'voice memo (demo)'};
-  renderStep();
+  const input=document.getElementById('agent-input');
+  if(input)input.focus();
+  document.getElementById('agent-voice-btn')?.click();
 }
 
 function buildInsight(){
@@ -456,36 +544,53 @@ function persistDay(){
 }
 
 function syncDailyToAgent(log){
+  const payload={
+    mood:log.mood||3,
+    moodText:log.moodText||'',
+    inflammation:log.infl||'none',
+    food_triggers:(log.foodCats||[]).filter(id=>['high-gi','dairy','processed','alcohol'].includes(id)),
+    supps:log.supps||[],
+    meals:log.meals||[],
+    hormoneState:log.hormoneState,
+    voice_transcript:log.voice?.transcript||'',
+    cognition_signals:log.voice?.cognition_signals||[],
+  };
   fetch(`${window.location.origin}/agent/run`,{
     method:'POST',
     headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({
-      event_type:'daily_log',
-      payload:{
-        daily_log:{
-          mood:log.mood||3,
-          inflammation:log.infl||'none',
-          food_triggers:(log.foodCats||[]).filter(id=>['high-gi','dairy','processed','alcohol'].includes(id))
-        }
-      }
-    })
+    body:JSON.stringify({event_type:'daily_log',payload:{daily_log:payload}})
+  }).then(r=>r.ok?r.json():null).then(data=>{
+    if(!data?.summary)return;
+    const el=document.querySelector('.insight-snippet');
+    if(el)el.innerHTML='<strong style="font-weight:400;color:var(--text-dark)">Lab agent ·</strong> '+data.summary;
   }).catch(()=>{});
 }
 
 function nextStep(){
   if(STEPS[stepIndex]==='mood')draft.moodText=document.getElementById('mood-text')?.value||draft.moodText;
   if(stepIndex<STEPS.length-1){stepIndex++;renderStep()}
-  else setMode('review');
+  else setMode('history');
 }
 function prevStep(){if(stepIndex>0){stepIndex--;renderStep()}}
 function skipStep(){nextStep()}
 
+const RITUAL_INTROS={
+  manual:'Tap through mood, supplements, food — step by step at your pace.',
+  coach:'Tap Anna — your personal hormone intelligence assistant walks you through today using your labs, checking in on your mental health and how it correlates with your lab pattern.',
+  history:'Browse your history — filter by feelings, food, voice, and more.'
+};
 function setMode(m){
+  if((m==='manual'||m==='history')&&window.HsenceDailyAgent?.stopConversation)HsenceDailyAgent.stopConversation();
   document.querySelectorAll('.mode-tab').forEach(t=>t.classList.toggle('active',t.dataset.mode===m));
-  document.getElementById('view-log').classList.toggle('hidden',m!=='log');
-  document.getElementById('view-review').classList.toggle('hidden',m!=='review');
-  if(m==='review')renderTimeline();
-  if(m==='log'){stepIndex=0;document.getElementById('step-nav').classList.remove('hidden');renderStep()}
+  const isLog=m==='manual'||m==='coach';
+  document.getElementById('view-log').classList.toggle('hidden',!isLog);
+  document.getElementById('view-manual').classList.toggle('hidden',m!=='manual');
+  document.getElementById('view-coach').classList.toggle('hidden',m!=='coach');
+  document.getElementById('view-history').classList.toggle('hidden',m!=='history');
+  const intro=document.getElementById('ritual-intro');
+  if(intro)intro.textContent=RITUAL_INTROS[m]||'';
+  if(m==='history')renderTimeline();
+  if(m==='manual'){stepIndex=0;document.getElementById('step-nav').classList.remove('hidden');renderStep()}
 }
 
 function setFilter(f){
@@ -518,7 +623,7 @@ function renderTimeline(){
   if((currentFilter==='all'||currentFilter==='food')&&L.infl)
     items.push({type:'food',text:'inflammation: '+L.infl});
   if((currentFilter==='all'||currentFilter==='voice')&&L.voice)
-    items.push({type:'voice',text:'Voice memo recorded'});
+    items.push({type:'voice',text:L.voice.transcript||'Voice memo recorded'});
   el.innerHTML=items.length?items.map(i=>'<div class="tl-item"><div class="tl-type">'+i.type+'</div><div class="tl-text">'+i.text+'</div></div>').join(''):'';
   if(!items.length){empty.style.display='block';empty.textContent='no entries for this filter.'}
 }
@@ -527,6 +632,7 @@ loadDraftFromDay();
 renderCalendar();
 renderStep();
 </script>
+<script src="scripts/daily-agent.js"></script>
 <script src="scripts/nav.js"></script>
 </body>
 </html>

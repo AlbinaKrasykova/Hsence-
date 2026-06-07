@@ -1,5 +1,5 @@
 (function () {
-  const INDEX_SECTIONS = ['setup', 'prototype', 'features'];
+  const INDEX_SECTIONS = ['setup', 'prototype', 'about'];
 
   function isIndexPage() {
     const page = location.pathname.split('/').pop() || 'index.html';
