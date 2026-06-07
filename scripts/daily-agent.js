@@ -92,7 +92,9 @@
 
   function setStatus(text) {
     const status = el('agent-status-line');
-    if (status) status.textContent = text;
+    if (!status) return;
+    status.textContent = text;
+    status.style.display = text ? '' : 'none';
   }
 
   function renderSuggestions(data) {
@@ -487,7 +489,7 @@
       'no-speech': 'No speech heard — tap 🎙 1 · record, speak, then ■ 2 · send.',
       network: useServerStt()
         ? 'Connection issue — check Wi‑Fi or type your answer below.'
-        : 'Chrome voice needs Google internet. Add ELEVENLABS_API_KEY to .env — or type below.',
+        : 'Connection issue — type your answer below.',
       'audio-capture': 'No microphone found — plug in a mic or type your answer below.',
       'service-not-allowed': 'Voice only works on http://127.0.0.1:8080 — run bash scripts/start.sh',
       'language-not-supported': 'Language not supported — tap 🎙 1 · record to try again.',
@@ -538,9 +540,7 @@
           showVoiceError(
             msg.includes('permission') || msg.includes('speech_to_text')
               ? msg
-              : msg.includes('ELEVENLABS') || msg.includes('not set')
-                ? 'Add ELEVENLABS_API_KEY to .env and restart — or type below.'
-                : msg && msg !== 'transcribe failed'
+              : msg && msg !== 'transcribe failed'
                   ? msg
                   : 'Could not transcribe — type your answer below.',
           );
@@ -654,7 +654,7 @@
       }
 
       if (!speechSupported()) {
-        setStatus('Add ELEVENLABS_API_KEY for voice — or type below');
+        setStatus('Voice not available — type your answer below');
         return false;
       }
 
@@ -792,29 +792,17 @@
       global.speechSynthesis.onvoiceschanged = () => pickFemaleVoice();
       pickFemaleVoice();
     }
-    const voiceHint = useServerStt()
-      ? "Women's voice · Matilda · ElevenLabs voice in + out (no Chrome Google speech)"
-      : canRecordVoice()
-        ? 'Browser voice — add ELEVENLABS_API_KEY to .env'
-        : 'Type your answers below';
-    const ttsNote = voiceCfg.elevenlabs_enabled
-      ? `${COACH_NAME} · ${voiceHint}`
-      : `${COACH_NAME} · ${COACH_TAGLINE}${voiceHint ? ' · ' + voiceHint : ''}`;
-    setStatus(ttsNote);
+    setStatus('');
 
-    if (!voiceCfg.elevenlabs_enabled && isLocalApp()) {
-      appendMessage('agent', voiceCfg.setup_hint || 'Add ELEVENLABS_API_KEY to .env — then run bash scripts/start.sh');
-    } else if (!isLocalApp()) {
-      appendMessage('agent', 'Open http://127.0.0.1:8080/daily.html after running bash scripts/start.sh — voice needs the server.');
-    } else if (useServerStt()) {
+    if (!isLocalApp()) {
       appendMessage(
         'agent',
-        `Hi — I'm ${COACH_NAME}, ${COACH_TAGLINE}. I'll use your labs and check how your mental health connects to them. Tap the orb — when I finish: ① 🎙 record ② speak ③ ■ send.`,
+        `Hi — I'm ${COACH_NAME}, ${COACH_TAGLINE}. Type below — voice works best from the Hsence app.`,
       );
     } else {
       appendMessage(
         'agent',
-        'Voice may fail without ElevenLabs. Add ELEVENLABS_API_KEY to .env — or type answers below.',
+        `Hi — I'm ${COACH_NAME}, ${COACH_TAGLINE}. I'll use your labs and check how your mental health connects to them. Tap the orb — when I finish: ① 🎙 record ② speak ③ ■ send.`,
       );
     }
   }

@@ -200,7 +200,7 @@ input[type=text]{min-height:auto}
     <div class="agent-panel" id="agent-panel">
       <div class="agent-head">
         <span class="agent-title">Anna · your personal hormone intelligence assistant</span>
-        <span class="agent-status" id="agent-status-line">Connecting…</span>
+        <span class="agent-status" id="agent-status-line" hidden></span>
       </div>
       <div class="agent-talk-row">
         <button type="button" id="agent-talk-btn" class="voice-orb-btn" aria-label="Talk to Anna">
@@ -218,7 +218,6 @@ input[type=text]{min-height:auto}
         <li>Say your answer out loud</li>
         <li>Tap <strong>■ 2 · send</strong></li>
       </ol>
-      <p class="agent-tts-note">Voice needs <code>ELEVENLABS_API_KEY</code> in <code>.env</code> · or <strong>type</strong> below</p>
       <div class="agent-messages" id="agent-messages"></div>
       <div class="agent-suggestions" id="agent-suggestions"></div>
       <div class="agent-quick" id="agent-quick"></div>
