@@ -23,9 +23,15 @@
   },
   "daily_log": {
     "mood": 3,
-    "inflammation": "mild",
+    "inflammation": "none",
     "food_triggers": [],
-    "supplements_taken": []
+    "supplements_taken": [],
+    "moodText": "",
+    "supps": [],
+    "meals": [],
+    "hormoneState": "pcos-mid",
+    "voice_transcript": "",
+    "cognition_signals": []
   },
   "layer_scores": {
     "hormones": {
@@ -62,11 +68,9 @@
     "inflammation": {
       "id": "inflammation",
       "label": "Inflammation & gut",
-      "score": 66,
-      "signals": [
-        "Inflammation logged \u00b7 mild"
-      ],
-      "status": "reduce"
+      "score": 78,
+      "signals": [],
+      "status": "calm"
     }
   },
   "care_gaps": [
@@ -165,15 +169,6 @@
         "layers": [
           "metabolic",
           "inflammation"
-        ]
-      },
-      {
-        "id": "reduce_dairy_high_gi",
-        "title": "Reduce dairy + high-GI carbs on inflammation days",
-        "why": "Logged triggers correlate with symptom spikes",
-        "layers": [
-          "inflammation",
-          "hormones"
         ]
       },
       {
@@ -326,1970 +321,6 @@
     ]
   },
   "agent_trace": [
-    {
-      "event_type": "full_cycle",
-      "plan": {
-        "tool": "agent_planner",
-        "event_type": "full_cycle",
-        "tools": [
-          "detect_patient_intent",
-          "parse_lab_panel",
-          "score_care_gaps",
-          "score_layer_health",
-          "retrieve_guideline_snippet",
-          "recommend_precision_nutrition",
-          "match_clinical_trials",
-          "generate_clinician_handoff",
-          "safety_guardrail"
-        ],
-        "reasoning": [
-          "Include patient front-door intent in full multimodal cycle",
-          "Multimodal cycle \u2014 labs drive gaps, layers, and nutrition",
-          "Attach guideline snippets for explainable recommendations",
-          "Metabolic/hormone gaps \u2014 check trial eligibility (Pfizer care gap)",
-          "Prepare clinician handoff and run safety guardrail"
-        ],
-        "tool_descriptions": {
-          "detect_patient_intent": "Classify patient message \u2014 supplement risk, symptoms, trial interest",
-          "parse_lab_panel": "Normalize lab markers and extract endocrine-metabolic pattern",
-          "score_care_gaps": "Rank cross-layer care gaps with evidence",
-          "score_layer_health": "Score hormones \u00b7 metabolic \u00b7 cognition \u00b7 inflammation layers",
-          "retrieve_guideline_snippet": "Pull evidence snippets for matched patterns",
-          "recommend_precision_nutrition": "Match meals, food rules, supplements, lifestyle",
-          "match_clinical_trials": "Surface eligible trials with rationale (demo mock)",
-          "generate_clinician_handoff": "Build GP questions and visit summary bullets",
-          "safety_guardrail": "Block diagnosis language and attach disclaimer"
-        },
-        "confidence": 0.9
-      },
-      "tools_run": [
-        "detect_patient_intent",
-        "parse_lab_panel",
-        "score_care_gaps",
-        "score_layer_health",
-        "retrieve_guideline_snippet",
-        "recommend_precision_nutrition",
-        "match_clinical_trials",
-        "generate_clinician_handoff",
-        "safety_guardrail"
-      ],
-      "duration_ms": 4,
-      "trace": [
-        {
-          "tool": "agent_planner",
-          "event_type": "full_cycle",
-          "tools": [
-            "detect_patient_intent",
-            "parse_lab_panel",
-            "score_care_gaps",
-            "score_layer_health",
-            "retrieve_guideline_snippet",
-            "recommend_precision_nutrition",
-            "match_clinical_trials",
-            "generate_clinician_handoff",
-            "safety_guardrail"
-          ],
-          "reasoning": [
-            "Include patient front-door intent in full multimodal cycle",
-            "Multimodal cycle \u2014 labs drive gaps, layers, and nutrition",
-            "Attach guideline snippets for explainable recommendations",
-            "Metabolic/hormone gaps \u2014 check trial eligibility (Pfizer care gap)",
-            "Prepare clinician handoff and run safety guardrail"
-          ],
-          "tool_descriptions": {
-            "detect_patient_intent": "Classify patient message \u2014 supplement risk, symptoms, trial interest",
-            "parse_lab_panel": "Normalize lab markers and extract endocrine-metabolic pattern",
-            "score_care_gaps": "Rank cross-layer care gaps with evidence",
-            "score_layer_health": "Score hormones \u00b7 metabolic \u00b7 cognition \u00b7 inflammation layers",
-            "retrieve_guideline_snippet": "Pull evidence snippets for matched patterns",
-            "recommend_precision_nutrition": "Match meals, food rules, supplements, lifestyle",
-            "match_clinical_trials": "Surface eligible trials with rationale (demo mock)",
-            "generate_clinician_handoff": "Build GP questions and visit summary bullets",
-            "safety_guardrail": "Block diagnosis language and attach disclaimer"
-          },
-          "confidence": 0.9
-        },
-        {
-          "tool": "detect_patient_intent",
-          "intent": "supplement_self_treatment",
-          "risk_level": "high",
-          "raw_query": "Should I take berberine for PCOS? My labs show high testosterone.",
-          "evidence": [
-            "Matched intent: supplement_self_treatment",
-            "Redirect from self-prescribing to structured lab-informed conversation prep"
-          ],
-          "suggested_route": "full_cycle",
-          "confidence": 0.88,
-          "duration_ms": 0
-        },
-        {
-          "tool": "parse_lab_panel",
-          "markers": [
-            {
-              "name": "Haemoglobin",
-              "value": 128,
-              "unit": "g/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Red cell count",
-              "value": 4.42,
-              "unit": "\u00d710\u00b9\u00b2/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Haematocrit",
-              "value": 0.39,
-              "unit": "L/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "MCV",
-              "value": 88,
-              "unit": "fL",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "MCH",
-              "value": 29,
-              "unit": "pg",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Platelets",
-              "value": 312,
-              "unit": "\u00d710\u2079/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "White cell count",
-              "value": 6.8,
-              "unit": "\u00d710\u2079/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Neutrophils",
-              "value": 3.9,
-              "unit": "\u00d710\u2079/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Lymphocytes",
-              "value": 2.1,
-              "unit": "\u00d710\u2079/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "LH",
-              "value": 18.2,
-              "unit": "IU/L",
-              "flag": "high",
-              "note": "Elevated for follicular phase"
-            },
-            {
-              "name": "FSH",
-              "value": 5.1,
-              "unit": "IU/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "LH:FSH ratio",
-              "value": 3.57,
-              "unit": "ratio",
-              "flag": "high",
-              "note": ""
-            },
-            {
-              "name": "Estradiol (E2)",
-              "value": 142,
-              "unit": "pmol/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Progesterone",
-              "value": 1.2,
-              "unit": "nmol/L",
-              "flag": "low",
-              "note": "Consistent with no ovulation"
-            },
-            {
-              "name": "Total testosterone",
-              "value": 2.9,
-              "unit": "nmol/L",
-              "flag": "high",
-              "note": ""
-            },
-            {
-              "name": "Free testosterone (calculated)",
-              "value": 0.078,
-              "unit": "nmol/L",
-              "flag": "high",
-              "note": ""
-            },
-            {
-              "name": "SHBG",
-              "value": 28,
-              "unit": "nmol/L",
-              "flag": "low",
-              "note": ""
-            },
-            {
-              "name": "Prolactin",
-              "value": 312,
-              "unit": "mIU/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "AMH",
-              "value": 8.4,
-              "unit": "pmol/L",
-              "flag": "ok",
-              "note": "Suggests adequate ovarian reserve for age 34"
-            },
-            {
-              "name": "DHEA-S",
-              "value": 6.8,
-              "unit": "\u00b5mol/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "17-hydroxyprogesterone",
-              "value": 3.1,
-              "unit": "nmol/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "TSH",
-              "value": 2.8,
-              "unit": "mIU/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Free T4",
-              "value": 14.2,
-              "unit": "pmol/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Free T3",
-              "value": 4.6,
-              "unit": "pmol/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Thyroid peroxidase antibodies",
-              "value": 28,
-              "unit": "IU/mL",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Fasting glucose",
-              "value": 5.9,
-              "unit": "mmol/L",
-              "flag": "high",
-              "note": "Borderline \u00b7 prediabetes range"
-            },
-            {
-              "name": "HbA1c",
-              "value": 39,
-              "unit": "mmol/mol",
-              "flag": "ok",
-              "note": "Upper normal"
-            },
-            {
-              "name": "Fasting insulin",
-              "value": 18.4,
-              "unit": "mIU/L",
-              "flag": "high",
-              "note": ""
-            },
-            {
-              "name": "HOMA-IR (calculated)",
-              "value": 4.1,
-              "unit": "index",
-              "flag": "high",
-              "note": ""
-            },
-            {
-              "name": "Total cholesterol",
-              "value": 5.8,
-              "unit": "mmol/L",
-              "flag": "high",
-              "note": ""
-            },
-            {
-              "name": "LDL cholesterol",
-              "value": 3.9,
-              "unit": "mmol/L",
-              "flag": "high",
-              "note": ""
-            },
-            {
-              "name": "HDL cholesterol",
-              "value": 1.1,
-              "unit": "mmol/L",
-              "flag": "low",
-              "note": ""
-            },
-            {
-              "name": "Triglycerides",
-              "value": 1.8,
-              "unit": "mmol/L",
-              "flag": "high",
-              "note": ""
-            },
-            {
-              "name": "Non-HDL cholesterol",
-              "value": 4.7,
-              "unit": "mmol/L",
-              "flag": "high",
-              "note": ""
-            },
-            {
-              "name": "ALT",
-              "value": 32,
-              "unit": "U/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "AST",
-              "value": 24,
-              "unit": "U/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "GGT",
-              "value": 28,
-              "unit": "U/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Alkaline phosphatase",
-              "value": 62,
-              "unit": "U/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Albumin",
-              "value": 42,
-              "unit": "g/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Bilirubin",
-              "value": 9,
-              "unit": "\u00b5mol/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Creatinine",
-              "value": 68,
-              "unit": "\u00b5mol/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "eGFR",
-              "value": 98,
-              "unit": "mL/min/1.73m\u00b2",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Urea",
-              "value": 4.2,
-              "unit": "mmol/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Sodium",
-              "value": 140,
-              "unit": "mmol/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Potassium",
-              "value": 4.1,
-              "unit": "mmol/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Calcium",
-              "value": 2.32,
-              "unit": "mmol/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Ferritin",
-              "value": 22,
-              "unit": "\u00b5g/L",
-              "flag": "low",
-              "note": "Low-normal \u00b7 may affect energy"
-            },
-            {
-              "name": "Serum iron",
-              "value": 11.2,
-              "unit": "\u00b5mol/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Transferrin saturation",
-              "value": 18,
-              "unit": "%",
-              "flag": "low",
-              "note": ""
-            },
-            {
-              "name": "Vitamin D (25-OH)",
-              "value": 38,
-              "unit": "nmol/L",
-              "flag": "low",
-              "note": "Insufficient"
-            },
-            {
-              "name": "Vitamin B12",
-              "value": 356,
-              "unit": "pg/mL",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Folate (serum)",
-              "value": 12.4,
-              "unit": "nmol/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "CRP",
-              "value": 2.8,
-              "unit": "mg/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "ESR",
-              "value": 14,
-              "unit": "mm/hr",
-              "flag": "ok",
-              "note": ""
-            }
-          ],
-          "marker_count": 54,
-          "pattern": "PCOS \u00b7 elevated androgen \u00b7 insulin resistance \u00b7 suboptimal vitamin D",
-          "highlights": [
-            "LH:FSH ratio 3.6 \u2014 PCOS-associated pattern",
-            "Elevated total & free testosterone with low SHBG",
-            "Low progesterone \u2014 likely anovulatory cycle",
-            "Borderline fasting glucose, elevated insulin & HOMA-IR",
-            "Adverse lipid profile (high LDL, low HDL)",
-            "Vitamin D insufficient, ferritin low-normal"
-          ],
-          "evidence": [
-            "LH:FSH ratio elevated \u2014 androgen/PCOS-associated pattern",
-            "HOMA-IR elevated \u2014 insulin resistance signal",
-            "Low progesterone \u2014 likely anovulatory cycle",
-            "Vitamin D insufficient"
-          ],
-          "confidence": 0.85,
-          "duration_ms": 0
-        },
-        {
-          "tool": "score_care_gaps",
-          "gaps": [
-            {
-              "id": "insulin_resistance",
-              "name": "Insulin resistance",
-              "level": "high",
-              "score": 82,
-              "note": "Glucose and insulin pattern \u2014 food-first intervention priority",
-              "evidence": [
-                "HOMA-IR 4.1",
-                "Glucose 5.9 mmol/L"
-              ],
-              "layers": [
-                "metabolic",
-                "hormones"
-              ],
-              "status": "open"
-            },
-            {
-              "id": "androgen_excess",
-              "name": "Androgen excess pattern",
-              "level": "high",
-              "score": 76,
-              "note": "Discuss endocrine evaluation \u2014 not a diagnosis",
-              "evidence": [
-                "LH:FSH 3.57",
-                "Testosterone 2.9 nmol/L"
-              ],
-              "layers": [
-                "hormones"
-              ],
-              "status": "open"
-            },
-            {
-              "id": "vitamin_d",
-              "name": "Vitamin D insufficiency",
-              "level": "med",
-              "score": 64,
-              "note": "Affects insulin sensitivity, mood, and bone layer",
-              "evidence": [
-                "Vitamin D 38 nmol/L"
-              ],
-              "layers": [
-                "cognition",
-                "metabolic",
-                "hormones"
-              ],
-              "status": "open"
-            },
-            {
-              "id": "cardiovascular",
-              "name": "Cardiovascular lipid risk",
-              "level": "med",
-              "score": 58,
-              "note": "LDL/HDL pattern \u2014 omega-3 food focus and repeat lipids",
-              "evidence": [
-                "LDL 3.9",
-                "HDL 1.1"
-              ],
-              "layers": [
-                "metabolic"
-              ],
-              "status": "open"
-            },
-            {
-              "id": "iron_fatigue",
-              "name": "Iron-related fatigue risk",
-              "level": "med",
-              "score": 41,
-              "note": "Low ferritin can amplify brain fog alongside hormonal flux",
-              "evidence": [
-                "Ferritin 22 \u00b5g/L"
-              ],
-              "layers": [
-                "cognition"
-              ],
-              "status": "open"
-            }
-          ],
-          "evidence": [
-            "HOMA-IR 4.1",
-            "Glucose 5.9 mmol/L",
-            "LH:FSH 3.57",
-            "Testosterone 2.9 nmol/L",
-            "Vitamin D 38 nmol/L",
-            "LDL 3.9",
-            "HDL 1.1",
-            "Ferritin 22 \u00b5g/L"
-          ],
-          "confidence": 0.8,
-          "duration_ms": 0
-        },
-        {
-          "tool": "score_layer_health",
-          "layers": {
-            "hormones": {
-              "id": "hormones",
-              "label": "Hormones & endocrine",
-              "score": 28,
-              "signals": [
-                "LH:FSH elevated",
-                "Androgen excess",
-                "Anovulation signal"
-              ],
-              "status": "attention"
-            },
-            "metabolic": {
-              "id": "metabolic",
-              "label": "Metabolic & cardiovascular",
-              "score": 36,
-              "signals": [
-                "HOMA-IR 4.1"
-              ],
-              "status": "priority"
-            },
-            "cognition": {
-              "id": "cognition",
-              "label": "Cognition & recovery",
-              "score": 41,
-              "signals": [
-                "Sleep 5.7h \u00b7 fragmented",
-                "Vitamin D insufficient",
-                "Ferritin low-normal"
-              ],
-              "status": "support"
-            },
-            "inflammation": {
-              "id": "inflammation",
-              "label": "Inflammation & gut",
-              "score": 66,
-              "signals": [
-                "Inflammation logged \u00b7 mild"
-              ],
-              "status": "reduce"
-            }
-          },
-          "evidence": [
-            "LH:FSH elevated",
-            "Androgen excess",
-            "Anovulation signal",
-            "HOMA-IR 4.1",
-            "Sleep 5.7h \u00b7 fragmented",
-            "Vitamin D insufficient",
-            "Ferritin low-normal",
-            "Inflammation logged \u00b7 mild"
-          ],
-          "confidence": 0.82,
-          "duration_ms": 0
-        },
-        {
-          "tool": "retrieve_guideline_snippet",
-          "guidelines": [
-            {
-              "id": "pcos_rotterdam",
-              "title": "PCOS screening context",
-              "source": "Rotterdam criteria \u00b7 clinical reference",
-              "snippet": "Elevated LH:FSH ratio with hyperandrogenism and oligo-anovulation is a commonly used PCOS screening pattern \u2014 formal diagnosis requires clinical evaluation."
-            },
-            {
-              "id": "insulin_food_first",
-              "title": "Insulin resistance \u00b7 lifestyle first",
-              "source": "Endocrine Society \u00b7 lifestyle guidance",
-              "snippet": "For insulin resistance patterns, low-GI dietary pattern and resistance exercise are first-line before medication discussion."
-            },
-            {
-              "id": "vitamin_d_replete",
-              "title": "Vitamin D insufficiency",
-              "source": "Endocrine practice \u00b7 repletion",
-              "snippet": "Vitamin D insufficiency is associated with insulin sensitivity and mood burden \u2014 repletion with retesting is standard practice."
-            },
-            {
-              "id": "inositol_pcos",
-              "title": "Myo-inositol evidence",
-              "source": "PCOS supplement literature",
-              "snippet": "Myo-inositol has the strongest supplement evidence base for PCOS-related insulin sensitivity and LH:FSH improvement \u2014 discuss with clinician if on metformin."
-            }
-          ],
-          "evidence": [
-            "PCOS screening context",
-            "Insulin resistance \u00b7 lifestyle first",
-            "Vitamin D insufficiency",
-            "Myo-inositol evidence",
-            "Inflammation \u00b7 dietary modulation"
-          ],
-          "confidence": 0.85,
-          "duration_ms": 0
-        },
-        {
-          "tool": "recommend_precision_nutrition",
-          "foods": [
-            {
-              "id": "low_gi_protein",
-              "title": "Low-GI protein at every meal",
-              "why": "Targets insulin resistance driving androgen excess",
-              "layers": [
-                "metabolic",
-                "hormones"
-              ]
-            },
-            {
-              "id": "omega3_fish",
-              "title": "Oily fish 3\u00d7 per week",
-              "why": "Supports triglycerides and inflammatory load",
-              "layers": [
-                "metabolic",
-                "inflammation"
-              ]
-            },
-            {
-              "id": "reduce_dairy_high_gi",
-              "title": "Reduce dairy + high-GI carbs on inflammation days",
-              "why": "Logged triggers correlate with symptom spikes",
-              "layers": [
-                "inflammation",
-                "hormones"
-              ]
-            },
-            {
-              "id": "iron_foods",
-              "title": "Iron-aware meals (leafy greens + vitamin C pairing)",
-              "why": "Ferritin low-normal \u2014 food-first before supplementing iron",
-              "layers": [
-                "cognition"
-              ]
-            },
-            {
-              "id": "spearmint_tea",
-              "title": "Spearmint tea (2 cups daily)",
-              "why": "Evidence for lowering free testosterone in PCOS patterns",
-              "layers": [
-                "hormones"
-              ]
-            },
-            {
-              "id": "magnesium_foods",
-              "title": "Magnesium-rich foods (pumpkin seeds, leafy greens)",
-              "why": "Supports sleep, glucose handling, and recovery layer",
-              "layers": [
-                "cognition",
-                "metabolic"
-              ]
-            }
-          ],
-          "meals": [
-            {
-              "id": "salmon",
-              "name": "Salmon + roasted vegetables",
-              "meta": "Omega-3 \u00b7 triglyceride support \u00b7 3\u00d7/week target",
-              "layers": [
-                "metabolic",
-                "inflammation",
-                "cognition"
-              ],
-              "priority": 92
-            },
-            {
-              "id": "oats",
-              "name": "Oats + flax + cinnamon",
-              "meta": "Low-GI \u00b7 insulin-friendly \u00b7 anti-inflammatory",
-              "layers": [
-                "metabolic",
-                "inflammation",
-                "hormones"
-              ],
-              "priority": 90
-            },
-            {
-              "id": "eggs_greens",
-              "name": "Eggs + greens + olive oil",
-              "meta": "Protein-forward breakfast \u00b7 steady glucose",
-              "layers": [
-                "metabolic",
-                "cognition",
-                "hormones"
-              ],
-              "priority": 88
-            },
-            {
-              "id": "lentil",
-              "name": "Lentil soup + turmeric",
-              "meta": "Fibre \u00b7 low GI \u00b7 gut-calming",
-              "layers": [
-                "metabolic",
-                "inflammation"
-              ],
-              "priority": 85
-            }
-          ],
-          "supplements": [
-            {
-              "name": "Myo-Inositol + D-Chiro (40:1)",
-              "type": "supplement",
-              "evidence": "Strong PCOS insulin + LH:FSH evidence base",
-              "layers": [
-                "hormones",
-                "metabolic"
-              ],
-              "note": "Discuss with clinician if already on metformin"
-            },
-            {
-              "name": "Vitamin D3 + K2",
-              "type": "supplement",
-              "evidence": "Replete insufficiency \u2014 linked to insulin, mood, bone",
-              "layers": [
-                "cognition",
-                "metabolic",
-                "hormones"
-              ],
-              "note": "Retest in 12 weeks"
-            },
-            {
-              "name": "Magnesium glycinate",
-              "type": "supplement",
-              "evidence": "Sleep, glucose handling, cramping \u2014 low risk",
-              "layers": [
-                "cognition",
-                "metabolic"
-              ],
-              "note": "Evening dose often best tolerated"
-            },
-            {
-              "name": "Omega-3 (EPA/DHA)",
-              "type": "supplement",
-              "evidence": "Triglyceride-friendly; anti-inflammatory",
-              "layers": [
-                "metabolic",
-                "inflammation"
-              ],
-              "note": "Food-first still primary"
-            },
-            {
-              "name": "NAC",
-              "type": "supplement",
-              "evidence": "May improve insulin sensitivity and SHBG",
-              "layers": [
-                "metabolic",
-                "hormones"
-              ],
-              "note": "Avoid high doses with asthma history"
-            }
-          ],
-          "lifestyle": [
-            {
-              "name": "Resistance training 3\u00d7/week",
-              "layers": [
-                "metabolic",
-                "hormones"
-              ]
-            },
-            {
-              "name": "Sleep regularity window (\u00b130 min)",
-              "layers": [
-                "cognition",
-                "metabolic"
-              ]
-            },
-            {
-              "name": "Reduce alcohol (4-week trial)",
-              "layers": [
-                "hormones",
-                "metabolic",
-                "inflammation"
-              ]
-            }
-          ],
-          "evidence": [
-            "Food rule: Low-GI protein at every meal",
-            "Food rule: Oily fish 3\u00d7 per week",
-            "Food rule: Reduce dairy + high-GI carbs on inflammation days",
-            "Food rule: Iron-aware meals (leafy greens + vitamin C pairing)",
-            "Food rule: Spearmint tea (2 cups daily)",
-            "Food rule: Magnesium-rich foods (pumpkin seeds, leafy greens)",
-            "Supplement matched: Myo-Inositol + D-Chiro (40:1)",
-            "Supplement matched: Vitamin D3 + K2",
-            "Supplement matched: Magnesium glycinate",
-            "Supplement matched: NAC",
-            "Supplement matched: Omega-3 (EPA/DHA)",
-            "Supplement matched: Iron"
-          ],
-          "confidence": 0.84,
-          "disclaimer": "Personalised suggestions for awareness \u2014 not prescribing. Confirm supplements and doses with your clinician.",
-          "duration_ms": 0
-        },
-        {
-          "tool": "match_clinical_trials",
-          "trials": [
-            {
-              "id": "NCT-DEMO-001",
-              "title": "Myo-inositol vs metformin for PCOS insulin resistance",
-              "phase": "Phase III",
-              "indication": "PCOS \u00b7 insulin resistance",
-              "match_reason": "HOMA-IR and androgen pattern align with metabolic PCOS cohort",
-              "eligibility_rationale": [
-                "Care gap: insulin resistance",
-                "Care gap: androgen excess"
-              ],
-              "confidence": 0.78
-            },
-            {
-              "id": "NCT-DEMO-002",
-              "title": "Lifestyle + omega-3 for cardiometabolic risk in anovulatory PCOS",
-              "phase": "Phase II",
-              "indication": "PCOS \u00b7 cardiovascular risk",
-              "match_reason": "Insulin resistance plus adverse lipid profile",
-              "eligibility_rationale": [
-                "Care gap: insulin resistance",
-                "Care gap: cardiovascular"
-              ],
-              "confidence": 0.78
-            },
-            {
-              "id": "NCT-DEMO-003",
-              "title": "Vitamin D repletion impact on insulin sensitivity (women)",
-              "phase": "Phase II",
-              "indication": "Vitamin D insufficiency \u00b7 metabolic",
-              "match_reason": "Vitamin D insufficient with insulin resistance signal",
-              "eligibility_rationale": [
-                "Care gap: vitamin d",
-                "Care gap: insulin resistance"
-              ],
-              "confidence": 0.78
-            }
-          ],
-          "evidence": [
-            "Myo-inositol vs metformin for PCOS insulin resistance",
-            "Lifestyle + omega-3 for cardiometabolic risk in anovulatory PCOS",
-            "Vitamin D repletion impact on insulin sensitivity (women)"
-          ],
-          "confidence": 0.8,
-          "note": "Demo mock trials \u2014 not real enrollment. Verify on ClinicalTrials.gov with your clinician.",
-          "duration_ms": 0
-        },
-        {
-          "tool": "generate_clinician_handoff",
-          "questions_for_doctor": [
-            {
-              "q": "Given my LH:FSH and testosterone pattern, should we formally evaluate PCOS or related androgen excess?",
-              "because": "LH:FSH 3.57 \u00b7 Testosterone 2.9 nmol/L"
-            },
-            {
-              "q": "Is metformin or lifestyle-first protocol appropriate given my glucose/HOMA-IR pattern?",
-              "because": "HOMA-IR 4.1 \u00b7 Glucose 5.9 mmol/L"
-            },
-            {
-              "q": "What vitamin D repletion plan and retest interval do you recommend?",
-              "because": "Affects insulin sensitivity, mood, and bone layer"
-            },
-            {
-              "q": "Should I repeat lipids in 3\u20136 months and consider cardiovascular risk reduction?",
-              "because": "Adverse lipid pattern on recent panel"
-            },
-            {
-              "q": "Could low ferritin be contributing to fatigue alongside my hormonal pattern?",
-              "because": "Ferritin low-normal on panel"
-            },
-            {
-              "q": "Are these supplements appropriate for me: Myo-Inositol + D-Chiro (40:1), Vitamin D3 + K2, Magnesium glycinate?",
-              "because": "Precision plan matched to labs \u2014 confirm doses and interactions"
-            }
-          ],
-          "visit_summary": [
-            "Pattern suggests androgen excess \u2014 seek formal endocrine evaluation",
-            "Insulin resistance signal \u2014 discuss metabolic intervention",
-            "Layers needing support: Hormones & endocrine, Metabolic & cardiovascular, Cognition & recovery"
-          ],
-          "patient_name": "Maya Chen",
-          "evidence": [
-            "LH:FSH 3.57 \u00b7 Testosterone 2.9 nmol/L",
-            "HOMA-IR 4.1 \u00b7 Glucose 5.9 mmol/L",
-            "Affects insulin sensitivity, mood, and bone layer"
-          ],
-          "confidence": 0.87,
-          "duration_ms": 0
-        },
-        {
-          "tool": "safety_guardrail",
-          "passed": true,
-          "flags": [],
-          "disclaimer": "Not a diagnosis or prescription. Hsence provides precision lifestyle and nutrition guidance for awareness and clinician conversation.",
-          "text": "Precision read: PCOS \u00b7 elevated androgen \u00b7 insulin resistance \u00b7 suboptimal vitamin D. Priority attention on Insulin resistance. Interrelated layers needing support: Hormones & endocrine, Metabolic & cardiovascular. Today's food anchor: Salmon + roasted vegetables. Matched 5 supplements and 6 nutrition rules to your biology. I won't recommend starting supplements from a search query alone \u2014 here's what your data supports for clinician discussion.",
-          "duration_ms": 0
-        }
-      ]
-    },
-    {
-      "event_type": "full_cycle",
-      "plan": {
-        "tool": "agent_planner",
-        "event_type": "full_cycle",
-        "tools": [
-          "detect_patient_intent",
-          "parse_lab_panel",
-          "score_care_gaps",
-          "score_layer_health",
-          "retrieve_guideline_snippet",
-          "recommend_precision_nutrition",
-          "match_clinical_trials",
-          "generate_clinician_handoff",
-          "safety_guardrail"
-        ],
-        "reasoning": [
-          "Include patient front-door intent in full multimodal cycle",
-          "Multimodal cycle \u2014 labs drive gaps, layers, and nutrition",
-          "Attach guideline snippets for explainable recommendations",
-          "Metabolic/hormone gaps \u2014 check trial eligibility (Pfizer care gap)",
-          "Prepare clinician handoff and run safety guardrail"
-        ],
-        "tool_descriptions": {
-          "detect_patient_intent": "Classify patient message \u2014 supplement risk, symptoms, trial interest",
-          "parse_lab_panel": "Normalize lab markers and extract endocrine-metabolic pattern",
-          "score_care_gaps": "Rank cross-layer care gaps with evidence",
-          "score_layer_health": "Score hormones \u00b7 metabolic \u00b7 cognition \u00b7 inflammation layers",
-          "retrieve_guideline_snippet": "Pull evidence snippets for matched patterns",
-          "recommend_precision_nutrition": "Match meals, food rules, supplements, lifestyle",
-          "match_clinical_trials": "Surface eligible trials with rationale (demo mock)",
-          "generate_clinician_handoff": "Build GP questions and visit summary bullets",
-          "safety_guardrail": "Block diagnosis language and attach disclaimer"
-        },
-        "confidence": 0.9
-      },
-      "tools_run": [
-        "detect_patient_intent",
-        "parse_lab_panel",
-        "score_care_gaps",
-        "score_layer_health",
-        "retrieve_guideline_snippet",
-        "recommend_precision_nutrition",
-        "match_clinical_trials",
-        "generate_clinician_handoff",
-        "safety_guardrail"
-      ],
-      "duration_ms": 5,
-      "trace": [
-        {
-          "tool": "agent_planner",
-          "event_type": "full_cycle",
-          "tools": [
-            "detect_patient_intent",
-            "parse_lab_panel",
-            "score_care_gaps",
-            "score_layer_health",
-            "retrieve_guideline_snippet",
-            "recommend_precision_nutrition",
-            "match_clinical_trials",
-            "generate_clinician_handoff",
-            "safety_guardrail"
-          ],
-          "reasoning": [
-            "Include patient front-door intent in full multimodal cycle",
-            "Multimodal cycle \u2014 labs drive gaps, layers, and nutrition",
-            "Attach guideline snippets for explainable recommendations",
-            "Metabolic/hormone gaps \u2014 check trial eligibility (Pfizer care gap)",
-            "Prepare clinician handoff and run safety guardrail"
-          ],
-          "tool_descriptions": {
-            "detect_patient_intent": "Classify patient message \u2014 supplement risk, symptoms, trial interest",
-            "parse_lab_panel": "Normalize lab markers and extract endocrine-metabolic pattern",
-            "score_care_gaps": "Rank cross-layer care gaps with evidence",
-            "score_layer_health": "Score hormones \u00b7 metabolic \u00b7 cognition \u00b7 inflammation layers",
-            "retrieve_guideline_snippet": "Pull evidence snippets for matched patterns",
-            "recommend_precision_nutrition": "Match meals, food rules, supplements, lifestyle",
-            "match_clinical_trials": "Surface eligible trials with rationale (demo mock)",
-            "generate_clinician_handoff": "Build GP questions and visit summary bullets",
-            "safety_guardrail": "Block diagnosis language and attach disclaimer"
-          },
-          "confidence": 0.9
-        },
-        {
-          "tool": "detect_patient_intent",
-          "intent": "supplement_self_treatment",
-          "risk_level": "high",
-          "raw_query": "Should I take berberine for PCOS? My labs show high testosterone.",
-          "evidence": [
-            "Matched intent: supplement_self_treatment",
-            "Redirect from self-prescribing to structured lab-informed conversation prep"
-          ],
-          "suggested_route": "full_cycle",
-          "confidence": 0.88,
-          "duration_ms": 0
-        },
-        {
-          "tool": "parse_lab_panel",
-          "markers": [
-            {
-              "name": "Haemoglobin",
-              "value": 128,
-              "unit": "g/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Red cell count",
-              "value": 4.42,
-              "unit": "\u00d710\u00b9\u00b2/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Haematocrit",
-              "value": 0.39,
-              "unit": "L/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "MCV",
-              "value": 88,
-              "unit": "fL",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "MCH",
-              "value": 29,
-              "unit": "pg",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Platelets",
-              "value": 312,
-              "unit": "\u00d710\u2079/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "White cell count",
-              "value": 6.8,
-              "unit": "\u00d710\u2079/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Neutrophils",
-              "value": 3.9,
-              "unit": "\u00d710\u2079/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Lymphocytes",
-              "value": 2.1,
-              "unit": "\u00d710\u2079/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "LH",
-              "value": 18.2,
-              "unit": "IU/L",
-              "flag": "high",
-              "note": "Elevated for follicular phase"
-            },
-            {
-              "name": "FSH",
-              "value": 5.1,
-              "unit": "IU/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "LH:FSH ratio",
-              "value": 3.57,
-              "unit": "ratio",
-              "flag": "high",
-              "note": ""
-            },
-            {
-              "name": "Estradiol (E2)",
-              "value": 142,
-              "unit": "pmol/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Progesterone",
-              "value": 1.2,
-              "unit": "nmol/L",
-              "flag": "low",
-              "note": "Consistent with no ovulation"
-            },
-            {
-              "name": "Total testosterone",
-              "value": 2.9,
-              "unit": "nmol/L",
-              "flag": "high",
-              "note": ""
-            },
-            {
-              "name": "Free testosterone (calculated)",
-              "value": 0.078,
-              "unit": "nmol/L",
-              "flag": "high",
-              "note": ""
-            },
-            {
-              "name": "SHBG",
-              "value": 28,
-              "unit": "nmol/L",
-              "flag": "low",
-              "note": ""
-            },
-            {
-              "name": "Prolactin",
-              "value": 312,
-              "unit": "mIU/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "AMH",
-              "value": 8.4,
-              "unit": "pmol/L",
-              "flag": "ok",
-              "note": "Suggests adequate ovarian reserve for age 34"
-            },
-            {
-              "name": "DHEA-S",
-              "value": 6.8,
-              "unit": "\u00b5mol/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "17-hydroxyprogesterone",
-              "value": 3.1,
-              "unit": "nmol/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "TSH",
-              "value": 2.8,
-              "unit": "mIU/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Free T4",
-              "value": 14.2,
-              "unit": "pmol/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Free T3",
-              "value": 4.6,
-              "unit": "pmol/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Thyroid peroxidase antibodies",
-              "value": 28,
-              "unit": "IU/mL",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Fasting glucose",
-              "value": 5.9,
-              "unit": "mmol/L",
-              "flag": "high",
-              "note": "Borderline \u00b7 prediabetes range"
-            },
-            {
-              "name": "HbA1c",
-              "value": 39,
-              "unit": "mmol/mol",
-              "flag": "ok",
-              "note": "Upper normal"
-            },
-            {
-              "name": "Fasting insulin",
-              "value": 18.4,
-              "unit": "mIU/L",
-              "flag": "high",
-              "note": ""
-            },
-            {
-              "name": "HOMA-IR (calculated)",
-              "value": 4.1,
-              "unit": "index",
-              "flag": "high",
-              "note": ""
-            },
-            {
-              "name": "Total cholesterol",
-              "value": 5.8,
-              "unit": "mmol/L",
-              "flag": "high",
-              "note": ""
-            },
-            {
-              "name": "LDL cholesterol",
-              "value": 3.9,
-              "unit": "mmol/L",
-              "flag": "high",
-              "note": ""
-            },
-            {
-              "name": "HDL cholesterol",
-              "value": 1.1,
-              "unit": "mmol/L",
-              "flag": "low",
-              "note": ""
-            },
-            {
-              "name": "Triglycerides",
-              "value": 1.8,
-              "unit": "mmol/L",
-              "flag": "high",
-              "note": ""
-            },
-            {
-              "name": "Non-HDL cholesterol",
-              "value": 4.7,
-              "unit": "mmol/L",
-              "flag": "high",
-              "note": ""
-            },
-            {
-              "name": "ALT",
-              "value": 32,
-              "unit": "U/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "AST",
-              "value": 24,
-              "unit": "U/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "GGT",
-              "value": 28,
-              "unit": "U/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Alkaline phosphatase",
-              "value": 62,
-              "unit": "U/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Albumin",
-              "value": 42,
-              "unit": "g/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Bilirubin",
-              "value": 9,
-              "unit": "\u00b5mol/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Creatinine",
-              "value": 68,
-              "unit": "\u00b5mol/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "eGFR",
-              "value": 98,
-              "unit": "mL/min/1.73m\u00b2",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Urea",
-              "value": 4.2,
-              "unit": "mmol/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Sodium",
-              "value": 140,
-              "unit": "mmol/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Potassium",
-              "value": 4.1,
-              "unit": "mmol/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Calcium",
-              "value": 2.32,
-              "unit": "mmol/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Ferritin",
-              "value": 22,
-              "unit": "\u00b5g/L",
-              "flag": "low",
-              "note": "Low-normal \u00b7 may affect energy"
-            },
-            {
-              "name": "Serum iron",
-              "value": 11.2,
-              "unit": "\u00b5mol/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Transferrin saturation",
-              "value": 18,
-              "unit": "%",
-              "flag": "low",
-              "note": ""
-            },
-            {
-              "name": "Vitamin D (25-OH)",
-              "value": 38,
-              "unit": "nmol/L",
-              "flag": "low",
-              "note": "Insufficient"
-            },
-            {
-              "name": "Vitamin B12",
-              "value": 356,
-              "unit": "pg/mL",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "Folate (serum)",
-              "value": 12.4,
-              "unit": "nmol/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "CRP",
-              "value": 2.8,
-              "unit": "mg/L",
-              "flag": "ok",
-              "note": ""
-            },
-            {
-              "name": "ESR",
-              "value": 14,
-              "unit": "mm/hr",
-              "flag": "ok",
-              "note": ""
-            }
-          ],
-          "marker_count": 54,
-          "pattern": "PCOS \u00b7 elevated androgen \u00b7 insulin resistance \u00b7 suboptimal vitamin D",
-          "highlights": [
-            "LH:FSH ratio 3.6 \u2014 PCOS-associated pattern",
-            "Elevated total & free testosterone with low SHBG",
-            "Low progesterone \u2014 likely anovulatory cycle",
-            "Borderline fasting glucose, elevated insulin & HOMA-IR",
-            "Adverse lipid profile (high LDL, low HDL)",
-            "Vitamin D insufficient, ferritin low-normal"
-          ],
-          "evidence": [
-            "LH:FSH ratio elevated \u2014 androgen/PCOS-associated pattern",
-            "HOMA-IR elevated \u2014 insulin resistance signal",
-            "Low progesterone \u2014 likely anovulatory cycle",
-            "Vitamin D insufficient"
-          ],
-          "confidence": 0.85,
-          "duration_ms": 0
-        },
-        {
-          "tool": "score_care_gaps",
-          "gaps": [
-            {
-              "id": "insulin_resistance",
-              "name": "Insulin resistance",
-              "level": "high",
-              "score": 82,
-              "note": "Glucose and insulin pattern \u2014 food-first intervention priority",
-              "evidence": [
-                "HOMA-IR 4.1",
-                "Glucose 5.9 mmol/L"
-              ],
-              "layers": [
-                "metabolic",
-                "hormones"
-              ],
-              "status": "open"
-            },
-            {
-              "id": "androgen_excess",
-              "name": "Androgen excess pattern",
-              "level": "high",
-              "score": 76,
-              "note": "Discuss endocrine evaluation \u2014 not a diagnosis",
-              "evidence": [
-                "LH:FSH 3.57",
-                "Testosterone 2.9 nmol/L"
-              ],
-              "layers": [
-                "hormones"
-              ],
-              "status": "open"
-            },
-            {
-              "id": "vitamin_d",
-              "name": "Vitamin D insufficiency",
-              "level": "med",
-              "score": 64,
-              "note": "Affects insulin sensitivity, mood, and bone layer",
-              "evidence": [
-                "Vitamin D 38 nmol/L"
-              ],
-              "layers": [
-                "cognition",
-                "metabolic",
-                "hormones"
-              ],
-              "status": "open"
-            },
-            {
-              "id": "cardiovascular",
-              "name": "Cardiovascular lipid risk",
-              "level": "med",
-              "score": 58,
-              "note": "LDL/HDL pattern \u2014 omega-3 food focus and repeat lipids",
-              "evidence": [
-                "LDL 3.9",
-                "HDL 1.1"
-              ],
-              "layers": [
-                "metabolic"
-              ],
-              "status": "open"
-            },
-            {
-              "id": "iron_fatigue",
-              "name": "Iron-related fatigue risk",
-              "level": "med",
-              "score": 41,
-              "note": "Low ferritin can amplify brain fog alongside hormonal flux",
-              "evidence": [
-                "Ferritin 22 \u00b5g/L"
-              ],
-              "layers": [
-                "cognition"
-              ],
-              "status": "open"
-            }
-          ],
-          "evidence": [
-            "HOMA-IR 4.1",
-            "Glucose 5.9 mmol/L",
-            "LH:FSH 3.57",
-            "Testosterone 2.9 nmol/L",
-            "Vitamin D 38 nmol/L",
-            "LDL 3.9",
-            "HDL 1.1",
-            "Ferritin 22 \u00b5g/L"
-          ],
-          "confidence": 0.8,
-          "duration_ms": 0
-        },
-        {
-          "tool": "score_layer_health",
-          "layers": {
-            "hormones": {
-              "id": "hormones",
-              "label": "Hormones & endocrine",
-              "score": 28,
-              "signals": [
-                "LH:FSH elevated",
-                "Androgen excess",
-                "Anovulation signal"
-              ],
-              "status": "attention"
-            },
-            "metabolic": {
-              "id": "metabolic",
-              "label": "Metabolic & cardiovascular",
-              "score": 36,
-              "signals": [
-                "HOMA-IR 4.1"
-              ],
-              "status": "priority"
-            },
-            "cognition": {
-              "id": "cognition",
-              "label": "Cognition & recovery",
-              "score": 41,
-              "signals": [
-                "Sleep 5.7h \u00b7 fragmented",
-                "Vitamin D insufficient",
-                "Ferritin low-normal"
-              ],
-              "status": "support"
-            },
-            "inflammation": {
-              "id": "inflammation",
-              "label": "Inflammation & gut",
-              "score": 66,
-              "signals": [
-                "Inflammation logged \u00b7 mild"
-              ],
-              "status": "reduce"
-            }
-          },
-          "evidence": [
-            "LH:FSH elevated",
-            "Androgen excess",
-            "Anovulation signal",
-            "HOMA-IR 4.1",
-            "Sleep 5.7h \u00b7 fragmented",
-            "Vitamin D insufficient",
-            "Ferritin low-normal",
-            "Inflammation logged \u00b7 mild"
-          ],
-          "confidence": 0.82,
-          "duration_ms": 0
-        },
-        {
-          "tool": "retrieve_guideline_snippet",
-          "guidelines": [
-            {
-              "id": "pcos_rotterdam",
-              "title": "PCOS screening context",
-              "source": "Rotterdam criteria \u00b7 clinical reference",
-              "snippet": "Elevated LH:FSH ratio with hyperandrogenism and oligo-anovulation is a commonly used PCOS screening pattern \u2014 formal diagnosis requires clinical evaluation."
-            },
-            {
-              "id": "insulin_food_first",
-              "title": "Insulin resistance \u00b7 lifestyle first",
-              "source": "Endocrine Society \u00b7 lifestyle guidance",
-              "snippet": "For insulin resistance patterns, low-GI dietary pattern and resistance exercise are first-line before medication discussion."
-            },
-            {
-              "id": "vitamin_d_replete",
-              "title": "Vitamin D insufficiency",
-              "source": "Endocrine practice \u00b7 repletion",
-              "snippet": "Vitamin D insufficiency is associated with insulin sensitivity and mood burden \u2014 repletion with retesting is standard practice."
-            },
-            {
-              "id": "inositol_pcos",
-              "title": "Myo-inositol evidence",
-              "source": "PCOS supplement literature",
-              "snippet": "Myo-inositol has the strongest supplement evidence base for PCOS-related insulin sensitivity and LH:FSH improvement \u2014 discuss with clinician if on metformin."
-            }
-          ],
-          "evidence": [
-            "PCOS screening context",
-            "Insulin resistance \u00b7 lifestyle first",
-            "Vitamin D insufficiency",
-            "Myo-inositol evidence",
-            "Inflammation \u00b7 dietary modulation"
-          ],
-          "confidence": 0.85,
-          "duration_ms": 0
-        },
-        {
-          "tool": "recommend_precision_nutrition",
-          "foods": [
-            {
-              "id": "low_gi_protein",
-              "title": "Low-GI protein at every meal",
-              "why": "Targets insulin resistance driving androgen excess",
-              "layers": [
-                "metabolic",
-                "hormones"
-              ]
-            },
-            {
-              "id": "omega3_fish",
-              "title": "Oily fish 3\u00d7 per week",
-              "why": "Supports triglycerides and inflammatory load",
-              "layers": [
-                "metabolic",
-                "inflammation"
-              ]
-            },
-            {
-              "id": "reduce_dairy_high_gi",
-              "title": "Reduce dairy + high-GI carbs on inflammation days",
-              "why": "Logged triggers correlate with symptom spikes",
-              "layers": [
-                "inflammation",
-                "hormones"
-              ]
-            },
-            {
-              "id": "iron_foods",
-              "title": "Iron-aware meals (leafy greens + vitamin C pairing)",
-              "why": "Ferritin low-normal \u2014 food-first before supplementing iron",
-              "layers": [
-                "cognition"
-              ]
-            },
-            {
-              "id": "spearmint_tea",
-              "title": "Spearmint tea (2 cups daily)",
-              "why": "Evidence for lowering free testosterone in PCOS patterns",
-              "layers": [
-                "hormones"
-              ]
-            },
-            {
-              "id": "magnesium_foods",
-              "title": "Magnesium-rich foods (pumpkin seeds, leafy greens)",
-              "why": "Supports sleep, glucose handling, and recovery layer",
-              "layers": [
-                "cognition",
-                "metabolic"
-              ]
-            }
-          ],
-          "meals": [
-            {
-              "id": "salmon",
-              "name": "Salmon + roasted vegetables",
-              "meta": "Omega-3 \u00b7 triglyceride support \u00b7 3\u00d7/week target",
-              "layers": [
-                "metabolic",
-                "inflammation",
-                "cognition"
-              ],
-              "priority": 92
-            },
-            {
-              "id": "oats",
-              "name": "Oats + flax + cinnamon",
-              "meta": "Low-GI \u00b7 insulin-friendly \u00b7 anti-inflammatory",
-              "layers": [
-                "metabolic",
-                "inflammation",
-                "hormones"
-              ],
-              "priority": 90
-            },
-            {
-              "id": "eggs_greens",
-              "name": "Eggs + greens + olive oil",
-              "meta": "Protein-forward breakfast \u00b7 steady glucose",
-              "layers": [
-                "metabolic",
-                "cognition",
-                "hormones"
-              ],
-              "priority": 88
-            },
-            {
-              "id": "lentil",
-              "name": "Lentil soup + turmeric",
-              "meta": "Fibre \u00b7 low GI \u00b7 gut-calming",
-              "layers": [
-                "metabolic",
-                "inflammation"
-              ],
-              "priority": 85
-            }
-          ],
-          "supplements": [
-            {
-              "name": "Myo-Inositol + D-Chiro (40:1)",
-              "type": "supplement",
-              "evidence": "Strong PCOS insulin + LH:FSH evidence base",
-              "layers": [
-                "hormones",
-                "metabolic"
-              ],
-              "note": "Discuss with clinician if already on metformin"
-            },
-            {
-              "name": "Vitamin D3 + K2",
-              "type": "supplement",
-              "evidence": "Replete insufficiency \u2014 linked to insulin, mood, bone",
-              "layers": [
-                "cognition",
-                "metabolic",
-                "hormones"
-              ],
-              "note": "Retest in 12 weeks"
-            },
-            {
-              "name": "Magnesium glycinate",
-              "type": "supplement",
-              "evidence": "Sleep, glucose handling, cramping \u2014 low risk",
-              "layers": [
-                "cognition",
-                "metabolic"
-              ],
-              "note": "Evening dose often best tolerated"
-            },
-            {
-              "name": "Omega-3 (EPA/DHA)",
-              "type": "supplement",
-              "evidence": "Triglyceride-friendly; anti-inflammatory",
-              "layers": [
-                "metabolic",
-                "inflammation"
-              ],
-              "note": "Food-first still primary"
-            },
-            {
-              "name": "NAC",
-              "type": "supplement",
-              "evidence": "May improve insulin sensitivity and SHBG",
-              "layers": [
-                "metabolic",
-                "hormones"
-              ],
-              "note": "Avoid high doses with asthma history"
-            }
-          ],
-          "lifestyle": [
-            {
-              "name": "Resistance training 3\u00d7/week",
-              "layers": [
-                "metabolic",
-                "hormones"
-              ]
-            },
-            {
-              "name": "Sleep regularity window (\u00b130 min)",
-              "layers": [
-                "cognition",
-                "metabolic"
-              ]
-            },
-            {
-              "name": "Reduce alcohol (4-week trial)",
-              "layers": [
-                "hormones",
-                "metabolic",
-                "inflammation"
-              ]
-            }
-          ],
-          "evidence": [
-            "Food rule: Low-GI protein at every meal",
-            "Food rule: Oily fish 3\u00d7 per week",
-            "Food rule: Reduce dairy + high-GI carbs on inflammation days",
-            "Food rule: Iron-aware meals (leafy greens + vitamin C pairing)",
-            "Food rule: Spearmint tea (2 cups daily)",
-            "Food rule: Magnesium-rich foods (pumpkin seeds, leafy greens)",
-            "Supplement matched: Myo-Inositol + D-Chiro (40:1)",
-            "Supplement matched: Vitamin D3 + K2",
-            "Supplement matched: Magnesium glycinate",
-            "Supplement matched: NAC",
-            "Supplement matched: Omega-3 (EPA/DHA)",
-            "Supplement matched: Iron"
-          ],
-          "confidence": 0.84,
-          "disclaimer": "Personalised suggestions for awareness \u2014 not prescribing. Confirm supplements and doses with your clinician.",
-          "duration_ms": 0
-        },
-        {
-          "tool": "match_clinical_trials",
-          "trials": [
-            {
-              "id": "NCT-DEMO-001",
-              "title": "Myo-inositol vs metformin for PCOS insulin resistance",
-              "phase": "Phase III",
-              "indication": "PCOS \u00b7 insulin resistance",
-              "match_reason": "HOMA-IR and androgen pattern align with metabolic PCOS cohort",
-              "eligibility_rationale": [
-                "Care gap: insulin resistance",
-                "Care gap: androgen excess"
-              ],
-              "confidence": 0.78
-            },
-            {
-              "id": "NCT-DEMO-002",
-              "title": "Lifestyle + omega-3 for cardiometabolic risk in anovulatory PCOS",
-              "phase": "Phase II",
-              "indication": "PCOS \u00b7 cardiovascular risk",
-              "match_reason": "Insulin resistance plus adverse lipid profile",
-              "eligibility_rationale": [
-                "Care gap: insulin resistance",
-                "Care gap: cardiovascular"
-              ],
-              "confidence": 0.78
-            },
-            {
-              "id": "NCT-DEMO-003",
-              "title": "Vitamin D repletion impact on insulin sensitivity (women)",
-              "phase": "Phase II",
-              "indication": "Vitamin D insufficiency \u00b7 metabolic",
-              "match_reason": "Vitamin D insufficient with insulin resistance signal",
-              "eligibility_rationale": [
-                "Care gap: vitamin d",
-                "Care gap: insulin resistance"
-              ],
-              "confidence": 0.78
-            }
-          ],
-          "evidence": [
-            "Myo-inositol vs metformin for PCOS insulin resistance",
-            "Lifestyle + omega-3 for cardiometabolic risk in anovulatory PCOS",
-            "Vitamin D repletion impact on insulin sensitivity (women)"
-          ],
-          "confidence": 0.8,
-          "note": "Demo mock trials \u2014 not real enrollment. Verify on ClinicalTrials.gov with your clinician.",
-          "duration_ms": 0
-        },
-        {
-          "tool": "generate_clinician_handoff",
-          "questions_for_doctor": [
-            {
-              "q": "Given my LH:FSH and testosterone pattern, should we formally evaluate PCOS or related androgen excess?",
-              "because": "LH:FSH 3.57 \u00b7 Testosterone 2.9 nmol/L"
-            },
-            {
-              "q": "Is metformin or lifestyle-first protocol appropriate given my glucose/HOMA-IR pattern?",
-              "because": "HOMA-IR 4.1 \u00b7 Glucose 5.9 mmol/L"
-            },
-            {
-              "q": "What vitamin D repletion plan and retest interval do you recommend?",
-              "because": "Affects insulin sensitivity, mood, and bone layer"
-            },
-            {
-              "q": "Should I repeat lipids in 3\u20136 months and consider cardiovascular risk reduction?",
-              "because": "Adverse lipid pattern on recent panel"
-            },
-            {
-              "q": "Could low ferritin be contributing to fatigue alongside my hormonal pattern?",
-              "because": "Ferritin low-normal on panel"
-            },
-            {
-              "q": "Are these supplements appropriate for me: Myo-Inositol + D-Chiro (40:1), Vitamin D3 + K2, Magnesium glycinate?",
-              "because": "Precision plan matched to labs \u2014 confirm doses and interactions"
-            }
-          ],
-          "visit_summary": [
-            "Pattern suggests androgen excess \u2014 seek formal endocrine evaluation",
-            "Insulin resistance signal \u2014 discuss metabolic intervention",
-            "Layers needing support: Hormones & endocrine, Metabolic & cardiovascular, Cognition & recovery"
-          ],
-          "patient_name": "Maya Chen",
-          "evidence": [
-            "LH:FSH 3.57 \u00b7 Testosterone 2.9 nmol/L",
-            "HOMA-IR 4.1 \u00b7 Glucose 5.9 mmol/L",
-            "Affects insulin sensitivity, mood, and bone layer"
-          ],
-          "confidence": 0.87,
-          "duration_ms": 0
-        },
-        {
-          "tool": "safety_guardrail",
-          "passed": true,
-          "flags": [],
-          "disclaimer": "Not a diagnosis or prescription. Hsence provides precision lifestyle and nutrition guidance for awareness and clinician conversation.",
-          "text": "Precision read: PCOS \u00b7 elevated androgen \u00b7 insulin resistance \u00b7 suboptimal vitamin D. Priority attention on Insulin resistance. Interrelated layers needing support: Hormones & endocrine, Metabolic & cardiovascular. Today's food anchor: Salmon + roasted vegetables. Matched 5 supplements and 6 nutrition rules to your biology. I won't recommend starting supplements from a search query alone \u2014 here's what your data supports for clinician discussion.",
-          "duration_ms": 0
-        }
-      ]
-    },
     {
       "event_type": "full_cycle",
       "plan": {
@@ -17396,6 +15427,600 @@
           "flags": [],
           "disclaimer": "Not a diagnosis or prescription. Hsence provides precision lifestyle and nutrition guidance for awareness and clinician conversation.",
           "text": "Precision read: PCOS \u00b7 elevated androgen \u00b7 insulin resistance \u00b7 suboptimal vitamin D. Priority attention on Insulin resistance. Interrelated layers needing support: Hormones & endocrine, Metabolic & cardiovascular. Today's food anchor: Salmon + roasted vegetables. Matched 5 supplements and 6 nutrition rules to your biology. I won't recommend starting supplements from a search query alone \u2014 here's what your data supports for clinician discussion.",
+          "duration_ms": 0
+        }
+      ]
+    },
+    {
+      "event_type": "daily_log",
+      "plan": {
+        "tool": "agent_planner",
+        "event_type": "daily_log",
+        "tools": [
+          "score_layer_health",
+          "recommend_precision_nutrition",
+          "safety_guardrail"
+        ],
+        "reasoning": [
+          "Daily log update \u2014 re-score interrelated layers",
+          "Refresh precision nutrition from updated daily signals"
+        ],
+        "tool_descriptions": {
+          "score_layer_health": "Score hormones \u00b7 metabolic \u00b7 cognition \u00b7 inflammation layers",
+          "recommend_precision_nutrition": "Match meals, food rules, supplements, lifestyle",
+          "safety_guardrail": "Block diagnosis language and attach disclaimer"
+        },
+        "confidence": 0.9
+      },
+      "tools_run": [
+        "score_layer_health",
+        "recommend_precision_nutrition",
+        "safety_guardrail"
+      ],
+      "duration_ms": 5,
+      "trace": [
+        {
+          "tool": "agent_planner",
+          "event_type": "daily_log",
+          "tools": [
+            "score_layer_health",
+            "recommend_precision_nutrition",
+            "safety_guardrail"
+          ],
+          "reasoning": [
+            "Daily log update \u2014 re-score interrelated layers",
+            "Refresh precision nutrition from updated daily signals"
+          ],
+          "tool_descriptions": {
+            "score_layer_health": "Score hormones \u00b7 metabolic \u00b7 cognition \u00b7 inflammation layers",
+            "recommend_precision_nutrition": "Match meals, food rules, supplements, lifestyle",
+            "safety_guardrail": "Block diagnosis language and attach disclaimer"
+          },
+          "confidence": 0.9
+        },
+        {
+          "tool": "score_layer_health",
+          "layers": {
+            "hormones": {
+              "id": "hormones",
+              "label": "Hormones & endocrine",
+              "score": 28,
+              "signals": [
+                "LH:FSH elevated",
+                "Androgen excess",
+                "Anovulation signal"
+              ],
+              "status": "attention"
+            },
+            "metabolic": {
+              "id": "metabolic",
+              "label": "Metabolic & cardiovascular",
+              "score": 36,
+              "signals": [
+                "HOMA-IR 4.1"
+              ],
+              "status": "priority"
+            },
+            "cognition": {
+              "id": "cognition",
+              "label": "Cognition & recovery",
+              "score": 41,
+              "signals": [
+                "Sleep 5.7h \u00b7 fragmented",
+                "Vitamin D insufficient",
+                "Ferritin low-normal"
+              ],
+              "status": "support"
+            },
+            "inflammation": {
+              "id": "inflammation",
+              "label": "Inflammation & gut",
+              "score": 78,
+              "signals": [],
+              "status": "calm"
+            }
+          },
+          "evidence": [
+            "LH:FSH elevated",
+            "Androgen excess",
+            "Anovulation signal",
+            "HOMA-IR 4.1",
+            "Sleep 5.7h \u00b7 fragmented",
+            "Vitamin D insufficient",
+            "Ferritin low-normal"
+          ],
+          "confidence": 0.82,
+          "duration_ms": 0
+        },
+        {
+          "tool": "recommend_precision_nutrition",
+          "foods": [
+            {
+              "id": "low_gi_protein",
+              "title": "Low-GI protein at every meal",
+              "why": "Targets insulin resistance driving androgen excess",
+              "layers": [
+                "metabolic",
+                "hormones"
+              ]
+            },
+            {
+              "id": "omega3_fish",
+              "title": "Oily fish 3\u00d7 per week",
+              "why": "Supports triglycerides and inflammatory load",
+              "layers": [
+                "metabolic",
+                "inflammation"
+              ]
+            },
+            {
+              "id": "iron_foods",
+              "title": "Iron-aware meals (leafy greens + vitamin C pairing)",
+              "why": "Ferritin low-normal \u2014 food-first before supplementing iron",
+              "layers": [
+                "cognition"
+              ]
+            },
+            {
+              "id": "spearmint_tea",
+              "title": "Spearmint tea (2 cups daily)",
+              "why": "Evidence for lowering free testosterone in PCOS patterns",
+              "layers": [
+                "hormones"
+              ]
+            },
+            {
+              "id": "magnesium_foods",
+              "title": "Magnesium-rich foods (pumpkin seeds, leafy greens)",
+              "why": "Supports sleep, glucose handling, and recovery layer",
+              "layers": [
+                "cognition",
+                "metabolic"
+              ]
+            }
+          ],
+          "meals": [
+            {
+              "id": "salmon",
+              "name": "Salmon + roasted vegetables",
+              "meta": "Omega-3 \u00b7 triglyceride support \u00b7 3\u00d7/week target",
+              "layers": [
+                "metabolic",
+                "inflammation",
+                "cognition"
+              ],
+              "priority": 92
+            },
+            {
+              "id": "oats",
+              "name": "Oats + flax + cinnamon",
+              "meta": "Low-GI \u00b7 insulin-friendly \u00b7 anti-inflammatory",
+              "layers": [
+                "metabolic",
+                "inflammation",
+                "hormones"
+              ],
+              "priority": 90
+            },
+            {
+              "id": "eggs_greens",
+              "name": "Eggs + greens + olive oil",
+              "meta": "Protein-forward breakfast \u00b7 steady glucose",
+              "layers": [
+                "metabolic",
+                "cognition",
+                "hormones"
+              ],
+              "priority": 88
+            },
+            {
+              "id": "lentil",
+              "name": "Lentil soup + turmeric",
+              "meta": "Fibre \u00b7 low GI \u00b7 gut-calming",
+              "layers": [
+                "metabolic",
+                "inflammation"
+              ],
+              "priority": 85
+            }
+          ],
+          "supplements": [
+            {
+              "name": "Myo-Inositol + D-Chiro (40:1)",
+              "type": "supplement",
+              "evidence": "Strong PCOS insulin + LH:FSH evidence base",
+              "layers": [
+                "hormones",
+                "metabolic"
+              ],
+              "note": "Discuss with clinician if already on metformin"
+            },
+            {
+              "name": "Vitamin D3 + K2",
+              "type": "supplement",
+              "evidence": "Replete insufficiency \u2014 linked to insulin, mood, bone",
+              "layers": [
+                "cognition",
+                "metabolic",
+                "hormones"
+              ],
+              "note": "Retest in 12 weeks"
+            },
+            {
+              "name": "Magnesium glycinate",
+              "type": "supplement",
+              "evidence": "Sleep, glucose handling, cramping \u2014 low risk",
+              "layers": [
+                "cognition",
+                "metabolic"
+              ],
+              "note": "Evening dose often best tolerated"
+            },
+            {
+              "name": "Omega-3 (EPA/DHA)",
+              "type": "supplement",
+              "evidence": "Triglyceride-friendly; anti-inflammatory",
+              "layers": [
+                "metabolic",
+                "inflammation"
+              ],
+              "note": "Food-first still primary"
+            },
+            {
+              "name": "NAC",
+              "type": "supplement",
+              "evidence": "May improve insulin sensitivity and SHBG",
+              "layers": [
+                "metabolic",
+                "hormones"
+              ],
+              "note": "Avoid high doses with asthma history"
+            }
+          ],
+          "lifestyle": [
+            {
+              "name": "Resistance training 3\u00d7/week",
+              "layers": [
+                "metabolic",
+                "hormones"
+              ]
+            },
+            {
+              "name": "Sleep regularity window (\u00b130 min)",
+              "layers": [
+                "cognition",
+                "metabolic"
+              ]
+            },
+            {
+              "name": "Reduce alcohol (4-week trial)",
+              "layers": [
+                "hormones",
+                "metabolic",
+                "inflammation"
+              ]
+            }
+          ],
+          "evidence": [
+            "Food rule: Low-GI protein at every meal",
+            "Food rule: Oily fish 3\u00d7 per week",
+            "Food rule: Iron-aware meals (leafy greens + vitamin C pairing)",
+            "Food rule: Spearmint tea (2 cups daily)",
+            "Food rule: Magnesium-rich foods (pumpkin seeds, leafy greens)",
+            "Supplement matched: Myo-Inositol + D-Chiro (40:1)",
+            "Supplement matched: Vitamin D3 + K2",
+            "Supplement matched: Magnesium glycinate",
+            "Supplement matched: NAC",
+            "Supplement matched: Omega-3 (EPA/DHA)",
+            "Supplement matched: Iron"
+          ],
+          "confidence": 0.84,
+          "disclaimer": "Personalised suggestions for awareness \u2014 not prescribing. Confirm supplements and doses with your clinician.",
+          "duration_ms": 0
+        },
+        {
+          "tool": "safety_guardrail",
+          "passed": true,
+          "flags": [],
+          "disclaimer": "Not a diagnosis or prescription. Hsence provides precision lifestyle and nutrition guidance for awareness and clinician conversation.",
+          "text": "Precision read: PCOS \u00b7 elevated androgen \u00b7 insulin resistance \u00b7 suboptimal vitamin D. Priority attention on Insulin resistance. Interrelated layers needing support: Hormones & endocrine, Metabolic & cardiovascular. Today's food anchor: Salmon + roasted vegetables. Matched 5 supplements and 5 nutrition rules to your biology. I won't recommend starting supplements from a search query alone \u2014 here's what your data supports for clinician discussion.",
+          "duration_ms": 0
+        }
+      ]
+    },
+    {
+      "event_type": "daily_log",
+      "plan": {
+        "tool": "agent_planner",
+        "event_type": "daily_log",
+        "tools": [
+          "score_layer_health",
+          "recommend_precision_nutrition",
+          "safety_guardrail"
+        ],
+        "reasoning": [
+          "Daily log update \u2014 re-score interrelated layers",
+          "Refresh precision nutrition from updated daily signals"
+        ],
+        "tool_descriptions": {
+          "score_layer_health": "Score hormones \u00b7 metabolic \u00b7 cognition \u00b7 inflammation layers",
+          "recommend_precision_nutrition": "Match meals, food rules, supplements, lifestyle",
+          "safety_guardrail": "Block diagnosis language and attach disclaimer"
+        },
+        "confidence": 0.9
+      },
+      "tools_run": [
+        "score_layer_health",
+        "recommend_precision_nutrition",
+        "safety_guardrail"
+      ],
+      "duration_ms": 11,
+      "trace": [
+        {
+          "tool": "agent_planner",
+          "event_type": "daily_log",
+          "tools": [
+            "score_layer_health",
+            "recommend_precision_nutrition",
+            "safety_guardrail"
+          ],
+          "reasoning": [
+            "Daily log update \u2014 re-score interrelated layers",
+            "Refresh precision nutrition from updated daily signals"
+          ],
+          "tool_descriptions": {
+            "score_layer_health": "Score hormones \u00b7 metabolic \u00b7 cognition \u00b7 inflammation layers",
+            "recommend_precision_nutrition": "Match meals, food rules, supplements, lifestyle",
+            "safety_guardrail": "Block diagnosis language and attach disclaimer"
+          },
+          "confidence": 0.9
+        },
+        {
+          "tool": "score_layer_health",
+          "layers": {
+            "hormones": {
+              "id": "hormones",
+              "label": "Hormones & endocrine",
+              "score": 28,
+              "signals": [
+                "LH:FSH elevated",
+                "Androgen excess",
+                "Anovulation signal"
+              ],
+              "status": "attention"
+            },
+            "metabolic": {
+              "id": "metabolic",
+              "label": "Metabolic & cardiovascular",
+              "score": 36,
+              "signals": [
+                "HOMA-IR 4.1"
+              ],
+              "status": "priority"
+            },
+            "cognition": {
+              "id": "cognition",
+              "label": "Cognition & recovery",
+              "score": 41,
+              "signals": [
+                "Sleep 5.7h \u00b7 fragmented",
+                "Vitamin D insufficient",
+                "Ferritin low-normal"
+              ],
+              "status": "support"
+            },
+            "inflammation": {
+              "id": "inflammation",
+              "label": "Inflammation & gut",
+              "score": 78,
+              "signals": [],
+              "status": "calm"
+            }
+          },
+          "evidence": [
+            "LH:FSH elevated",
+            "Androgen excess",
+            "Anovulation signal",
+            "HOMA-IR 4.1",
+            "Sleep 5.7h \u00b7 fragmented",
+            "Vitamin D insufficient",
+            "Ferritin low-normal"
+          ],
+          "confidence": 0.82,
+          "duration_ms": 0
+        },
+        {
+          "tool": "recommend_precision_nutrition",
+          "foods": [
+            {
+              "id": "low_gi_protein",
+              "title": "Low-GI protein at every meal",
+              "why": "Targets insulin resistance driving androgen excess",
+              "layers": [
+                "metabolic",
+                "hormones"
+              ]
+            },
+            {
+              "id": "omega3_fish",
+              "title": "Oily fish 3\u00d7 per week",
+              "why": "Supports triglycerides and inflammatory load",
+              "layers": [
+                "metabolic",
+                "inflammation"
+              ]
+            },
+            {
+              "id": "iron_foods",
+              "title": "Iron-aware meals (leafy greens + vitamin C pairing)",
+              "why": "Ferritin low-normal \u2014 food-first before supplementing iron",
+              "layers": [
+                "cognition"
+              ]
+            },
+            {
+              "id": "spearmint_tea",
+              "title": "Spearmint tea (2 cups daily)",
+              "why": "Evidence for lowering free testosterone in PCOS patterns",
+              "layers": [
+                "hormones"
+              ]
+            },
+            {
+              "id": "magnesium_foods",
+              "title": "Magnesium-rich foods (pumpkin seeds, leafy greens)",
+              "why": "Supports sleep, glucose handling, and recovery layer",
+              "layers": [
+                "cognition",
+                "metabolic"
+              ]
+            }
+          ],
+          "meals": [
+            {
+              "id": "salmon",
+              "name": "Salmon + roasted vegetables",
+              "meta": "Omega-3 \u00b7 triglyceride support \u00b7 3\u00d7/week target",
+              "layers": [
+                "metabolic",
+                "inflammation",
+                "cognition"
+              ],
+              "priority": 92
+            },
+            {
+              "id": "oats",
+              "name": "Oats + flax + cinnamon",
+              "meta": "Low-GI \u00b7 insulin-friendly \u00b7 anti-inflammatory",
+              "layers": [
+                "metabolic",
+                "inflammation",
+                "hormones"
+              ],
+              "priority": 90
+            },
+            {
+              "id": "eggs_greens",
+              "name": "Eggs + greens + olive oil",
+              "meta": "Protein-forward breakfast \u00b7 steady glucose",
+              "layers": [
+                "metabolic",
+                "cognition",
+                "hormones"
+              ],
+              "priority": 88
+            },
+            {
+              "id": "lentil",
+              "name": "Lentil soup + turmeric",
+              "meta": "Fibre \u00b7 low GI \u00b7 gut-calming",
+              "layers": [
+                "metabolic",
+                "inflammation"
+              ],
+              "priority": 85
+            }
+          ],
+          "supplements": [
+            {
+              "name": "Myo-Inositol + D-Chiro (40:1)",
+              "type": "supplement",
+              "evidence": "Strong PCOS insulin + LH:FSH evidence base",
+              "layers": [
+                "hormones",
+                "metabolic"
+              ],
+              "note": "Discuss with clinician if already on metformin"
+            },
+            {
+              "name": "Vitamin D3 + K2",
+              "type": "supplement",
+              "evidence": "Replete insufficiency \u2014 linked to insulin, mood, bone",
+              "layers": [
+                "cognition",
+                "metabolic",
+                "hormones"
+              ],
+              "note": "Retest in 12 weeks"
+            },
+            {
+              "name": "Magnesium glycinate",
+              "type": "supplement",
+              "evidence": "Sleep, glucose handling, cramping \u2014 low risk",
+              "layers": [
+                "cognition",
+                "metabolic"
+              ],
+              "note": "Evening dose often best tolerated"
+            },
+            {
+              "name": "Omega-3 (EPA/DHA)",
+              "type": "supplement",
+              "evidence": "Triglyceride-friendly; anti-inflammatory",
+              "layers": [
+                "metabolic",
+                "inflammation"
+              ],
+              "note": "Food-first still primary"
+            },
+            {
+              "name": "NAC",
+              "type": "supplement",
+              "evidence": "May improve insulin sensitivity and SHBG",
+              "layers": [
+                "metabolic",
+                "hormones"
+              ],
+              "note": "Avoid high doses with asthma history"
+            }
+          ],
+          "lifestyle": [
+            {
+              "name": "Resistance training 3\u00d7/week",
+              "layers": [
+                "metabolic",
+                "hormones"
+              ]
+            },
+            {
+              "name": "Sleep regularity window (\u00b130 min)",
+              "layers": [
+                "cognition",
+                "metabolic"
+              ]
+            },
+            {
+              "name": "Reduce alcohol (4-week trial)",
+              "layers": [
+                "hormones",
+                "metabolic",
+                "inflammation"
+              ]
+            }
+          ],
+          "evidence": [
+            "Food rule: Low-GI protein at every meal",
+            "Food rule: Oily fish 3\u00d7 per week",
+            "Food rule: Iron-aware meals (leafy greens + vitamin C pairing)",
+            "Food rule: Spearmint tea (2 cups daily)",
+            "Food rule: Magnesium-rich foods (pumpkin seeds, leafy greens)",
+            "Supplement matched: Myo-Inositol + D-Chiro (40:1)",
+            "Supplement matched: Vitamin D3 + K2",
+            "Supplement matched: Magnesium glycinate",
+            "Supplement matched: NAC",
+            "Supplement matched: Omega-3 (EPA/DHA)",
+            "Supplement matched: Iron"
+          ],
+          "confidence": 0.84,
+          "disclaimer": "Personalised suggestions for awareness \u2014 not prescribing. Confirm supplements and doses with your clinician.",
+          "duration_ms": 0
+        },
+        {
+          "tool": "safety_guardrail",
+          "passed": true,
+          "flags": [],
+          "disclaimer": "Not a diagnosis or prescription. Hsence provides precision lifestyle and nutrition guidance for awareness and clinician conversation.",
+          "text": "Precision read: PCOS \u00b7 elevated androgen \u00b7 insulin resistance \u00b7 suboptimal vitamin D. Priority attention on Insulin resistance. Interrelated layers needing support: Hormones & endocrine, Metabolic & cardiovascular. Today's food anchor: Salmon + roasted vegetables. Matched 5 supplements and 5 nutrition rules to your biology. I won't recommend starting supplements from a search query alone \u2014 here's what your data supports for clinician discussion.",
           "duration_ms": 0
         }
       ]
