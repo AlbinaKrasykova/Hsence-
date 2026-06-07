@@ -30,6 +30,14 @@
 .filter-bar{display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:1rem}
 .filter-chip{font-size:0.64rem;letter-spacing:0.08em;padding:0.4rem 0.85rem;border:0.5px solid var(--border);border-radius:999px;background:transparent;cursor:pointer;font-family:inherit;color:var(--text-mid)}
 .filter-chip.active{background:rgba(26,24,20,0.06);border-color:rgba(26,24,20,0.15);color:var(--text-dark)}
+.export-bar{margin-bottom:1.2rem;padding:1rem 1.1rem;border:0.5px solid var(--border);border-radius:14px;background:rgba(26,24,20,0.02)}
+.export-label{font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-light);margin-bottom:0.65rem}
+.export-actions{display:flex;flex-wrap:wrap;gap:0.4rem}
+.export-btn{font-size:0.64rem;letter-spacing:0.06em;padding:0.45rem 0.85rem;border:0.5px solid var(--border);border-radius:999px;background:#fff;cursor:pointer;font-family:inherit;color:var(--text-mid);text-transform:lowercase}
+.export-btn:hover{border-color:var(--text-dark);color:var(--text-dark)}
+.export-btn--primary{background:var(--text-dark);color:#fff;border-color:var(--text-dark)}
+.export-btn--primary:hover{opacity:0.9;color:#fff}
+.export-note{font-size:0.62rem;color:var(--text-light);margin-top:0.65rem;line-height:1.55;font-weight:300}
 .card{background:#ffffff;border:0.5px solid var(--border-med);border-radius:22px;padding:2rem 1.8rem;min-height:320px;display:flex;flex-direction:column}
 .step-progress{display:flex;gap:6px;margin-bottom:1.5rem}
 .step-dot{width:100%;height:2px;border-radius:2px;background:var(--border);transition:background 0.3s}
@@ -235,6 +243,13 @@ input[type=text]{min-height:auto}
   </div>
 
   <div id="view-history" class="hidden">
+    <div class="export-bar" id="export-bar">
+      <p class="export-label">export whole history for your doctor</p>
+      <div class="export-actions">
+        <button type="button" class="export-btn export-btn--primary" id="export-doctor-all" onclick="exportDoctorHistory()">download whole history · one file</button>
+      </div>
+      <p class="export-note">One file with check-in history, wearable, blood work, and visit summary — for your GP, endocrinologist, or midwife. Not a diagnosis.</p>
+    </div>
     <div class="filter-bar" id="filter-bar">
       <button type="button" class="filter-chip active" data-f="all" onclick="setFilter('all')">all</button>
       <button type="button" class="filter-chip" data-f="mood" onclick="setFilter('mood')">feelings</button>
@@ -577,7 +592,7 @@ function skipStep(){nextStep()}
 const RITUAL_INTROS={
   manual:'Tap through mood, supplements, food — step by step at your pace.',
   coach:'Tap Anna — your personal hormone intelligence assistant walks you through today using your labs, checking in on your mental health and how it correlates with your lab pattern.',
-  history:'Browse your history — filter by feelings, food, voice, and more.'
+  history:'Browse your history — filter by feelings, food, voice, and more. Export your whole history for your doctor below.'
 };
 function setMode(m){
   if((m==='manual'||m==='history')&&window.HsenceDailyAgent?.stopConversation)HsenceDailyAgent.stopConversation();
@@ -597,6 +612,144 @@ function setFilter(f){
   currentFilter=f;
   document.querySelectorAll('.filter-chip').forEach(c=>c.classList.toggle('active',c.dataset.f===f));
   renderTimeline();
+}
+
+function downloadFile(name,content,mime){
+  const blob=new Blob([content],{type:mime});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=name;
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),400);
+}
+function weekDateKeys(){
+  const keys=[];
+  for(let i=0;i<7;i++){
+    const d=new Date(weekStart);d.setDate(d.getDate()+i);
+    keys.push(dateKey(d));
+  }
+  return keys;
+}
+function flattenDailyRow(date,log){
+  return {
+    date,
+    mood:log.mood??'',
+    mood_note:log.moodText||'',
+    supplements:(log.supps||[]).join('; '),
+    meals:(log.meals||[]).join('; '),
+    food_categories:(log.foodCats||[]).join('; '),
+    hormone_state:log.hormoneState||'',
+    inflammation:log.infl||'',
+    voice_note:log.voice?.transcript||'',
+    wearable_synced:log.wearableSynced!==false?'yes':'no',
+    updated_at:log.updatedAt||''
+  };
+}
+async function fetchMemory(){
+  try{
+    const res=await fetch(window.location.origin+'/agent/memory');
+    if(res.ok)return await res.json();
+  }catch(_){}
+  return null;
+}
+function buildWearableSection(memory,logs){
+  const daily=Object.keys(logs).sort()
+    .filter(k=>logs[k].wearableSynced!==false)
+    .map(k=>({date:k,wearable_synced:true}));
+  return{
+    baseline:memory?.wearable||null,
+    daily_sync_days:daily
+  };
+}
+function buildBloodWorkSection(memory,panel){
+  const markers=[];
+  (panel?.sections||[]).forEach(sec=>{
+    (sec.tests||[]).forEach(t=>{
+      markers.push({
+        section:sec.title,
+        test:t.name,
+        value:t.value,
+        unit:t.unit,
+        reference:t.ref,
+        flag:t.flag,
+        note:t.note||null
+      });
+    });
+  });
+  return{
+    pattern:memory?.labs?.latest?.pattern||null,
+    report:panel?.report||null,
+    markers
+  };
+}
+async function fetchClinicianHandoff(){
+  try{
+    const res=await fetch(window.location.origin+'/agent/run',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({event_type:'clinician_handoff',payload:{}})
+    });
+    if(res.ok){
+      const data=await res.json();
+      return data.clinician_handoff||data.handoff||null;
+    }
+  }catch(_){}
+  return null;
+}
+function adherenceSummary(logs){
+  const keys=Object.keys(logs).sort();
+  if(!keys.length)return null;
+  const moods=keys.map(k=>logs[k].mood).filter(Boolean);
+  const suppDays=keys.filter(k=>(logs[k].supps||[]).length).length;
+  return {
+    days_logged:keys.length,
+    avg_mood:moods.length?(moods.reduce((a,b)=>a+b,0)/moods.length).toFixed(1):null,
+    supplement_adherence_days:suppDays,
+    date_range:{from:keys[0],to:keys[keys.length-1]}
+  };
+}
+async function buildDoctorExport(){
+  const memory=await fetchMemory();
+  const handoff=await fetchClinicianHandoff();
+  let panel=null;
+  try{
+    const res=await fetch(window.location.origin+'/data/fake-lab-panel.json');
+    if(res.ok)panel=await res.json();
+  }catch(_){}
+  const logs=loadLogs();
+  return{
+    title:'Hsence · whole history for doctor',
+    disclaimer:'Decision support and patient education — not a diagnosis or prescription. Confirm all findings with your clinician.',
+    exported_at:new Date().toISOString(),
+    patient:memory?.profile||panel?.patient||null,
+    check_in_history:Object.keys(logs).sort().map(k=>flattenDailyRow(k,logs[k])),
+    wearable:buildWearableSection(memory,logs),
+    blood_work:buildBloodWorkSection(memory,panel),
+    visit_pack:{
+      layer_scores:memory?.layer_scores||null,
+      care_gaps:memory?.care_gaps||null,
+      adherence_summary:adherenceSummary(logs),
+      questions_for_doctor:handoff?.questions_for_doctor||[],
+      visit_summary:handoff?.visit_summary||[]
+    }
+  };
+}
+async function exportDoctorHistory(){
+  const btn=document.getElementById('export-doctor-all');
+  if(btn){btn.disabled=true;btn.textContent='preparing…'}
+  try{
+    const checkin=loadLogs();
+    const memory=await fetchMemory();
+    if(!Object.keys(checkin).length&&!memory){
+      alert('Log at least one check-in or sync your baseline first.');
+      return;
+    }
+    const pack=await buildDoctorExport();
+    const name=(pack.patient?.name||'patient').toLowerCase().replace(/\s+/g,'-');
+    downloadFile('hsence-doctor-whole-history-'+name+'.json',JSON.stringify(pack,null,2),'application/json');
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent='download whole history · one file'}
+  }
 }
 
 function renderTimeline(){
